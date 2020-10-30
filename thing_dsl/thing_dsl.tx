@@ -1,38 +1,46 @@
 /*
-    An example textX language
+    Thing DSL
 */
 
-Program:
-    'begin'
-      commands*=Command    // *= operator means zero or more matches.
-      // commands will be
-      // a list of command objects
-    'end'
+reference comm_idl as idl
+
+Thing: Robot | EdgeDevice | IoTDevice;
+
+SensorDevice:
+    'Sensor' name=ID '->' '{'
+        'type:' type=SensorType ';'
+        'data_model:' dataModel=[idl.Object] ';'
+        'freq:' pubFreq=FLOAT ';'
+    '}'
 ;
 
-// this is an example of abstract rule. command class will never be instantiated
-// in the model.
-Command:
-    InitialCommand | MoveCommand
+ActuatorDevice:
+    'Actuator' name=ID '->' '{'
+        'type:' type=ActuatorType ';'
+        'command_model:' cmdModel=[idl.Object] ';'
+        'response_time:' responseTime=FLOAT ';'
+    '}'
 ;
 
-InitialCommand:
-    'initial' x=INT ',' y=INT
-;
+SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
+ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor'
 
-MoveCommand:
-    direction=Direction (steps=INT)?
-;
+FQN: ID+['.'];
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)? ';';
 
-// this is an example of a match rule
-// match rules has either string match, regex match or other match rule as
-// its alternatives (e.g. int, string... or some user match rule)
-// match rule is treated as a contained match. no class will get created.
-Direction:
-    "up"|"down"|"left"|"right"
-;
+// Import Rule for models. Import other models from files or textx
+// global scope database.
+// https://textx.github.io/textX/stable/multimetamodel/#use-case-meta-model-sharing-with-the-importuri-feature
+/* Import: 'import' importURI=STRING ('as' name=ID)? ';'; */
 
-// special rule for comments.
-Comment:
-    /\/\/.*$/
-;
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;
