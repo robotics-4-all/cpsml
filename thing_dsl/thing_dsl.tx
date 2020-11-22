@@ -11,11 +11,11 @@ Model:
 
 Thing: Robot | Device;
 
-DeviceComponent: Sensor | Actuator;
-
-Sensor: GenericSensor | RangeSensor | LiDARSensor;
-
-Actuator: GenericActuator;
+CompositeComponent:
+    'CompositeComponent' name=ID '->' '{'
+        'components:' components*=[DeviceComponent]
+    '}'
+;
 
 Device:
     'Device' name=ID '->' '{'
@@ -24,6 +24,12 @@ Device:
         'actuators:' sensors*=[ActuatorComponent] ';'
     '}'
 ;
+
+DeviceComponent: Sensor | Actuator;
+
+Sensor: GenericSensor | RangeSensor | LiDARSensor;
+
+Actuator: GenericActuator;
 
 GenericSensor:
     'Sensor' name=ID '->' '{'
@@ -41,32 +47,36 @@ GenericActuator:
         'command_model:' cmdModel=[idl.Object] ';'
         'protocol:' protocol=[HWProtocol] ';'
         ('response_time:' responseTime=FLOAT ';')?
+    )#
     '}'
 ;
 
 RangeSensor:
     'RangeSensor' name=ID '->' '{'
-        'protocol:' protocol=[HWProtocol] ';'
-        ('data_model:' cmdModel=[idl.Object] ';')?
+    (
+        'data_model:' cmdModel=[idl.Object] ';'
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' pubFreq=FLOAT ';')?
         ('hfov:' pubFreq=FLOAT ';')?
         ('vfov:' pubFreq=FLOAT ';')?
         ('min_range:' pubFreq=FLOAT ';')?
         ('max_range:' pubFreq=FLOAT ';')?
+    )#
     '}'
 ;
 
 LiDARSensor:
     'RangeSensor' name=ID '->' '{'
+    (
         'data_model:' cmdModel=[idl.Object] ';'
-        'protocol:' protocol=[HWProtocol] ';'
+        ('protocol:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' pubFreq=FLOAT ';')?
         ('hfov:' pubFreq=FLOAT ';')?
         ('vfov:' pubFreq=FLOAT ';')?
         ('min_range:' pubFreq=FLOAT ';')?
         ('max_range:' pubFreq=FLOAT ';')?
+    )#
     '}'
 ;
 
