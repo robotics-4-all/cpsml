@@ -1,0 +1,3 @@
+RangeSensor HCSR04 -> {
+  protocol: gpio;
+}

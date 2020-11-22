@@ -4,26 +4,80 @@
 
 reference comm_idl as idl
 
-Thing: Robot | EdgeDevice | IoTDevice;
+Model:
+    sensors*=Sensor;
+    actuators*=Actuator;
+;
 
-SensorDevice:
-    'Sensor' name=ID '->' '{'
-        'type:' type=SensorType ';'
-        'data_model:' dataModel=[idl.Object] ';'
-        'freq:' pubFreq=FLOAT ';'
+Thing: Robot | Device;
+
+DeviceComponent: Sensor | Actuator;
+
+Sensor: GenericSensor | RangeSensor | LiDARSensor;
+
+Actuator: GenericActuator;
+
+Device:
+    'Device' name=ID '->' '{'
+        'type:' type=DeviceType ';'
+        'sensors:' sensors*=[SensorComponent] ';'
+        'actuators:' sensors*=[ActuatorComponent] ';'
     '}'
 ;
 
-ActuatorDevice:
+GenericSensor:
+    'Sensor' name=ID '->' '{'
+        'type:' type=SensorType ';'
+        'data_model:' dataModel=[idl.Object] ';'
+        'protocol:' protocol=[HWProtocol] ';'
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' pubFreq=FLOAT ';')?
+    '}'
+;
+
+GenericActuator:
     'Actuator' name=ID '->' '{'
         'type:' type=ActuatorType ';'
         'command_model:' cmdModel=[idl.Object] ';'
-        'response_time:' responseTime=FLOAT ';'
+        'protocol:' protocol=[HWProtocol] ';'
+        ('response_time:' responseTime=FLOAT ';')?
+    '}'
+;
+
+RangeSensor:
+    'RangeSensor' name=ID '->' '{'
+        'protocol:' protocol=[HWProtocol] ';'
+        ('data_model:' cmdModel=[idl.Object] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' pubFreq=FLOAT ';')?
+        ('hfov:' pubFreq=FLOAT ';')?
+        ('vfov:' pubFreq=FLOAT ';')?
+        ('min_range:' pubFreq=FLOAT ';')?
+        ('max_range:' pubFreq=FLOAT ';')?
+    '}'
+;
+
+LiDARSensor:
+    'RangeSensor' name=ID '->' '{'
+        'data_model:' cmdModel=[idl.Object] ';'
+        'protocol:' protocol=[HWProtocol] ';'
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' pubFreq=FLOAT ';')?
+        ('hfov:' pubFreq=FLOAT ';')?
+        ('vfov:' pubFreq=FLOAT ';')?
+        ('min_range:' pubFreq=FLOAT ';')?
+        ('max_range:' pubFreq=FLOAT ';')?
     '}'
 ;
 
 SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
-ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor'
+ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor';
+
+HWProtocol: 'spi' | 'i2c' | 'uart' | 'gpio';
+
+DeviceType: 'rpi' | 'esp';
+
+CPUArch: 'armv6' | 'armv7' | 'esp';
 
 FQN: ID+['.'];
 FQNI: ID+['.']('.*')?;
@@ -32,7 +86,6 @@ Import: 'import' importURI=FQNI ('as' name=ID)? ';';
 // Import Rule for models. Import other models from files or textx
 // global scope database.
 // https://textx.github.io/textX/stable/multimetamodel/#use-case-meta-model-sharing-with-the-importuri-feature
-/* Import: 'import' importURI=STRING ('as' name=ID)? ';'; */
 
 Description: /\#(.*?)$/;
 
