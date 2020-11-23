@@ -1,0 +1,43 @@
+Package {
+  name: objects
+}
+
+Object EmptyObject { }
+
+Object Header {
+  # Message Header
+  timestamp: int
+  seq: int
+  node_id: str
+}
+
+Object SonarData {
+  # Sonar Sensor Data Model
+  range: float
+  hfov: float
+  vfov: float
+  sensor_id: str
+}
+
+Object ToFData {
+  # Time-of-Flight (ToF) Sensor Data Model
+  range: float
+  hfov: float
+  vfov: float
+  sensor_id: str
+}
+
+Object LiDARData {
+  data: float[]
+  header: Header
+}
+
+Enum SensorState {
+    'ENABLED'
+    'DISABLED'
+    'HALTED'
+    'RUNNING'
+    'STOPPED'
+    'INTERNAL_ERROR'
+    'NOT_CONNECTED'
+}

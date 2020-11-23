@@ -1,3 +1,10 @@
+import sensor_dm.idl;
+
 RangeSensor HCSR04 -> {
-  protocol: gpio;
+  data_model: SonarData;
+  max_freq: 10.0;
+  hfov: 60.0;
+  vfov: 37.9;
+  min_range: 10.0;  // cm
+  max_range: 250.0;  // cm
 }

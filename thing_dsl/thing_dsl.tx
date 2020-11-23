@@ -5,15 +5,18 @@
 reference comm_idl as idl
 
 Model:
-    sensors*=Sensor;
-    actuators*=Actuator;
+    imports*=Import
+    sensors*=Sensor
+    actuators*=Actuator
 ;
 
 Thing: Robot | Device;
 
-CompositeComponent:
-    'CompositeComponent' name=ID '->' '{'
-        'components:' components*=[DeviceComponent]
+Robot:
+    'Robot' name=ID '->' '{'
+        'type:' type=DeviceType ';'
+        'sensors:' sensors*=[SensorComponent] ';'
+        'actuators:' sensors*=[ActuatorComponent] ';'
     '}'
 ;
 
@@ -27,7 +30,7 @@ Device:
 
 DeviceComponent: Sensor | Actuator;
 
-Sensor: GenericSensor | RangeSensor | LiDARSensor;
+Sensor: RangeSensor;
 
 Actuator: GenericActuator;
 
@@ -47,36 +50,44 @@ GenericActuator:
         'command_model:' cmdModel=[idl.Object] ';'
         'protocol:' protocol=[HWProtocol] ';'
         ('response_time:' responseTime=FLOAT ';')?
-    )#
     '}'
 ;
 
 RangeSensor:
     'RangeSensor' name=ID '->' '{'
-    (
         'data_model:' cmdModel=[idl.Object] ';'
+        ('protocol:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' pubFreq=FLOAT ';')?
-        ('hfov:' pubFreq=FLOAT ';')?
-        ('vfov:' pubFreq=FLOAT ';')?
-        ('min_range:' pubFreq=FLOAT ';')?
-        ('max_range:' pubFreq=FLOAT ';')?
-    )#
+        ('max_freq:' maxFreq=FLOAT ';')?
+        ('hfov:' hfov=FLOAT ';')?
+        ('vfov:' vfov=FLOAT ';')?
+        ('min_range:' minRange=FLOAT ';')?
+        ('max_range:' maxRange=FLOAT ';')?
     '}'
 ;
 
 LiDARSensor:
-    'RangeSensor' name=ID '->' '{'
-    (
+    'LiDARSensor' name=ID '->' '{'
         'data_model:' cmdModel=[idl.Object] ';'
         ('protocol:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' pubFreq=FLOAT ';')?
-        ('hfov:' pubFreq=FLOAT ';')?
-        ('vfov:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        ('min_angle:' minAngle=FLOAT ';')?
+        ('max_angle:' maxAngle=FLOAT ';')?
+        ('num_ranges:' numRanges=FLOAT ';')?
         ('min_range:' pubFreq=FLOAT ';')?
         ('max_range:' pubFreq=FLOAT ';')?
-    )#
+    '}'
+;
+
+CameraRGB:
+    'CameraRGB' name=ID '->' '{'
+        'data_model:' cmdModel=[idl.Object] ';'
+        ('protocol:' protocol=[HWProtocol] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        ('hfov:' hfov=FLOAT ';')?
+        ('vfov:' vfov=FLOAT ';')?
     '}'
 ;
 
