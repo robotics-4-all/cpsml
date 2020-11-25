@@ -16,7 +16,6 @@ Object SonarData {
   range: float
   hfov: float
   vfov: float
-  sensor_id: str
 }
 
 Object ToFData {
@@ -24,12 +23,18 @@ Object ToFData {
   range: float
   hfov: float
   vfov: float
-  sensor_id: str
 }
 
 Object LiDARData {
   data: float[]
   header: Header
+}
+
+Object RangeSensorData {
+  # Time-of-Flight (ToF) Sensor Data Model
+  range: float
+  hfov: float
+  vfov: float
 }
 
 Enum SensorState {

@@ -6,8 +6,8 @@ reference comm_idl as idl
 
 Model:
     imports*=Import
-    sensors*=Sensor
-    actuators*=Actuator
+    sensors*=SensorComponent
+    actuators*=ActuatorComponent
 ;
 
 Thing: Robot | Device;
@@ -28,64 +28,88 @@ Device:
     '}'
 ;
 
-DeviceComponent: Sensor | Actuator;
+DeviceComponent: SensorComponent | ActuatorComponent;
 
-Sensor: RangeSensor;
+SensorComponent: RangeSensor | LiDARSensor | CameraRGB | CameraThermal;
 
-Actuator: GenericActuator;
+ActuatorComponent: GenericActuator;
 
 GenericSensor:
     'Sensor' name=ID '->' '{'
         'type:' type=SensorType ';'
         'data_model:' dataModel=[idl.Object] ';'
-        'protocol:' protocol=[HWProtocol] ';'
+    (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' pubFreq=FLOAT ';')?
+    )#
     '}'
 ;
 
 GenericActuator:
     'Actuator' name=ID '->' '{'
         'type:' type=ActuatorType ';'
-        'command_model:' cmdModel=[idl.Object] ';'
-        'protocol:' protocol=[HWProtocol] ';'
+        'data_model:' dataModel=[idl.Object] ';'
+    (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
         ('response_time:' responseTime=FLOAT ';')?
+    )#
     '}'
 ;
 
 RangeSensor:
     'RangeSensor' name=ID '->' '{'
-        'data_model:' cmdModel=[idl.Object] ';'
-        ('protocol:' protocol=[HWProtocol] ';')?
+        'type:' type=[RangeSensorType] ';'
+        'data_model:' dataModel=[idl.Object] ';'
+    (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         ('hfov:' hfov=FLOAT ';')?
         ('vfov:' vfov=FLOAT ';')?
         ('min_range:' minRange=FLOAT ';')?
         ('max_range:' maxRange=FLOAT ';')?
+    )#
     '}'
 ;
 
 LiDARSensor:
     'LiDARSensor' name=ID '->' '{'
         'data_model:' cmdModel=[idl.Object] ';'
-        ('protocol:' protocol=[HWProtocol] ';')?
+    (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         ('min_angle:' minAngle=FLOAT ';')?
         ('max_angle:' maxAngle=FLOAT ';')?
         ('num_ranges:' numRanges=FLOAT ';')?
-        ('min_range:' pubFreq=FLOAT ';')?
-        ('max_range:' pubFreq=FLOAT ';')?
+        ('min_range:' minRange=FLOAT ';')?
+        ('max_range:' maxRange=FLOAT ';')?
+    )#
     '}'
 ;
 
 CameraRGB:
     'CameraRGB' name=ID '->' '{'
         'data_model:' cmdModel=[idl.Object] ';'
-        ('protocol:' protocol=[HWProtocol] ';')?
+        ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
+        ('res_height:' resHeight=FLOAT ';')?
+        ('res_width:' resWidth=FLOAT ';')?
+        ('hfov:' hfov=FLOAT ';')?
+        ('vfov:' vfov=FLOAT ';')?
+    '}'
+;
+
+CameraThermal:
+    'CameraThermal' name=ID '->' '{'
+        'data_model:' cmdModel=[idl.Object] ';'
+        ('hw_conn:' protocol=[HWProtocol] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        ('res_height:' resHeight=FLOAT ';')?
+        ('res_width:' resWidth=FLOAT ';')?
         ('hfov:' hfov=FLOAT ';')?
         ('vfov:' vfov=FLOAT ';')?
     '}'
@@ -94,11 +118,11 @@ CameraRGB:
 SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
 ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor';
 
-HWProtocol: 'spi' | 'i2c' | 'uart' | 'gpio';
+HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
+
+RangeSensorType: 'Sonar' | 'ToF' | 'IR';
 
 DeviceType: 'rpi' | 'esp';
-
-CPUArch: 'armv6' | 'armv7' | 'esp';
 
 FQN: ID+['.'];
 FQNI: ID+['.']('.*')?;

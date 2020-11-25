@@ -1,7 +1,20 @@
 import sensor_dm.idl;
 
 RangeSensor HCSR04 -> {
+  type: Sonar;
   data_model: SonarData;
+  hw_conn: GPIO;
+  max_freq: 10.0;
+  hfov: 60.0;
+  vfov: 37.9;
+  min_range: 10.0;  // cm
+  max_range: 250.0;  // cm
+}
+
+RangeSensor VL53L0X -> {
+  type: ToF;
+  data_model: RangeSensorData;
+  hw_conn: I2C;
   max_freq: 10.0;
   hfov: 60.0;
   vfov: 37.9;
