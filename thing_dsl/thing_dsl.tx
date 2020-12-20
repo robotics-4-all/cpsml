@@ -5,9 +5,12 @@
 reference comm_idl as idl
 
 Model:
+    (
     imports*=Import
+    things*=Thing
     sensors*=SensorComponent
     actuators*=ActuatorComponent
+    )#
 ;
 
 Thing: Robot | Device;
@@ -30,7 +33,7 @@ Device:
 
 DeviceComponent: SensorComponent | ActuatorComponent;
 
-SensorComponent: RangeSensor | LiDARSensor | CameraRGB | CameraThermal;
+SensorComponent: GenericSensor | RangeSensor | LiDARSensor | CameraRGB | CameraThermal;
 
 ActuatorComponent: GenericActuator;
 
@@ -116,6 +119,7 @@ CameraThermal:
 ;
 
 SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
+
 ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor';
 
 HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';

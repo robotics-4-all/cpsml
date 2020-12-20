@@ -1,0 +1,5 @@
+import sensor_dm.idl;
+
+Device MyDevice -> {
+
+}
