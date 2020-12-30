@@ -1,7 +1,7 @@
 import os
 from textx import language, metamodel_from_file
 
-from .utils import get_mm
+from thing_dsl.utils import get_mm
 
 __version__ = "0.1.0.dev"
 
