@@ -13,7 +13,7 @@ from commlib.transports.mqtt import ConnectionParameters
 from commlib.transports.amqp import ConnectionParameters
 {% endif %}
 
-from .msg import {{ data_message_type }}
+from .msg import {{ sensor_data_model }}
 
 
 class {{ sensor_name }}(Node):
@@ -32,13 +32,13 @@ class {{ sensor_name }}(Node):
                          transport_connection_params=conn_params,
                          # heartbeat_uri='nodes.add_two_ints.heartbeat',
                          debug=debug)
-        self.pub = self.create_publisher(msg_type={{ data_message_type }},
+        self.pub = self.create_publisher(msg_type={{ sensor_data_model }},
                                          topic=self.topic)
 
     def run_forever(self):
         rate = Rate(self.pub_freq)
         while True:
-            msg = {{ data_message_type }}()
+            msg = {{ sensor_data_model }}()
             ## Here goes the implementation
             self.pub.publish(msg)
             rate.sleep()

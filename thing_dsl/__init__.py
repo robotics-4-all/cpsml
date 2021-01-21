@@ -1,5 +1,4 @@
-import os
-from textx import language, metamodel_from_file
+from textx import language
 
 from thing_dsl.utils import get_mm
 

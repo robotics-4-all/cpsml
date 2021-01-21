@@ -12,16 +12,10 @@ jinja_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(path.join(_THIS_DIR, 'templates')),
     trim_blocks=True,
     lstrip_blocks=True)
-sensor_tpl = jinja_env.get_template('sensor.tpl.py')
+sensor_tpl = jinja_env.get_template('sensor.tpl')
 
 
-class Generator:
-    @staticmethod
-    def generate(model):
-        raise NotImplementedError()
-
-
-class GeneratorCommlibPy(Generator):
+class GeneratorCommlibPy:
     srcgen_folder = path.realpath(getcwd())
 
     @staticmethod
@@ -35,14 +29,14 @@ class GeneratorCommlibPy(Generator):
 
 
 def _generator_commlib_py_impl(metamodel, model, output_path, overwrite,
-                              debug, **custom_args):
+                               debug, **custom_args):
     # Some code that perform generation
     gen_imports = custom_args['gen_imports'] if 'gen_imports' in custom_args \
         else True
     GeneratorCommlibPy.generate(model._tx_filename, gen_imports=gen_imports)
 
 
-generator_commlib_py = GeneratorDesc(
+generator_commlib = GeneratorDesc(
     language='thing_dsl',
     target='python',
     description='Generates python source code for Things',
