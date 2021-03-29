@@ -18,22 +18,27 @@ Thing: Robot | Device;
 Robot:
     'Robot' name=ID '->' '{'
         'type:' type=DeviceType ';'
-        'sensors:' sensors*=[SensorComponent] ';'
+        'sensors:' '[' sensors*=[SensorComponent] ']' ';'
         'actuators:' sensors*=[ActuatorComponent] ';'
     '}'
 ;
 
-Device:
-    'Device' name=ID '->' '{'
+EmbeddedDevice:
+    'EmbeddedDevice' name=ID '->' '{'
         'type:' type=DeviceType ';'
         'sensors:' sensors*=[SensorComponent] ';'
         'actuators:' sensors*=[ActuatorComponent] ';'
     '}'
 ;
 
+RobotSensorPositionEntry:
+    '(' sensorRef=[SensorComponent] ',' ')'
+;
+
 DeviceComponent: SensorComponent | ActuatorComponent;
 
-SensorComponent: GenericSensor | RangeSensor | LiDARSensor | CameraRGB | CameraThermal;
+SensorComponent: GenericSensor | RangeSensor | LiDARSensor | CameraRGB |
+CameraThermal | Button;
 
 ActuatorComponent: GenericActuator;
 
@@ -56,6 +61,17 @@ GenericActuator:
     (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('response_time:' responseTime=FLOAT ';')?
+    )#
+    '}'
+;
+
+Button:
+    'Button' name=ID '->' '{'
+        /* 'type:' type=[ButtonType] ';' */
+        'data_model:' dataModel=[idl.Object] ';'
+    (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
     )#
     '}'
 ;
