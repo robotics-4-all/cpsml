@@ -13,26 +13,27 @@ Model:
     )#
 ;
 
-Thing: Robot | Device;
+Thing: Robot | EmbeddedDevice;
 
 Robot:
     'Robot' name=ID '->' '{'
-        'type:' type=DeviceType ';'
-        'sensors:' '[' sensors*=[SensorComponent] ']' ';'
-        'actuators:' sensors*=[ActuatorComponent] ';'
+        (
+        ('type:' type=RobotType ';')
+        ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
+        ('actuators:' '[' sensors*=[ActuatorComponent] ']' ';')
+        ('capabilities:' '[' capabilities*=[RobotCapabilities] ']' ';')
+        )#
     '}'
 ;
 
 EmbeddedDevice:
     'EmbeddedDevice' name=ID '->' '{'
-        'type:' type=DeviceType ';'
-        'sensors:' sensors*=[SensorComponent] ';'
-        'actuators:' sensors*=[ActuatorComponent] ';'
+        (
+        ('type:' type=DeviceType ';')
+        ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
+        ('actuators:' '[' sensors*=[ActuatorComponent] ']' ';')
+        )#
     '}'
-;
-
-RobotSensorPositionEntry:
-    '(' sensorRef=[SensorComponent] ',' ')'
 ;
 
 DeviceComponent: SensorComponent | ActuatorComponent;
@@ -46,11 +47,11 @@ GenericSensor:
     'Sensor' name=ID '->' '{'
         'type:' type=SensorType ';'
         'data_model:' dataModel=[idl.Object] ';'
-    (
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' pubFreq=FLOAT ';')?
-    )#
+        )#
     '}'
 ;
 
@@ -58,10 +59,10 @@ GenericActuator:
     'Actuator' name=ID '->' '{'
         'type:' type=ActuatorType ';'
         'data_model:' dataModel=[idl.Object] ';'
-    (
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('response_time:' responseTime=FLOAT ';')?
-    )#
+        )#
     '}'
 ;
 
@@ -69,10 +70,10 @@ Button:
     'Button' name=ID '->' '{'
         /* 'type:' type=[ButtonType] ';' */
         'data_model:' dataModel=[idl.Object] ';'
-    (
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
-    )#
+        )#
     '}'
 ;
 
@@ -80,7 +81,7 @@ RangeSensor:
     'RangeSensor' name=ID '->' '{'
         'type:' type=[RangeSensorType] ';'
         'data_model:' dataModel=[idl.Object] ';'
-    (
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
@@ -88,14 +89,14 @@ RangeSensor:
         ('vfov:' vfov=FLOAT ';')?
         ('min_range:' minRange=FLOAT ';')?
         ('max_range:' maxRange=FLOAT ';')?
-    )#
+        )#
     '}'
 ;
 
 LiDARSensor:
     'LiDARSensor' name=ID '->' '{'
         'data_model:' cmdModel=[idl.Object] ';'
-    (
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
@@ -104,13 +105,14 @@ LiDARSensor:
         ('num_ranges:' numRanges=FLOAT ';')?
         ('min_range:' minRange=FLOAT ';')?
         ('max_range:' maxRange=FLOAT ';')?
-    )#
+        )#
     '}'
 ;
 
 CameraRGB:
     'CameraRGB' name=ID '->' '{'
         'data_model:' cmdModel=[idl.Object] ';'
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
@@ -118,12 +120,14 @@ CameraRGB:
         ('res_width:' resWidth=FLOAT ';')?
         ('hfov:' hfov=FLOAT ';')?
         ('vfov:' vfov=FLOAT ';')?
+        )#
     '}'
 ;
 
 CameraThermal:
     'CameraThermal' name=ID '->' '{'
         'data_model:' cmdModel=[idl.Object] ';'
+        (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
@@ -131,8 +135,14 @@ CameraThermal:
         ('res_width:' resWidth=FLOAT ';')?
         ('hfov:' hfov=FLOAT ';')?
         ('vfov:' vfov=FLOAT ';')?
+        )#
     '}'
 ;
+
+RobotType: 'Humanoid' | 'UGV' | 'UAV';
+
+RobotCapabilities: 'SLAM' | 'Navigation' | 'FaceDetection' | 'ObjectDetection' |
+'Mobility' | 'Manipulation';
 
 SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
 
@@ -142,7 +152,7 @@ HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
 
 RangeSensorType: 'Sonar' | 'ToF' | 'IR';
 
-DeviceType: 'rpi' | 'esp';
+DeviceType: 'RPI3' | 'RPI4' | 'ESP32' | 'ESP8266';
 
 FQN: ID+['.'];
 FQNI: ID+['.']('.*')?;

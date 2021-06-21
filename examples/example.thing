@@ -21,3 +21,10 @@ RangeSensor VL53L0X -> {
   min_range: 10.0;  // cm
   max_range: 250.0;  // cm
 }
+
+Robot TekRobot -> {
+  type: UGV;
+  sensors: [];
+  actuators: [];
+  capabilities: [];
+}
