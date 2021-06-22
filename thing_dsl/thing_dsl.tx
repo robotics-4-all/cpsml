@@ -13,7 +13,7 @@ Model:
     )#
 ;
 
-Thing: Robot | EmbeddedDevice;
+Thing: Robot | Device;
 
 Robot:
     'Robot' name=ID '->' '{'
@@ -26,8 +26,8 @@ Robot:
     '}'
 ;
 
-EmbeddedDevice:
-    'EmbeddedDevice' name=ID '->' '{'
+Device:
+    'Device' name=ID '->' '{'
         (
         ('type:' type=DeviceType ';')
         ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
@@ -138,6 +138,53 @@ CameraThermal:
         )#
     '}'
 ;
+
+Accelerometer:
+    'Accelerometer' name=ID '->' '{'
+        'data_model:' cmdModel=[idl.Object] ';'
+        (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        )#
+    '}'
+;
+
+Magnetometer:
+    'Accelerometer' name=ID '->' '{'
+        'data_model:' cmdModel=[idl.Object] ';'
+        (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        )#
+    '}'
+;
+
+Gyroscope:
+    'Gyroscope' name=ID '->' '{'
+        'data_model:' cmdModel=[idl.Object] ';'
+        (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        )#
+    '}'
+;
+
+IMU:
+    'IMU' name=ID '->' '{'
+        'type:' type=IMUType ';'
+        'data_model:' cmdModel=[idl.Object] ';'
+        (
+        ('hw_conn:' protocol=[HWProtocol] ';')?
+        ('freq:' pubFreq=FLOAT ';')?
+        ('max_freq:' maxFreq=FLOAT ';')?
+        )#
+    '}'
+;
+
+IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
