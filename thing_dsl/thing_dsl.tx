@@ -10,41 +10,126 @@ Model:
     things*=Thing
     sensors*=SensorComponent
     actuators*=ActuatorComponent
+    networks*=Network
+    (networkTopology=NetworkTopology)?
     )#
 ;
+
+NetworkComponent: WiredNetComponent | WirelessNetComponent;
+
+WiredNetComponent:
+    'WiredNetComponent' name=ID
+        '- subnet:' subnet=STRING
+        '- subnet_mask:' subnet_mask=STRING
+        '- gateway:' gateway=STRING
+        ('- dns:' '[' dns*=STRING[','] ']')?
+    'end'
+;
+
+
+WirelessNetComponent:
+    'WirelessNetComponent ' name=ID
+        'ssid: ' wifi_ssid=STRING
+        'psk: ' psk=STRING
+        'subnet:' subnet=STRING
+        'subnet_mask:' subnet_mask=STRING
+        'gateway:' gateway=STRING
+        ('dns:' '[' dns*=STRING[','] ']')?
+    'end'
+;
+
+NetworkConnection: D2NConnection | N2NConnection;
+
+D2NConnection:
+    'D2N' from=[Thing] '->' to=[Network]
+;
+
+N2NConnection:
+    'N2N' from=[NetworkComponent] '->' to=[NetworkComponent]
+;
+
+NetworkTopology:
+    'NetworkTopology' name=ID
+        connections*=[NetworkConnection]
+    'end'
+;
+
+BrokerInstance; AMQPInstance | MQTTInstance | RedisInstance;
+
+AMQPInstance:
+    'AMQPBroker(' host=STRING ',' port=INT ',' vhost=STRING ')'
+;
+
+MQTTInstance:
+    'MQTTBroker(' host=STRING ',' port=INT ')'
+;
+
+RedisInstance:
+    'RedisBroker(' host=STRING ',' port=INT (',' db=INT)# ')'
+;
+
+NetworkInterfaceType: 'Ethernet' | 'Wifi'
 
 Thing: Robot | Device;
 
 Robot:
-    'Robot' name=ID '->' '{'
+    'Robot' name=ID
         (
         ('type:' type=RobotType ';')
         ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
         ('actuators:' '[' sensors*=[ActuatorComponent] ']' ';')
         ('capabilities:' '[' capabilities*=[RobotCapabilities] ']' ';')
+        ('message_broker:' brokers=[Broker])
+        ('network_interfaces:' '[' netIfaces*=NetworkInterfaceType[','] ']')
+        ('ble_capability: ' ble=BOOL)?
         )#
-    '}'
+    'end'
 ;
 
-Device:
-    'Device' name=ID '->' '{'
+Device: EdgeDevice | IoTDevice;
+
+EdgeDevice:
+    'EdgeDevice' name=ID
         (
-        ('type:' type=DeviceType ';')
+        ('type: ' type=EdgeDeviceType ';')
+        ('sensors: ' '[' sensors*=[SensorComponent] ']')
+        ('actuators: ' '[' sensors*=[ActuatorComponent] ']')
+        ('message_broker: ' brokers=[Broker])
+        ('network_interfaces:' '[' netIfaces*=NetworkInterfaceType[','] ']')
+        ('ble_capability: ' ble=BOOL)?
+        )#
+    'end'
+;
+
+IoTDevice: GenericIoTDevice;
+
+IoTDevice:
+    'Device' name=ID
+        (
+        ('type:' type=IoTDeviceType ';')
         ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
         ('actuators:' '[' sensors*=[ActuatorComponent] ']' ';')
+        ('network_interfaces:' '[' netIfaces*=NetworkInterfaceType[','] ']')
+        ('ble_capability: ' ble=BOOL)?
         )#
-    '}'
+    'end'
 ;
 
 DeviceComponent: SensorComponent | ActuatorComponent;
 
-SensorComponent: GenericSensor | RangeSensor | LiDARSensor | CameraRGB |
-CameraThermal | Button;
+SensorComponent:
+    GenericSensor   |
+    RangeSensor     |
+    LiDARSensor     |
+    CameraRGB       |
+    CameraThermal   |
+    Button
+;
 
 ActuatorComponent: GenericActuator;
 
 GenericSensor:
-    'Sensor' name=ID '->' '{'
+    'Sensor' name=ID
         'type:' type=SensorType ';'
         'data_model:' dataModel=[idl.Object] ';'
         (
@@ -52,33 +137,33 @@ GenericSensor:
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' pubFreq=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 GenericActuator:
-    'Actuator' name=ID '->' '{'
+    'Actuator' name=ID
         'type:' type=ActuatorType ';'
         'data_model:' dataModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('response_time:' responseTime=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 Button:
-    'Button' name=ID '->' '{'
+    'Button' name=ID
         /* 'type:' type=[ButtonType] ';' */
         'data_model:' dataModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 RangeSensor:
-    'RangeSensor' name=ID '->' '{'
+    'RangeSensor' name=ID
         'type:' type=[RangeSensorType] ';'
         'data_model:' dataModel=[idl.Object] ';'
         (
@@ -90,11 +175,11 @@ RangeSensor:
         ('min_range:' minRange=FLOAT ';')?
         ('max_range:' maxRange=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 LiDARSensor:
-    'LiDARSensor' name=ID '->' '{'
+    'LiDARSensor' name=ID
         'data_model:' cmdModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
@@ -106,11 +191,11 @@ LiDARSensor:
         ('min_range:' minRange=FLOAT ';')?
         ('max_range:' maxRange=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 CameraRGB:
-    'CameraRGB' name=ID '->' '{'
+    'CameraRGB' name=ID
         'data_model:' cmdModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
@@ -121,11 +206,11 @@ CameraRGB:
         ('hfov:' hfov=FLOAT ';')?
         ('vfov:' vfov=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 CameraThermal:
-    'CameraThermal' name=ID '->' '{'
+    'CameraThermal' name=ID
         'data_model:' cmdModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
@@ -136,44 +221,44 @@ CameraThermal:
         ('hfov:' hfov=FLOAT ';')?
         ('vfov:' vfov=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 Accelerometer:
-    'Accelerometer' name=ID '->' '{'
+    'Accelerometer' name=ID
         'data_model:' cmdModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 Magnetometer:
-    'Accelerometer' name=ID '->' '{'
+    'Magnetometer' name=ID
         'data_model:' cmdModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 Gyroscope:
-    'Gyroscope' name=ID '->' '{'
+    'Gyroscope' name=ID
         'data_model:' cmdModel=[idl.Object] ';'
         (
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 IMU:
-    'IMU' name=ID '->' '{'
+    'IMU' name=ID
         'type:' type=IMUType ';'
         'data_model:' cmdModel=[idl.Object] ';'
         (
@@ -181,15 +266,14 @@ IMU:
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
         )#
-    '}'
+    'end'
 ;
 
 IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
-RobotCapabilities: 'SLAM' | 'Navigation' | 'FaceDetection' | 'ObjectDetection' |
-'Mobility' | 'Manipulation';
+RobotCapabilities: 'SLAM' | 'Navigation' | 'FaceDetection' | 'ObjectDetection' | 'Mobility' | 'Manipulation';
 
 SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
 
@@ -199,7 +283,8 @@ HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
 
 RangeSensorType: 'Sonar' | 'ToF' | 'IR';
 
-DeviceType: 'RPI3' | 'RPI4' | 'ESP32' | 'ESP8266';
+IoTDeviceType: 'ESP32' | 'ESP8266';
+EdgeDeviceType: 'RPI3' | 'RPI4' | 'JetsonNano';
 
 FQN: ID+['.'];
 FQNI: ID+['.']('.*')?;
