@@ -15,20 +15,20 @@ Model:
     )#
 ;
 
-NetworkComponent: WiredNetComponent | WirelessNetComponent;
+Network: WiredNetwork| WirelessNetwork;
 
-WiredNetComponent:
-    'WiredNetComponent' name=ID
-        '- subnet:' subnet=STRING
-        '- subnet_mask:' subnet_mask=STRING
-        '- gateway:' gateway=STRING
-        ('- dns:' '[' dns*=STRING[','] ']')?
+WiredNetwork:
+    'WiredNetwork' name=ID
+        'subnet:' subnet=STRING
+        'subnet_mask:' subnet_mask=STRING
+        'gateway:' gateway=STRING
+        ('dns:' '[' dns*=STRING[','] ']')?
     'end'
 ;
 
 
-WirelessNetComponent:
-    'WirelessNetComponent ' name=ID
+WirelessNetwork:
+    'WirelessNetwork ' name=ID
         'ssid: ' wifi_ssid=STRING
         'psk: ' psk=STRING
         'subnet:' subnet=STRING
@@ -45,7 +45,7 @@ D2NConnection:
 ;
 
 N2NConnection:
-    'N2N' from=[NetworkComponent] '->' to=[NetworkComponent]
+    'N2N' from=[Network] '->' to=[Network]
 ;
 
 NetworkTopology:
@@ -54,21 +54,35 @@ NetworkTopology:
     'end'
 ;
 
-BrokerInstance; AMQPInstance | MQTTInstance | RedisInstance;
+MessageBroker: RabbitMQ | MQTTBroker | RedisBroker;
 
-AMQPInstance:
-    'AMQPBroker(' host=STRING ',' port=INT ',' vhost=STRING ')'
+RabbitMQ:
+    'RabbitMQ' name=ID
+        host=STRING
+        port=INT
+        vhost=STRING
+        ssl=BOOL
+    'end'
 ;
 
-MQTTInstance:
-    'MQTTBroker(' host=STRING ',' port=INT ')'
+MQTTBroker:
+    'MQTTBroker'
+        host=STRING
+        port=INT
+        ssl=BOOL
+    'end'
 ;
 
-RedisInstance:
-    'RedisBroker(' host=STRING ',' port=INT (',' db=INT)# ')'
+RedisBroker:
+    'RedisBroker'
+        host=STRING
+        port=INT
+        (db=INT)#
+        ssl=BOOL
+    'end'
 ;
 
-NetworkInterfaceType: 'Ethernet' | 'Wifi'
+NetworkInterfaceType: 'Ethernet' | 'Wifi';
 
 Thing: Robot | Device;
 
@@ -79,9 +93,9 @@ Robot:
         ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
         ('actuators:' '[' sensors*=[ActuatorComponent] ']' ';')
         ('capabilities:' '[' capabilities*=[RobotCapabilities] ']' ';')
-        ('message_broker:' brokers=[Broker])
         ('network_interfaces:' '[' netIfaces*=NetworkInterfaceType[','] ']')
-        ('ble_capability: ' ble=BOOL)?
+        ('message_broker:' brokers=[MessageBroker])
+        ('has_ble: ' ble=BOOL)?
         )#
     'end'
 ;
@@ -94,9 +108,9 @@ EdgeDevice:
         ('type: ' type=EdgeDeviceType ';')
         ('sensors: ' '[' sensors*=[SensorComponent] ']')
         ('actuators: ' '[' sensors*=[ActuatorComponent] ']')
-        ('message_broker: ' brokers=[Broker])
         ('network_interfaces:' '[' netIfaces*=NetworkInterfaceType[','] ']')
-        ('ble_capability: ' ble=BOOL)?
+        ('message_broker: ' brokers=[MessageBroker])
+        ('has_ble: ' ble=BOOL)?
         )#
     'end'
 ;
@@ -110,7 +124,8 @@ IoTDevice:
         ('sensors:' '[' sensors*=[SensorComponent] ']' ';')
         ('actuators:' '[' sensors*=[ActuatorComponent] ']' ';')
         ('network_interfaces:' '[' netIfaces*=NetworkInterfaceType[','] ']')
-        ('ble_capability: ' ble=BOOL)?
+        ('message_broker: ' brokers=[MessageBroker])
+        ('has_ble: ' ble=BOOL)?
         )#
     'end'
 ;
@@ -119,7 +134,7 @@ DeviceComponent: SensorComponent | ActuatorComponent;
 
 SensorComponent:
     GenericSensor   |
-    RangeSensor     |
+    RangeFinder     |
     LiDARSensor     |
     CameraRGB       |
     CameraThermal   |
@@ -162,11 +177,11 @@ Button:
     'end'
 ;
 
-RangeSensor:
-    'RangeSensor' name=ID
-        'type:' type=[RangeSensorType] ';'
-        'data_model:' dataModel=[idl.Object] ';'
+RangeFinder:
+    'RangeFinder' name=ID
         (
+        ('type:' type=[RangeFinderType] ';')
+        ('data_model:' dataModel=[idl.Object] ';')
         ('hw_conn:' protocol=[HWProtocol] ';')?
         ('freq:' pubFreq=FLOAT ';')?
         ('max_freq:' maxFreq=FLOAT ';')?
@@ -273,7 +288,17 @@ IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
-RobotCapabilities: 'SLAM' | 'Navigation' | 'FaceDetection' | 'ObjectDetection' | 'Mobility' | 'Manipulation';
+RobotCapabilities:
+    'Mobility' |
+    'VoiceInterraction' |
+    'NLU' |
+    'Navigation' |
+    'Mapping' |
+    'SLAM' |
+    'FaceDetection' |
+    'ObjectDetection'
+;
+
 
 SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
 
@@ -281,7 +306,7 @@ ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor';
 
 HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
 
-RangeSensorType: 'Sonar' | 'ToF' | 'IR';
+RangeFinderType: 'Sonar' | 'ToF' | 'IR';
 
 IoTDeviceType: 'ESP32' | 'ESP8266';
 EdgeDeviceType: 'RPI3' | 'RPI4' | 'JetsonNano';
@@ -289,10 +314,6 @@ EdgeDeviceType: 'RPI3' | 'RPI4' | 'JetsonNano';
 FQN: ID+['.'];
 FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)? ';';
-
-// Import Rule for models. Import other models from files or textx
-// global scope database.
-// https://textx.github.io/textX/stable/multimetamodel/#use-case-meta-model-sharing-with-the-importuri-feature
 
 Description: /\#(.*?)$/;
 
