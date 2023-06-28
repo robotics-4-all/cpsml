@@ -69,11 +69,11 @@ ActuatorDevice: GenericActuator;
 GenericSensor:
     'Sensor' name=ID
         'type:' type=SensorType ';'
-        'data_model:' dataModel=[idl.DataType] ';'
+        'dataModel:' dataModel=[idl.DataType:FQN] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' pubFreq=FLOAT ';')?
+        ('connectivity:' protocol=[HWProtocol] ';')?
+        ('freq:' acqFreq=FLOAT ';')?
+        ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -81,10 +81,10 @@ GenericSensor:
 GenericActuator:
     'Actuator' name=ID
         'type:' type=ActuatorType ';'
-        'data_model:' dataModel=[idl.DataType] ';'
+        'dataModel:' dataModel=[idl.DataType:FQN] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('response_time:' responseTime=FLOAT ';')?
+        ('connectivity:' protocol=[HWProtocol] ';')?
+        ('responseTime:' responseTime=FLOAT ';')?
         )#
     'end'
 ;
@@ -92,10 +92,11 @@ GenericActuator:
 Button:
     'Button' name=ID
         /* 'type:' type=[ButtonType] ';' */
-        'data_model:' dataModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('hw_conn:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -103,94 +104,94 @@ Button:
 RangeFinder:
     'RangeFinder' name=ID
         (
-        ('type:' type=[RangeFinderType] ';')
-        ('data_model:' dataModel=[idl.DataType] ';')
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
-        ('hfov:' hfov=FLOAT ';')?
-        ('vfov:' vfov=FLOAT ';')?
-        ('min_range:' minRange=FLOAT ';')?
-        ('max_range:' maxRange=FLOAT ';')?
+            ('type:' type=[RangeFinderType] ';')
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
+            ('hfov:' hfov=FLOAT ';')?
+            ('vfov:' vfov=FLOAT ';')?
+            ('minRange:' minRange=FLOAT ';')?
+            ('maxRange:' maxRange=FLOAT ';')?
         )#
     'end'
 ;
 
 LiDARSensor:
     'LiDARSensor' name=ID
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
-        ('min_angle:' minAngle=FLOAT ';')?
-        ('max_angle:' maxAngle=FLOAT ';')?
-        ('num_ranges:' numRanges=FLOAT ';')?
-        ('min_range:' minRange=FLOAT ';')?
-        ('max_range:' maxRange=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
+            ('minAngle:' minAngle=FLOAT ';')?
+            ('maxAngle:' maxAngle=FLOAT ';')?
+            ('numRanges:' numRanges=FLOAT ';')?
+            ('minRange:' minRange=FLOAT ';')?
+            ('maxRange:' maxRange=FLOAT ';')?
         )#
     'end'
 ;
 
 CameraRGB:
     'CameraRGB' name=ID
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
-        ('res_height:' resHeight=FLOAT ';')?
-        ('res_width:' resWidth=FLOAT ';')?
-        ('hfov:' hfov=FLOAT ';')?
-        ('vfov:' vfov=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
+            ('res_height:' resHeight=FLOAT ';')?
+            ('res_width:' resWidth=FLOAT ';')?
+            ('hfov:' hfov=FLOAT ';')?
+            ('vfov:' vfov=FLOAT ';')?
         )#
     'end'
 ;
 
 CameraThermal:
     'CameraThermal' name=ID
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
-        ('res_height:' resHeight=FLOAT ';')?
-        ('res_width:' resWidth=FLOAT ';')?
-        ('hfov:' hfov=FLOAT ';')?
-        ('vfov:' vfov=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('max_freq:' maxFreq=FLOAT ';')?
+            ('res_height:' resHeight=FLOAT ';')?
+            ('res_width:' resWidth=FLOAT ';')?
+            ('hfov:' hfov=FLOAT ';')?
+            ('vfov:' vfov=FLOAT ';')?
         )#
     'end'
 ;
 
 Accelerometer:
     'Accelerometer' name=ID
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('max_freq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
 
 Magnetometer:
     'Magnetometer' name=ID
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('max_freq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
 
 Gyroscope:
     'Gyroscope' name=ID
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('max_freq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -198,11 +199,11 @@ Gyroscope:
 IMU:
     'IMU' name=ID
         'type:' type=IMUType ';'
-        'data_model:' cmdModel=[idl.DataType] ';'
         (
-        ('hw_conn:' protocol=[HWProtocol] ';')?
-        ('freq:' pubFreq=FLOAT ';')?
-        ('max_freq:' maxFreq=FLOAT ';')?
+            ('dataModel:' dataModel=[idl.DataType:FQN] ';')
+            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('freq:' pubFreq=FLOAT ';')?
+            ('max_freq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -223,9 +224,26 @@ RobotCapabilities:
 ;
 
 
-SensorType: 'Range' | 'LiDAR' | 'CameraRGB' | 'Thermal' | 'ThermalArray' | 'CameraThermal' | 'IMU' | 'Compass' | 'Accelerometer' | 'Magnetometer';
+SensorType:
+    'Range' |
+    'LiDAR' |
+    'CameraRGB' |
+    'Thermal' |
+    'ThermalArray' |
+    'CameraThermal' |
+    'IMU' |
+    'Compass' |
+    'Accelerometer' |
+    'Magnetometer'
+;
 
-ActuatorType: 'DCMotor' | 'LED' | 'RGBLed' | 'NeopixelLED' | 'ServoMotor';
+ActuatorType:
+    'DCMotor' |
+    'LED' |
+    'RGBLed' |
+    'NeopixelLED' |
+    'ServoMotor'
+;
 
 HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
 

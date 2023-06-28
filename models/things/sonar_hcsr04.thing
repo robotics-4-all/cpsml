@@ -1,21 +1,21 @@
 RangeFinder HCSR04
   type: Sonar;
-  data_model: RangeFinderData;
-  hw_conn: GPIO;
-  max_freq: 10.0;
+  dataModel: RangeFinderData;
+  connectivity: GPIO;
+  maxFreq: 10.0;
   hfov: 60.0;
   vfov: 37.9;
-  min_range: 10.0;  // cm
-  max_range: 250.0;  // cm
+  minRange: 10.0;  // cm
+  maxRange: 250.0;  // cm
 end
 
 RangeFinder VL53L0X
   type: ToF;
-  data_model: RangeFinderData;
-  hw_conn: I2C;
-  max_freq: 10.0;
+  dataModel: RangeFinderData;
+  connectivity: I2C;
+  maxFreq: 10.0;
   hfov: 10.0;
   vfov: 21.9;
-  min_range: 10.0;  // cm
-  max_range: 250.0;  // cm
+  minRange: 10.0;  // cm
+  maxRange: 250.0;  // cm
 end
