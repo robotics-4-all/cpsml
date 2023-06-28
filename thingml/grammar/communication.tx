@@ -1,0 +1,46 @@
+CommunicationMiddleware:
+    AMQPBroker | MQTTBroker | RedisBroker
+;
+
+BrokerAuth: BrokerAuthPlain;
+
+BrokerAuthPlain:
+    'username' ':' username=STRING
+    'password' ':' password=STRING
+;
+
+AMQPBroker:
+    'Communication<AMQP>' name=ID
+    (
+        ('host:' host=STRING)
+        ('port:' port=INT)
+        ('vhost:' vhost=STRING)
+        ('ssl' ':' ssl=BOOL)?
+        ('auth' ':' auth=BrokerAuth)?
+    )#
+    'end'
+;
+
+MQTTBroker:
+    'Communication<MQTT>' name=ID
+    (
+        ('host:' host=STRING)
+        ('port:' port=INT)
+        ('ssl' ':' ssl=BOOL)?
+        ('auth' ':' auth=BrokerAuth)?
+    )#
+    'end'
+;
+
+RedisBroker:
+    'Communication<Redis>' name=ID
+    (
+        ('host:' host=STRING)
+        ('port:' port=INT)
+        ('db:' db=INT)?
+        ('ssl' ':' ssl=BOOL)?
+        ('auth' ':' auth=BrokerAuth)?
+    )#
+    'end'
+;
+

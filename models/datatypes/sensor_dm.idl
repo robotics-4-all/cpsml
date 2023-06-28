@@ -1,0 +1,52 @@
+Package
+  name: SensorDataTypes
+  version: "0.1.0"
+  description: "Interface Messages for Sensors"
+  author: "Konstantinos Panayiotou"
+end
+
+DataType EmptyObject
+end
+
+DataType Header
+  # Message Header
+  timestamp: int
+  seq: int
+  node_id: str
+end
+
+DataType RangeFinderData
+  # Data model for range-finder sensors, suchs as sonar, tof and ir
+  range: float
+  hfov: float
+  vfov: float
+  range_min: float
+  range_max: float
+  sensor_id: str
+end
+
+DataType LiDARData
+  ranges: float[]
+  angle_min: float
+  angle_max: float
+  range_min: float
+  range_max: float
+  angle_increment: float
+  time_between_scans: float
+  sensor_id: str
+end
+
+DataType SensorInternalState
+  state: int
+  status_msg: str
+end
+
+Enum SensorState
+    'ENABLED'
+    'DISABLED'
+    'HALTED'
+    'RUNNING'
+    'STOPPED'
+    'INTERNAL_ERROR'
+    'NOT_CONNECTED'
+end
