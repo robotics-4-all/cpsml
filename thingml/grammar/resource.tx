@@ -1,0 +1,79 @@
+Resource: SenseResource | ActResource | ComputeResource;
+
+SenseResource:
+    'Resource' '<Sense>' name=ID
+        (
+            ('uri:' topic=STRING)
+            ('interface:' pattern=ResourceInterfaceType)
+            ('attributes' ':' ('-' attributes*=Attribute['-'])?)
+        )#
+    'end'
+;
+
+ActResource:
+    'Resource' '<Act>' name=ID
+        (
+            ('uri:' topic=STRING)
+            ('interface:' pattern=ResourceInterfaceType)
+            ('attributes' ':' ('-' attributes*=Attribute['-'])?)
+        )#
+    'end'
+;
+
+Attribute:
+    NumericAttribute  |
+    BoolAttribute     |
+    StringAttribute   |
+    ListAttribute     |
+    DictAttribute
+;
+
+NumericAttribute:
+    IntAttribute    |
+    FloatAttribute
+;
+
+IntAttribute:
+    name=ID ':' 'int'
+;
+
+FloatAttribute:
+    name=ID ':' 'float'
+;
+
+StringAttribute:
+    name=ID ':' 'str'
+;
+
+BoolAttribute:
+    name=ID ':' 'bool'
+;
+
+ListAttribute:
+    name=ID ':' 'list' '[' valueType=ListValueType ']'
+;
+
+DictAttribute:
+    name=ID ':' '{'
+        items*=Attribute
+        '}'
+;
+
+ResourceInterfaceType: 'PubSub' | 'RPC' | 'Action';
+
+ListValueType: 'float' | 'int' | 'str' | 'bool' | 'list' | 'dict';
+
+// FQN: ID('.'ID)*;
+// FQNI: ID+['.']('.*')?;
+// Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;

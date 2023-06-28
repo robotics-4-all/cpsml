@@ -5,7 +5,7 @@ import textx.scoping.providers as scoping_providers
 THIS_DIR = dirname(__file__)
 MODEL_REPO_PATH = join(THIS_DIR, '..', 'models')
 
-def get_mm(debug=False):
+def get_thing_mm(debug=False):
     """
     """
     mm= metamodel_from_file(
@@ -32,6 +32,37 @@ def get_mm(debug=False):
             )
         }
     )
+
+    return mm
+
+
+def get_resource_mm(debug=False):
+    """
+    """
+    mm= metamodel_from_file(
+        join(THIS_DIR, 'grammar','resource.tx'),
+        global_repository=True,
+        debug=debug
+    )
+
+    # mm.register_scope_providers(
+    #     {
+    #         "*.*": scoping_providers.FQNImportURI(
+    #             importAs=True,
+    #             # importURI_to_scope_name=importURI_to_scope_name
+    #         )
+    #     }
+    # )
+    # mm.register_scope_providers(
+    #     {
+    #         "*.dataModel": scoping_providers.FQNGlobalRepo(
+    #             join(MODEL_REPO_PATH, 'datatypes','*.idl')
+    #         ),
+    #         "*.things": scoping_providers.FQNGlobalRepo(
+    #             join(MODEL_REPO_PATH, 'things','*.thing')
+    #         )
+    #     }
+    # )
 
     return mm
 
