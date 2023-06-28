@@ -1,0 +1,8 @@
+// import sonar_hcsr04.sensor
+
+Robot TekRobot
+  type: UGV
+  sensors:
+    - HCSR04
+    - VL53L0X
+end

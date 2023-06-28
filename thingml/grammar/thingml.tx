@@ -21,31 +21,29 @@ D2NConnection:
 ;
 
 
-Thing: Robot | Device;
+Thing: Robot | Device | Sensor | Actuator;
 
 Robot:
     'Robot' name=ID
         (
-        ('type' ':' type=RobotType)
-        ('computeDevices' ':' devices=[ComputeDevice:FQN])
-        ('sensors:' sensors*=[SensorDevice:FQN])
-        ('actuators:' actuators*=[ActuatorDevice:FQN])
-        ('capabilities:' '[' capabilities*=[RobotCapabilities:FQN] ']' ';')
-        ('networking:' netIfaces*=NetworkInterfaceType[','])
-        ('communication:' broker=[CommunicationMiddleware:FQN])
-        ('hasBle: ' ble=BOOL)?
+            ('type' ':' rtype=RobotType)
+            ('computeDevices' ':' devices=[Device:FQN])?
+            ('sensors:' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
+            ('actuators:' actuators*=[Actuator:FQN])?
+            ('capabilities:' capabilities*=[RobotCapabilities:FQN])?
+            ('networking:' netIfaces*=NetworkInterfaceType[','])?
+            ('communication:' broker=[CommunicationMiddleware:FQN])?
+            ('hasBle: ' ble=BOOL)?
         )#
     'end'
 ;
 
-Device: ComputeDevice | PeripheralDevice;
-
-ComputeDevice:
-    'ComputeDevice' name=ID
+Device:
+    'Device' name=ID
         (
         ('type: ' type=ComputeDeviceType)
-        ('sensors:' sensors*=[SensorDevice:FQN])
-        ('actuators:' actuators*=[ActuatorDevice:FQN])
+        ('sensors:' sensors*=[Sensor:FQN])?
+        ('actuators:' actuators*=[Actuator:FQN])?
         ('networking:' netIfaces*=NetworkInterfaceType[','])
         ('communication:' broker=[CommunicationMiddleware:FQN])
         ('hasBle: ' ble=BOOL)?
@@ -53,9 +51,7 @@ ComputeDevice:
     'end'
 ;
 
-PeripheralDevice: SensorDevice | ActuatorDevice;
-
-SensorDevice:
+Sensor:
     GenericSensor   |
     RangeFinder     |
     LiDARSensor     |
@@ -64,7 +60,7 @@ SensorDevice:
     Button
 ;
 
-ActuatorDevice: GenericActuator;
+Actuator: GenericActuator;
 
 GenericSensor:
     'Sensor' name=ID
@@ -140,8 +136,8 @@ CameraRGB:
             ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('maxFreq:' maxFreq=FLOAT ';')?
-            ('res_height:' resHeight=FLOAT ';')?
-            ('res_width:' resWidth=FLOAT ';')?
+            ('resHeight:' resHeight=FLOAT ';')?
+            ('resWidth:' resWidth=FLOAT ';')?
             ('hfov:' hfov=FLOAT ';')?
             ('vfov:' vfov=FLOAT ';')?
         )#
@@ -154,9 +150,9 @@ CameraThermal:
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
             ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
-            ('max_freq:' maxFreq=FLOAT ';')?
-            ('res_height:' resHeight=FLOAT ';')?
-            ('res_width:' resWidth=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
+            ('resHeight:' resHeight=FLOAT ';')?
+            ('resWidth:' resWidth=FLOAT ';')?
             ('hfov:' hfov=FLOAT ';')?
             ('vfov:' vfov=FLOAT ';')?
         )#
@@ -169,7 +165,7 @@ Accelerometer:
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
             ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
-            ('max_freq:' maxFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -180,7 +176,7 @@ Magnetometer:
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
             ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
-            ('max_freq:' maxFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -191,7 +187,7 @@ Gyroscope:
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
             ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
-            ('max_freq:' maxFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;
@@ -203,7 +199,7 @@ IMU:
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
             ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
-            ('max_freq:' maxFreq=FLOAT ';')?
+            ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
 ;

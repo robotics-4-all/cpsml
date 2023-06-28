@@ -1,7 +1,0 @@
-Robot TekRobot -> {
-  type: UGV;
-  sensors: [];
-  actuators: [];
-  capabilities: [];
-}
-
