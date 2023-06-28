@@ -1,0 +1,15 @@
+MotorController DFRobotMotorCtrl
+  type: DualMotor
+  dataModel: MotorControllerCmdVel
+  connectivity: Hardware
+end
+
+Speaker MySpeaker
+  dataModel: MotorControllerCmdVel
+  connectivity: Hardware
+end
+
+LedArray GenericLedArray
+  dataModel: LedArrayData
+  size: 10
+end

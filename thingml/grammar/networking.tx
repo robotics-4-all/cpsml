@@ -30,5 +30,3 @@ NetworkTopology:
         connections*=[N2NConnection]
     'end'
 ;
-
-NetworkInterfaceType: 'Ethernet' | 'Wifi';
