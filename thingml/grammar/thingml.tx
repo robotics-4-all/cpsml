@@ -71,7 +71,7 @@ GenericSensor:
         'type:' type=SensorType ';'
         'dataModel:' dataModel=[idl.DataType:FQN] ';'
         (
-        ('connectivity:' protocol=[HWProtocol] ';')?
+        ('connectivity:' protocol=[DeviceConnectivity] ';')?
         ('freq:' acqFreq=FLOAT ';')?
         ('maxFreq:' maxFreq=FLOAT ';')?
         )#
@@ -83,7 +83,7 @@ GenericActuator:
         'type:' type=ActuatorType ';'
         'dataModel:' dataModel=[idl.DataType:FQN] ';'
         (
-        ('connectivity:' protocol=[HWProtocol] ';')?
+        ('connectivity:' protocol=[DeviceConnectivity] ';')?
         ('responseTime:' responseTime=FLOAT ';')?
         )#
     'end'
@@ -94,8 +94,8 @@ Button:
         /* 'type:' type=[ButtonType] ';' */
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('hw_conn:' protocol=[HWProtocol] ';')?
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('hw_conn:' protocol=[DeviceConnectivity] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('maxFreq:' maxFreq=FLOAT ';')?
         )#
     'end'
@@ -106,7 +106,7 @@ RangeFinder:
         (
             ('type:' type=[RangeFinderType] ';')
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' connectivity=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('maxFreq:' maxFreq=FLOAT ';')?
             ('hfov:' hfov=FLOAT ';')?
@@ -121,7 +121,7 @@ LiDARSensor:
     'LiDARSensor' name=ID
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('maxFreq:' maxFreq=FLOAT ';')?
             ('minAngle:' minAngle=FLOAT ';')?
@@ -137,7 +137,7 @@ CameraRGB:
     'CameraRGB' name=ID
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('maxFreq:' maxFreq=FLOAT ';')?
             ('res_height:' resHeight=FLOAT ';')?
@@ -152,7 +152,7 @@ CameraThermal:
     'CameraThermal' name=ID
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('max_freq:' maxFreq=FLOAT ';')?
             ('res_height:' resHeight=FLOAT ';')?
@@ -167,7 +167,7 @@ Accelerometer:
     'Accelerometer' name=ID
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('max_freq:' maxFreq=FLOAT ';')?
         )#
@@ -178,7 +178,7 @@ Magnetometer:
     'Magnetometer' name=ID
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('max_freq:' maxFreq=FLOAT ';')?
         )#
@@ -189,7 +189,7 @@ Gyroscope:
     'Gyroscope' name=ID
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('max_freq:' maxFreq=FLOAT ';')?
         )#
@@ -201,7 +201,7 @@ IMU:
         'type:' type=IMUType ';'
         (
             ('dataModel:' dataModel=[idl.DataType:FQN] ';')
-            ('connectivity:' protocol=[HWProtocol] ';')?
+            ('connectivity:' protocol=[DeviceConnectivity] ';')?
             ('freq:' pubFreq=FLOAT ';')?
             ('max_freq:' maxFreq=FLOAT ';')?
         )#
@@ -245,7 +245,11 @@ ActuatorType:
     'ServoMotor'
 ;
 
-HWProtocol: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
+DeviceConnectivity: WirelessConnection | HardwareConnection;
+
+WirelessConnection: 'Wifi' | 'BLE';
+
+HardwareConnection: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH';
 
 RangeFinderType: 'Sonar' | 'ToF' | 'IR';
 
