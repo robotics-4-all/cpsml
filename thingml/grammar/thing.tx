@@ -249,35 +249,35 @@ IMUType: '6DOF' | '9DOF';
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
 RobotCapabilities:
-    'Mobility' |
+    'Mobility'          |
     'VoiceInterraction' |
-    'NLU' |
-    'Navigation' |
-    'Mapping' |
-    'SLAM' |
-    'FaceDetection' |
+    'NLU'               |
+    'Navigation'        |
+    'Mapping'           |
+    'SLAM'              |
+    'FaceDetection'     |
     'ObjectDetection'
 ;
 
 
 SensorType:
-    'Range' |
-    'LiDAR' |
-    'CameraRGB' |
-    'Thermal' |
-    'ThermalArray' |
+    'Range'         |
+    'LiDAR'         |
+    'CameraRGB'     |
+    'Thermal'       |
+    'ThermalArray'  |
     'CameraThermal' |
-    'IMU' |
-    'Compass' |
+    'IMU'           |
+    'Compass'       |
     'Accelerometer' |
     'Magnetometer'
 ;
 
 ActuatorType:
-    'MotorController' |
-    'LED' |
-    'RGBLed' |
-    'NeopixelLED' |
+    'MotorController'   |
+    'LED'               |
+    'RGBLed'            |
+    'NeopixelLED'       |
     'ServoController'
 ;
 

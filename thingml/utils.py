@@ -9,7 +9,7 @@ def get_thing_mm(debug=False):
     """
     """
     mm= metamodel_from_file(
-        join(THIS_DIR, 'grammar','thingml.tx'),
+        join(THIS_DIR, 'grammar','thing.tx'),
         global_repository=True,
         debug=debug
     )
