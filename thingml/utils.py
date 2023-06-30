@@ -53,16 +53,16 @@ def get_resource_mm(debug=False):
     #         )
     #     }
     # )
-    # mm.register_scope_providers(
-    #     {
-    #         "*.dataModel": scoping_providers.FQNGlobalRepo(
-    #             join(MODEL_REPO_PATH, 'datatypes','*.idl')
-    #         ),
-    #         "*.things": scoping_providers.FQNGlobalRepo(
-    #             join(MODEL_REPO_PATH, 'things','*.thing')
-    #         )
-    #     }
-    # )
+    mm.register_scope_providers(
+        {
+            "*.inDataType": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'datatypes','*.idl')
+            ),
+            "*.outDataType": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'datatypes','*.idl')
+            )
+        }
+    )
 
     return mm
 

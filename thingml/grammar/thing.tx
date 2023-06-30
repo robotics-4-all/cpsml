@@ -22,16 +22,18 @@ D2NConnection:
 
 Thing: Robot | Device | Sensor | Actuator;
 
+
 Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('sensors:' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
-            ('actuators:' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
-            ('capabilities:' '-' capabilities*=RobotCapabilities['-'])?
-            ('networking:' networking*=[Network:FQN|+m:networks])?
-            ('communication:' broker=[CommunicationMiddleware:FQN])?
-            ('hasBle: ' ble=BOOL)?
+            ('boards' ':' '-' type*=DeviceBoardType['-'])
+            ('sensors' ':' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
+            ('actuators' ':' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
+            ('capabilities' ':' '-' capabilities*=RobotCapabilities['-'])?
+            ('networking' ':' networking=[Network:FQN|+m:networks])?
+            ('communication' ':' broker=[CommunicationMiddleware:FQN])?
+            ('hasBle' ':' ble=BOOL)?
         )#
     'end'
 ;
@@ -39,7 +41,8 @@ Robot:
 Device:
     'Device' name=ID
         (
-            ('type: ' type=ComputeDeviceType)
+            ('type: ' type=DeviceBoardType)
+            ('os' ':' os=OperatingSystem)?
             ('sensors:' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
             ('networking:' '-' networking*=WirelessConnection['-'])?
@@ -107,7 +110,6 @@ SingleLed:
 LedArray:
     'LedArray' name=ID
         (
-            ('dataModel:' dataModel=[idl.DataType:FQN])
             ('size:' size=INT)
             ('connectivity:' protocol=[DeviceConnectivity])?
             ('responseTime:' responseTime=FLOAT)?
@@ -117,18 +119,17 @@ LedArray:
 
 GenericActuator:
     'Actuator' name=ID
-        'type:' type=ActuatorType
-        'dataModel:' dataModel=[idl.DataType:FQN]
         (
-        ('connectivity:' protocol=[DeviceConnectivity])?
-        ('responseTime:' responseTime=FLOAT)?
+            ('type:' type=ActuatorType)
+            ('dataModel:' dataModel=[idl.DataType:FQN])
+            ('connectivity:' protocol=[DeviceConnectivity])?
+            ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
 ;
 
 Button:
     'Button' name=ID
-        /* 'type:' type=[ButtonType] */
         (
             ('dataModel:' dataModel=[idl.DataType:FQN])
             ('connectivity:' protocol=[DeviceConnectivity])?
@@ -291,7 +292,9 @@ HardwareConnection: 'Hardware';
 
 RangeFinderType: 'Sonar' | 'ToF' | 'IR';
 
-ComputeDeviceType: 'ESP32' | 'ESP8266' | 'RPI3' | 'RPI4' | 'JetsonNano';
+DeviceBoardType: 'ESP32' | 'ESP8266' | 'RPi3' | 'RPi4' | 'JetsonNano';
+
+OperatingSystem: 'RaspbianOS' | 'RiotOS' | 'UbuntuOS' | 'OtherOS';
 
 MotorControllerType: 'SingleMotor' | 'DualMotor';
 

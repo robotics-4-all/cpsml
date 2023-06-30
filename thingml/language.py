@@ -1,6 +1,6 @@
 from textx import language
 
-from thingml.utils import get_thing_mm
+from thingml.utils import get_thing_mm, get_resource_mm
 
 
 @language('thingml-things', '*.thing')

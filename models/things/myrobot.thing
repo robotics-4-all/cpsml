@@ -2,6 +2,8 @@
 
 Robot MyRobot
     type: UGV
+    boards:
+        - RPi4
     sensors:
         - HCSR04
         - VL53L0X

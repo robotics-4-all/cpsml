@@ -1,12 +1,26 @@
-Resource: SenseResource | ActResource | ComputeResource;
+reference comm_idl as idl
+
+Model:
+    resources*=Resource
+    tags*=Tag
+;
+
+Resource: SenseResource | ActResource | ComputeResource | StorageResource;
+
+StorageResource:
+    'Resource' '<Storage>' name=ID
+        (
+            ('uri:' uri=STRING)
+            ('interface:' interface=StorageInterface)
+        )#
+    'end'
+;
 
 ComputeResource:
     'Resource' '<Compute>' name=ID
         (
             ('uri:' uri=STRING)
-            ('interface:' pattern=InterfaceType)
-            ('inputData:' inData=InterfaceType)?
-            ('outputData:' inData=InterfaceType)?
+            ('interface:' interface=ComputeInterface)
         )#
     'end'
 ;
@@ -15,9 +29,7 @@ SenseResource:
     'Resource' '<Sense>' name=ID
         (
             ('uri:' uri=STRING)
-            ('interface:' pattern=InterfaceType)?
-            ('inputData:' inData=InterfaceType)?
-            ('outputData:' inData=InterfaceType)?
+            ('interface:' interface=SenseInterface)?
         )#
     'end'
 ;
@@ -26,14 +38,65 @@ ActResource:
     'Resource' '<Act>' name=ID
         (
             ('uri:' uri=STRING)
-            ('interface:' pattern=InterfaceType)?
-            ('inputData:' inData=InterfaceType)?
-            ('outputData:' inData=InterfaceType)?
+            ('interface:' interface=ActInterface)?
         )#
     'end'
 ;
 
-InterfaceType: 'PubSub' | 'RPC' | 'Action';
+Interface:
+    SenseInterface      |
+    ActInterface        |
+    ComputeInterface    |
+    StorageInterface
+;
+
+SenseInterface:
+    Publisher   |
+    RPCService
+;
+
+ActInterface:
+    Subscriber   |
+    RPCService   |
+    ActionService
+;
+
+ComputeInterface:
+    RPCService   |
+    ActionService
+;
+
+StorageInterface:
+    RPCService   |
+    Subscriber
+;
+
+Producer:
+    'Producer' '<' outDataType=[idl.DataType:FQN] '>'
+;
+
+Consumer:
+    'Consumer' '<' inDataType=[idl.DataType:FQN] '>'
+;
+
+Subscriber:
+    'Subscriber' '<' inDataType=[idl.DataType:FQN] '>'
+;
+
+Publisher:
+    'Publisher' '<' outDataType=[idl.DataType:FQN] '>'
+;
+
+RPCService:
+    'RPCService' '<' outDataType=[idl.DataType:FQN] ','
+        outDataType=[idl.DataType:FQN] '>'
+;
+
+ActionService:
+    'ActionService' '<' goalDataType=[idl.DataType:FQN] ','
+        feedbackDataType=[idl.DataType:FQN] ','
+        resultDataType=[idl.DataType:FQN] '>'
+;
 
 SensorType:
     'Range' |
@@ -45,7 +108,8 @@ SensorType:
     'IMU' |
     'Compass' |
     'Accelerometer' |
-    'Magnetometer'
+    'Magnetometer'  |
+    'Other'
 ;
 
 ActuatorType:
@@ -53,16 +117,17 @@ ActuatorType:
     'LED' |
     'RGBLed' |
     'NeopixelLED' |
-    'ServoController'
+    'ServoController' |
+    'Other'
 ;
 
 ListValueType: 'float' | 'int' | 'str' | 'bool' | 'list' | 'dict';
 
+Tag: "Tag" name=ID;
+
 FQN: ID('.'ID)*;
 FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)?;
-
-Description: /\#(.*?)$/;
 
 Comment: CommentLine | CommentBlock ;
 
