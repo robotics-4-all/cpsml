@@ -12,6 +12,7 @@ StorageResource:
         (
             ('uri:' uri=STRING)
             ('interface:' interface=StorageInterface)
+            ('namespace:' namespace=STRING)?
         )#
     'end'
 ;
@@ -21,6 +22,7 @@ ComputeResource:
         (
             ('uri:' uri=STRING)
             ('interface:' interface=ComputeInterface)
+            ('namespace:' namespace=STRING)?
         )#
     'end'
 ;
@@ -29,7 +31,8 @@ SenseResource:
     'Resource' '<Sense>' name=ID
         (
             ('uri:' uri=STRING)
-            ('interface:' interface=SenseInterface)?
+            ('interface:' interface=SenseInterface)
+            ('namespace:' namespace=STRING)?
         )#
     'end'
 ;
@@ -38,7 +41,8 @@ ActResource:
     'Resource' '<Act>' name=ID
         (
             ('uri:' uri=STRING)
-            ('interface:' interface=ActInterface)?
+            ('interface:' interface=ActInterface)
+            ('namespace:' namespace=STRING)?
         )#
     'end'
 ;
