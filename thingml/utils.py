@@ -22,6 +22,9 @@ def get_thing_mm(debug=False):
             ),
             "*.networks": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'networks','*.net')
+            ),
+            "*.communication": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'communication','*.comm')
             )
         }
     )
@@ -63,7 +66,7 @@ def get_networking_mm(debug=False):
     return mm
 
 
-def get_comm_language(debug=False):
+def get_communication_mm(debug=False):
     mm= metamodel_from_file(
         join(THIS_DIR, 'grammar','communication.tx'),
         global_repository=True,
@@ -87,6 +90,8 @@ def build_model(model_fpath):
         mm = get_thing_mm()
     elif model_filename.endswith('.resource'):
         mm = get_resource_mm()
+    elif model_filename.endswith('.comm'):
+        mm = get_communication_mm()
     else:
         raise ValueError('Not a valid model extension.')
     model = mm.model_from_file(model_fpath)

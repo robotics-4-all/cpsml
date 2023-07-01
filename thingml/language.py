@@ -4,7 +4,7 @@ from thingml.utils import (
     get_thing_mm,
     get_resource_mm,
     get_networking_mm,
-    get_comm_language
+    get_communication_mm
 )
 
 
@@ -32,5 +32,5 @@ def networking_language():
 @language('thingml-comm', '*.comm')
 def communication_language():
     "thingml communication language"
-    mm = get_comm_language()
+    mm = get_communication_mm()
     return mm

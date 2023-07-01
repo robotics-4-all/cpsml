@@ -31,7 +31,7 @@ Robot:
             ('actuators' ':' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
             ('capabilities' ':' '-' capabilities+=RobotCapabilities['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
-            ('communication' ':' broker=[CommunicationMiddleware:FQN])?
+            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('hasBle' ':' ble=BOOL)?
         )#
     'end'
@@ -45,7 +45,7 @@ Device:
             ('sensors:' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
-            ('communication:' broker=[CommunicationMiddleware:FQN])?
+            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('hasBle: ' ble=BOOL)?
         )#
     'end'

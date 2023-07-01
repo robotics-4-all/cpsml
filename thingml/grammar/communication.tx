@@ -1,10 +1,11 @@
 Model:
+    imports*=Import
     communication*=CommunicationMiddleware
 ;
 
 
 CommunicationMiddleware:
-    MessageBroker | RestAPI
+    MessageBroker | RestAPI | AsyncAPI
 ;
 
 
@@ -17,6 +18,13 @@ RestAPI:
     'RestAPI' name=ID
         'namespace' ':' namespace=STRING
         'port' ':' port=INT
+    'end'
+;
+
+AsyncAPI:
+    'RestAPI' name=ID
+        'namespace' ':' namespace=STRING
+        'broker' ':' broker=[MessageBroker:FQN]
     'end'
 ;
 
@@ -63,3 +71,7 @@ RedisBroker:
     'end'
 ;
 
+
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;

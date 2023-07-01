@@ -15,4 +15,5 @@ Robot MyRobot
         - FaceDetection
         - VoiceInterraction
     networking: CSAL
+    communication: HomeEMQX
 end
