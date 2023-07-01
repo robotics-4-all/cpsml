@@ -1,6 +1,25 @@
+Model:
+    communication*=CommunicationMiddleware
+;
+
+
 CommunicationMiddleware:
+    MessageBroker | RestAPI
+;
+
+
+MessageBroker:
     AMQPBroker | MQTTBroker | RedisBroker
 ;
+
+
+RestAPI:
+    'RestAPI' name=ID
+        'namespace' ':' namespace=STRING
+        'port' ':' port=INT
+    'end'
+;
+
 
 BrokerAuth: BrokerAuthPlain;
 
@@ -14,7 +33,7 @@ AMQPBroker:
     (
         ('host:' host=STRING)
         ('port:' port=INT)
-        ('vhost:' vhost=STRING)
+        ('vhost:' vhost=STRING)?
         ('ssl' ':' ssl=BOOL)?
         ('auth' ':' auth=BrokerAuth)?
     )#

@@ -1,7 +1,7 @@
 RangeFinder HCSR04
   type: Sonar
   dataModel: RangeFinderData
-  connectivity: GPIO
+  connectivity: Hardware
   maxFreq: 10.0
   hfov: 60.0
   vfov: 37.9
@@ -12,7 +12,7 @@ end
 RangeFinder VL53L0X
   type: ToF
   dataModel: RangeFinderData
-  connectivity: I2C
+  connectivity: Hardware
   maxFreq: 50.0  // hz
   hfov: 10.0
   vfov: 21.9
