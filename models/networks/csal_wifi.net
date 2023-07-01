@@ -1,0 +1,8 @@
+WirelessNetwork CSAL
+    ssid: "CSAL"
+    psk: "thmmy-e!"
+    dns:
+        - 8.8.8.8
+        - 8.8.4.4
+        - 1.1.1.1
+end

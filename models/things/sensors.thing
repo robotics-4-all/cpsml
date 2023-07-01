@@ -13,9 +13,9 @@ RangeFinder VL53L0X
   type: ToF
   dataModel: RangeFinderData
   connectivity: I2C
-  maxFreq: 10.0
+  maxFreq: 50.0  // hz
   hfov: 10.0
   vfov: 21.9
-  minRange: 10.0  // cm
-  maxRange: 250.0  // cm
+  minRange: 3.0  // cm
+  maxRange: 100.0  // cm
 end

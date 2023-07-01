@@ -10,7 +10,6 @@ Model:
     (
     imports*=Import
     things*=Thing
-    networks*=Network
     )#
 ;
 
@@ -27,10 +26,10 @@ Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('boards' ':' '-' type*=DeviceBoardType['-'])
+            ('boards' ':' '-' type+=DeviceBoardType['-'])
             ('sensors' ':' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
             ('actuators' ':' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
-            ('capabilities' ':' '-' capabilities*=RobotCapabilities['-'])?
+            ('capabilities' ':' '-' capabilities+=RobotCapabilities['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
             ('communication' ':' broker=[CommunicationMiddleware:FQN])?
             ('hasBle' ':' ble=BOOL)?
@@ -45,7 +44,7 @@ Device:
             ('os' ':' os=OperatingSystem)?
             ('sensors:' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
-            ('networking:' '-' networking*=WirelessConnection['-'])?
+            ('networking' ':' networking=[Network:FQN|+m:networks])?
             ('communication:' broker=[CommunicationMiddleware:FQN])?
             ('hasBle: ' ble=BOOL)?
         )#
@@ -111,6 +110,7 @@ LedArray:
     'LedArray' name=ID
         (
             ('size:' size=INT)
+            ('dataModel:' dataModel=[idl.DataType:FQN])
             ('connectivity:' protocol=[DeviceConnectivity])?
             ('responseTime:' responseTime=FLOAT)?
         )#
@@ -297,6 +297,8 @@ DeviceBoardType: 'ESP32' | 'ESP8266' | 'RPi3' | 'RPi4' | 'JetsonNano';
 OperatingSystem: 'RaspbianOS' | 'RiotOS' | 'UbuntuOS' | 'OtherOS';
 
 MotorControllerType: 'SingleMotor' | 'DualMotor';
+
+NID: /(.*?)\n/;
 
 FQN: ID('.'ID)*;
 FQNI: ID+['.']('.*')?;

@@ -1,3 +1,7 @@
+Model:
+    networks*=Network
+;
+
 Network: WiredNetwork| WirelessNetwork;
 
 WiredNetwork:
@@ -5,6 +9,7 @@ WiredNetwork:
         'subnet:' subnet=STRING
         'subnet_mask:' subnet_mask=STRING
         'gateway:' gateway=STRING
+        'dhcp:' dhcp=BOOL
         ('dns:' '[' dns*=STRING[','] ']')?
     'end'
 ;
@@ -12,12 +17,14 @@ WiredNetwork:
 
 WirelessNetwork:
     'WirelessNetwork ' name=ID
-        'ssid: ' wifi_ssid=STRING
-        'psk: ' psk=STRING
-        'subnet:' subnet=STRING
-        'subnet_mask:' subnet_mask=STRING
-        'gateway:' gateway=STRING
-        ('dns:' '[' dns*=STRING[','] ']')?
+    (
+        ('ssid: ' wifi_ssid=STRING)
+        ('psk: ' psk=STRING)
+        ('ipv4:' ipv4=STRING)?
+        ('subnet:' subnet=STRING)?
+        ('gateway:' gateway=STRING)?
+        ('dns:' '-' dns*=NID['-'])?
+    )#
     'end'
 ;
 
@@ -30,3 +37,5 @@ NetworkTopology:
         connections*=[N2NConnection]
     'end'
 ;
+
+NID: /(.*?)\n/;

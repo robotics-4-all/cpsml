@@ -29,6 +29,9 @@ def get_thing_mm(debug=False):
             ),
             "*.things": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'things','*.thing')
+            ),
+            "*.networks": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'networks','*.net')
             )
         }
     )
@@ -63,8 +66,35 @@ def get_resource_mm(debug=False):
             )
         }
     )
-
     return mm
+
+
+def get_networking_mm(debug=False):
+    """
+    """
+    mm= metamodel_from_file(
+        join(THIS_DIR, 'grammar','networking.tx'),
+        global_repository=True,
+        debug=debug
+    )
+
+    # mm.register_scope_providers(
+    #     {
+    #         "*.*": scoping_providers.FQNImportURI(
+    #             importAs=True,
+    #             # importURI_to_scope_name=importURI_to_scope_name
+    #         )
+    #     }
+    # )
+    mm.register_scope_providers(
+        {
+            "networks": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'networks','*.net')
+            )
+        }
+    )
+    return mm
+
 
 def build_model(model_fpath):
     mm = get_mm(global_scope=True)

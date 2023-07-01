@@ -10,6 +10,6 @@ Speaker MySpeaker
 end
 
 LedArray GenericLedArray
-  dataModel: LedArrayData
   size: 10
+  dataModel: LedArrayData
 end

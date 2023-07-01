@@ -1,4 +1,5 @@
 Device MyPi
     type: RPi3
     os: RaspbianOS
+    networking: CSAL
 end
