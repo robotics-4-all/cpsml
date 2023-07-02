@@ -1,6 +1,23 @@
 from os.path import basename
 
-from thingml.utils import get_thing_mm
+from thingml.utils import get_thing_mm, build_model
+
+
+class ResourceClasses:
+    Sense = 'sensors'
+    Act = 'actuators'
+    Compute = 'compute'
+    Storage = 'storage'
+
+
+def build_sense_resource_uri(thing, sensor):
+    uri = f'{thing.name.lower()}.sensors.{sensor.__class__.__name__.lower()}.{sensor.name.lower()}'
+    return uri
+
+
+def build_act_resource_uri(thing, actuator):
+    uri = f'{thing.name.lower()}.actuators.{actuator.__class__.__name__.lower()}.{actuator.name.lower()}'
+    return uri
 
 
 def build_single_resource(name, rtype, interface, namespace='', uri=''):
@@ -29,14 +46,14 @@ def build_thing_resources(thing):
         txt += build_single_resource(
             sensor.name, 'Sense',
             f'Publisher<{sensor.dataModel.name}>',
-            uri=f'{thing.name.lower()}.sensors.{sensor.name.lower()}'
+            uri=build_sense_resource_uri(thing, sensor)
         )
     for actuator in thing.actuators:
         txt += build_single_resource(
             actuator.name,
             'Act',
             f'Subscriber<{actuator.dataModel.name}>',
-            uri=f'{thing.name.lower()}.actuators.{actuator.name.lower()}'
+            uri=build_act_resource_uri(thing, actuator)
         )
     # for cap in thing.capabilities:
     #     txt += build_single_resource(
@@ -52,6 +69,7 @@ def build_resources_model_file(resources: str, filename='resources'):
     filepath = f'{filename}.resource'
     with open(filepath, 'w') as fp:
         fp.write(resources)
+    return filepath
 
 
 def t2r_m2m(thing_model, output_model=''):
@@ -66,9 +84,11 @@ def t2r_m2m(thing_model, output_model=''):
         print('---------------------------------------')
         if thing.__class__.__name__ == 'Robot':
             print(f'[*] Found {thing.__class__.__name__} model: {thing.name}')
-            resources = build_thing_resources(thing)
-            build_resources_model_file(resources, thing.name)
         elif thing.__class__.__name__ == 'Device':
             print(f'[*] Found {thing.__class__.__name__} model: {thing.name}')
-            resources = build_thing_resources(thing)
-            build_resources_model_file(resources, thing.name)
+        resources = build_thing_resources(thing)
+        model_filepath = build_resources_model_file(resources, thing.name)
+        print(f'[*] Validating {thing.name} Resource model...')
+        model = build_model(model_filepath)
+        if model:
+            print(f'[*] Validation passed!')

@@ -93,7 +93,7 @@ Publisher:
 ;
 
 RPCService:
-    'RPCService' '<' outDataType=[idl.DataType:FQN] ','
+    'RPCService' '<' inDataType=[idl.DataType:FQN] ','
         outDataType=[idl.DataType:FQN] '>'
 ;
 
@@ -101,6 +101,11 @@ ActionService:
     'ActionService' '<' goalDataType=[idl.DataType:FQN] ','
         feedbackDataType=[idl.DataType:FQN] ','
         resultDataType=[idl.DataType:FQN] '>'
+;
+
+RESTService:
+    'RESTService' '<' inDataType=[idl.DataType:FQN] ','
+        outDataType=[idl.DataType:FQN] '>'
 ;
 
 SensorType:

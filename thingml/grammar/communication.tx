@@ -22,7 +22,7 @@ RestAPI:
 ;
 
 AsyncAPI:
-    'RestAPI' name=ID
+    'AsyncAPI' name=ID
         'namespace' ':' namespace=STRING
         'broker' ':' broker=[MessageBroker:FQN]
     'end'
