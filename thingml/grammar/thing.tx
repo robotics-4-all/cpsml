@@ -51,16 +51,12 @@ Device:
     'end'
 ;
 
-Sensor:
-    GenericSensor   |
-    RangeFinder     |
-    LiDARSensor     |
-    CameraRGB       |
-    CameraThermal   |
-    Button
+Actuator:
+    GenericActuator     |
+    MotorController     |
+    Speaker             |
+    Led
 ;
-
-Actuator: GenericActuator | MotorController | Speaker | Led;
 
 GenericSensor:
     'Sensor' name=ID
@@ -126,6 +122,16 @@ GenericActuator:
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
+;
+
+
+Sensor:
+    GenericSensor   |
+    RangeFinder     |
+    LiDARSensor     |
+    CameraRGB       |
+    CameraThermal   |
+    Button
 ;
 
 Button:

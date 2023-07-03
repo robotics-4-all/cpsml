@@ -7,6 +7,8 @@ Model:
 
 Resource: SenseResource | ActResource | ComputeResource | StorageResource;
 
+// Input
+// DBs, etc
 StorageResource:
     'Resource' '<Storage>' name=ID
         (
@@ -17,6 +19,7 @@ StorageResource:
     'end'
 ;
 
+// Input & Output
 ComputeResource:
     'Resource' '<Compute>' name=ID
         (
@@ -27,6 +30,7 @@ ComputeResource:
     'end'
 ;
 
+// Output
 SenseResource:
     'Resource' '<Sense>' name=ID
         (
@@ -37,6 +41,7 @@ SenseResource:
     'end'
 ;
 
+// Input
 ActResource:
     'Resource' '<Act>' name=ID
         (
@@ -55,57 +60,60 @@ Interface:
 ;
 
 SenseInterface:
-    Publisher   |
+    AsyncProducer   |
     RPCService
 ;
 
 ActInterface:
-    Subscriber   |
+    AsyncConsumer   |
     RPCService   |
     ActionService
 ;
 
 ComputeInterface:
     RPCService   |
-    Subscriber   |
     ActionService
 ;
 
 StorageInterface:
     RPCService   |
-    Subscriber
+    AsyncConsumer
 ;
 
-Producer:
-    'Producer' '<' outDataType=[idl.DataType:FQN] '>'
+ProducerInterface: AsyncProducer;
+
+ConsumerInterface: AsyncConsumer | RPCService | ActionService;
+
+AsyncProducer:
+    'AsyncProducer' '<' outDataType=[idl.DataType:FQN] '>'
 ;
 
-Consumer:
-    'Consumer' '<' inDataType=[idl.DataType:FQN] '>'
+
+AsyncConsumer:
+    'AsyncConsumer' '<' inDataType=[idl.DataType:FQN] '>'
 ;
 
-Subscriber:
-    'Subscriber' '<' inDataType=[idl.DataType:FQN] '>'
-;
-
-Publisher:
-    'Publisher' '<' outDataType=[idl.DataType:FQN] '>'
-;
 
 RPCService:
-    'RPCService' '<' inDataType=[idl.DataType:FQN] ','
-        outDataType=[idl.DataType:FQN] '>'
+    'RPCService' '<'
+        inDataType=[idl.DataType:FQN] ','
+        outDataType=[idl.DataType:FQN]
+    '>'
 ;
 
 ActionService:
-    'ActionService' '<' goalDataType=[idl.DataType:FQN] ','
-        feedbackDataType=[idl.DataType:FQN] ','
-        resultDataType=[idl.DataType:FQN] '>'
+    'ActionService'
+        '<' goalDataType=[idl.DataType:FQN] ','
+            feedbackDataType=[idl.DataType:FQN] ','
+            resultDataType=[idl.DataType:FQN]
+        '>'
 ;
 
 RESTService:
-    'RESTService' '<' inDataType=[idl.DataType:FQN] ','
-        outDataType=[idl.DataType:FQN] '>'
+    'RESTService'
+        '<' inDataType=[idl.DataType:FQN] ','
+            outDataType=[idl.DataType:FQN] ','
+        '>'
 ;
 
 SensorType:

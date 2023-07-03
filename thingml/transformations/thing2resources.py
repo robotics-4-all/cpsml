@@ -45,14 +45,14 @@ def build_thing_resources(thing):
     for sensor in thing.sensors:
         txt += build_single_resource(
             sensor.name, 'Sense',
-            f'Publisher<{sensor.dataModel.name}>',
+            f'AsyncProducer<{sensor.dataModel.name}>',
             uri=build_sense_resource_uri(thing, sensor)
         )
     for actuator in thing.actuators:
         txt += build_single_resource(
             actuator.name,
             'Act',
-            f'Subscriber<{actuator.dataModel.name}>',
+            f'AsyncConsumer<{actuator.dataModel.name}>',
             uri=build_act_resource_uri(thing, actuator)
         )
     # for cap in thing.capabilities:
