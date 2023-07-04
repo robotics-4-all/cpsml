@@ -116,33 +116,10 @@ RESTService:
         '>'
 ;
 
-SensorType:
-    'Range' |
-    'LiDAR' |
-    'CameraRGB' |
-    'Thermal' |
-    'ThermalArray' |
-    'CameraThermal' |
-    'IMU' |
-    'Compass' |
-    'Accelerometer' |
-    'Magnetometer'  |
-    'Other'
-;
-
-ActuatorType:
-    'MotorController' |
-    'LED' |
-    'RGBLed' |
-    'NeopixelLED' |
-    'ServoController' |
-    'Other'
-;
-
-ListValueType: 'float' | 'int' | 'str' | 'bool' | 'list' | 'dict';
 
 Tag: "Tag" name=ID;
 
+NID: /(.*?)\n/;
 FQN: ID('.'ID)*;
 FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)?;

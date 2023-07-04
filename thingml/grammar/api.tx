@@ -1,0 +1,39 @@
+API:
+    'host' ':' host=STRING
+    'port' ':' port=INT
+    '-' endpoints*=Endpoint['-']
+;
+
+Endpoint:
+    uri=ID
+    type=EndpointType
+;
+
+PublishEndpoint:
+    uri=ID
+    
+
+EndpointType:
+    'publisher'     |
+    'subscriber'    |
+    'rpc'
+    'action'
+;
+
+Array:
+    "[" values*=Value[','] "]"
+;
+
+Value:
+    STRING | FLOAT | BOOL | Dict | Array | "null"
+;
+
+Dict:
+    "{" members*=Member[','] "}"
+;
+
+Member:
+    key=STRING ':' value=Value
+;
+
+NID: /(.*?)\n/;

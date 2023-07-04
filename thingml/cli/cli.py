@@ -4,6 +4,7 @@ from pprint import pprint
 
 from thingml.utils import build_model
 from thingml.transformations.thing2resources import t2r_m2m
+from thingml.transformations.resources2api import r2api_m2m
 
 
 @click.group("thingml")
@@ -33,6 +34,13 @@ def validate(ctx, model_filepath):
 @click.pass_context
 def t2r(ctx, thing_model):
     t2r_m2m(thing_model)
+
+
+@cli.command("r2api")
+@click.argument("resource_model")
+@click.pass_context
+def r2api(ctx, resource_model):
+    r2api_m2m(resource_model)
 
 
 def main():
