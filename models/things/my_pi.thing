@@ -1,5 +1,22 @@
 Device MyPi
     type: RPi3
     os: RaspbianOS
+    sensors:
+        - HCSR04
+        - VL53L0X
+    actuators:
+        - GenericLedArray
     networking: CSAL
+    communication: HomeEMQX
+    rcm:
+        control:
+            volume: true
+            ssh: true
+        monitoring:
+            health: false
+            logs: false
+        applications:
+            types:
+                - ROS
+                - R4A
 end

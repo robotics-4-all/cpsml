@@ -16,4 +16,15 @@ Robot MyRobot
         - VoiceInterraction
     networking: CSAL
     communication: HomeEMQX
+    rcm:
+        control:
+            volume: true
+            ssh: true
+        monitoring:
+            health: false
+            logs: false
+        applications:
+            types:
+                - ROS
+                - R4A
 end

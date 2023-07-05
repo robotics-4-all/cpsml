@@ -32,6 +32,7 @@ Robot:
             ('functionalities' ':' '-' functionalities+=RobotFunctionalities['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+            ('rcm' ':' rcm=RCM)?
             ('hasBle' ':' ble=BOOL)?
         )#
     'end'
@@ -46,6 +47,7 @@ Device:
             ('actuators:' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+            ('rcm' ':' rcm=RCM)?
             ('hasBle: ' ble=BOOL)?
         )#
     'end'
@@ -285,6 +287,36 @@ ActuatorType:
     'RGBLed'            |
     'NeopixelLED'       |
     'ServoController'
+;
+
+RCM:
+    (
+        (
+        'control' ':'
+        (
+            ('reboot' ':' rebootCtrl=BOOL)?
+            ('shutdown' ':' shutdownCtrl=BOOL)?
+            ('volume' ':' volumeCtrl=BOOL)?
+            ('ssh' ':' ssh=BOOL)?
+        )#
+        )?
+        (
+        'monitoring' ':'
+        (
+            ('health' ':' healthM=BOOL)?
+            ('logs' ':' logsM=BOOL)?
+        )#
+        )?
+        (
+        'applications' ':'
+            'types' ':' '-' appType*=ApplicationType['-']
+        )?
+    )#
+;
+
+ApplicationType:
+    "ROS"   |
+    "R4A"
 ;
 
 DeviceConnectivity: WirelessConnection | HardwareConnection;
