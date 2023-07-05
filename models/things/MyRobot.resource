@@ -6,7 +6,7 @@
         tags:
             - Physical
     end
-
+    
     Resource<Sense> VL53L0X
         uri: 'myrobot.sensors.rangefinder.vl53l0x'
         interface: AsyncProducer<RangeFinderData>
@@ -14,7 +14,7 @@
         tags:
             - Physical
     end
-
+    
     Resource<Act> DFRobotMotorCtrl
         uri: 'myrobot.actuators.motorcontroller.dfrobotmotorctrl'
         interface: AsyncConsumer<MotorControllerCmdVel>
@@ -22,7 +22,7 @@
         tags:
             - Physical
     end
-
+    
     Resource<Act> GenericLedArray
         uri: 'myrobot.actuators.ledarray.genericledarray'
         interface: AsyncConsumer<LedArrayData>
@@ -30,3 +30,4 @@
         tags:
             - Physical
     end
+    

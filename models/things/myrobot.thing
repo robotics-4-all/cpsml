@@ -10,7 +10,7 @@ Robot MyRobot
     actuators:
         - DFRobotMotorCtrl
         - GenericLedArray
-    capabilities:
+    functionalities:
         - Mobility
         - FaceDetection
         - VoiceInterraction

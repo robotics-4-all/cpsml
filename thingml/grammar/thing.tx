@@ -29,7 +29,7 @@ Robot:
             ('boards' ':' '-' boards+=DeviceBoardType['-'])
             ('sensors' ':' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
             ('actuators' ':' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
-            ('capabilities' ':' '-' capabilities+=RobotCapabilities['-'])?
+            ('functionalities' ':' '-' functionalities+=RobotFunctionalities['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('hasBle' ':' ble=BOOL)?
@@ -255,7 +255,7 @@ IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
-RobotCapabilities:
+RobotFunctionalities:
     'Mobility'          |
     'VoiceInterraction' |
     'NLU'               |
