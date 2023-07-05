@@ -2,7 +2,7 @@ reference comm_idl as idl
 
 Model:
     resources*=Resource
-    tags*=Tag
+    tags*=CustomTag
 ;
 
 Resource: SenseResource | ActResource | ComputeResource | StorageResource;
@@ -15,6 +15,9 @@ StorageResource:
             ('uri:' uri=STRING)
             ('interface:' interface=StorageInterface)
             ('namespace:' namespace=STRING)?
+            ('tags:' '-' tags*=PredefinedTags['-'])?
+            ('ctags:' '-' ctags*=[CustomTag:FQN]['-'])?
+            ('description:' description=STRING)?
         )#
     'end'
 ;
@@ -26,6 +29,9 @@ ComputeResource:
             ('uri:' uri=STRING)
             ('interface:' interface=ComputeInterface)
             ('namespace:' namespace=STRING)?
+            ('tags:' '-' tags*=PredefinedTags['-'])?
+            ('ctags:' '-' ctags*=[CustomTag:FQN]['-'])?
+            ('description:' description=STRING)?
         )#
     'end'
 ;
@@ -37,6 +43,9 @@ SenseResource:
             ('uri:' uri=STRING)
             ('interface:' interface=SenseInterface)
             ('namespace:' namespace=STRING)?
+            ('tags:' '-' tags*=PredefinedTags['-'])?
+            ('ctags:' '-' ctags*=[CustomTag:FQN]['-'])?
+            ('description:' description=STRING)?
         )#
     'end'
 ;
@@ -48,6 +57,9 @@ ActResource:
             ('uri:' uri=STRING)
             ('interface:' interface=ActInterface)
             ('namespace:' namespace=STRING)?
+            ('tags:' '-' tags*=PredefinedTags['-'])?
+            ('ctags:' '-' ctags*=[CustomTag:FQN]['-'])?
+            ('description:' description=STRING)?
         )#
     'end'
 ;
@@ -116,8 +128,21 @@ RESTService:
         '>'
 ;
 
+Tag: CustomTag | PredefinedTags;
 
-Tag: "Tag" name=ID;
+CustomTag:
+    "Tag"
+        'name:' name=ID
+        ('description:' description=STRING)?
+    "end"
+;
+
+PredefinedTags:
+    'Interoceptive' |
+    'Exteroceptive' |
+    'Physical'      |
+    'Virtual'
+;
 
 NID: /(.*?)\n/;
 FQN: ID('.'ID)*;

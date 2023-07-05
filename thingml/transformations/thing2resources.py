@@ -20,12 +20,16 @@ def build_act_resource_uri(thing, actuator):
     return uri
 
 
-def build_single_resource(name, rtype, interface, namespace='', uri=''):
+def build_single_resource(name, rtype, interface, namespace='', uri='',
+                          is_virtual=False):
+    vtag = 'Virtual' if is_virtual else 'Physical'
     txt = f"""
     Resource<{rtype}> {name}
         uri: '{uri}'
         interface: {interface}
         namespace: '{namespace}'
+        tags:
+            - {vtag}
     end
     """
     return txt
