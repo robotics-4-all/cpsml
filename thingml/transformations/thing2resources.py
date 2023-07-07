@@ -3,13 +3,6 @@ from os.path import basename
 from thingml.utils import get_thing_mm, build_model
 
 
-class ResourceClasses:
-    Sense = 'sensors'
-    Act = 'actuators'
-    Compute = 'compute'
-    Storage = 'storage'
-
-
 def dt2msg_name(name):
     return f'{name}Msg'
 

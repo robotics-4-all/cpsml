@@ -1,23 +1,100 @@
+import msg
+
+Model:
+    api=API
+;
+
 API:
-    'host' ':' host=STRING
-    'port' ':' port=INT
-    '-' endpoints*=Endpoint['-']
+    'API' name=ID
+    (
+        'broker'
+            broker=BrokerInfo
+        'end'
+
+        'endpoints'
+            endpoints*=Endpoint
+        'end'
+
+        'messages'
+            msgs*=Message
+        'end'
+    )#
+    'end'
 ;
 
+BrokerInfo:
+    (
+        ('type' ':' btype=BrokerType)
+        ('host' ':' host=STRING)
+        ('port' ':' port=INT)
+        ('username' ':' username=STRING)?
+        ('password' ':' password=STRING)?
+    )#
+;
+
+BrokerType:
+    'AMQP'  |
+    'MQTT'  |
+    'Redis'
+;
+
+/*
 Endpoint:
-    uri=ID
-    type=EndpointType
+    (
+        ('uri:' uri=ID)
+        ('type:' type=EndpointType)
+        ('msg:' msg=Message)
+        ('namespace:' namespace=STRING)
+    )#
+;
+*/
+Endpoint: Publisher | Subscriber;
+
+Publisher:
+    'publisher'
+    (
+        ('uri:' uri=STRING)
+        ('msg:' msg=[TopicMessage:FQN|^msgs])?
+        ('namespace:' namespace=STRING)?
+    )#
+    'end'
 ;
 
-PublishEndpoint:
-    uri=ID
-    
+Subscriber:
+    'subscriber'
+    (
+        ('uri:' uri=STRING)
+        ('msg:' msg=[TopicMessage:FQN|^msgs])?
+        ('namespace:' namespace=STRING)?
+    )#
+    'end'
+;
+
+RPC:
+    'rpc'
+    (
+        ('uri:' uri=STRING)
+        ('msg:' msg=[ReqRespMessage:FQN|+m:msgs])?
+        ('namespace:' namespace=STRING)?
+    )#
+    'end'
+;
+
+Action:
+    'action'
+    (
+        ('uri:' uri=STRING)
+        ('msg:' msg=[ActionMessage:FQN|+m:msgs])?
+        ('namespace:' namespace=STRING)?
+    )#
+    'end'
+;
 
 EndpointType:
-    'publisher'     |
-    'subscriber'    |
-    'rpc'
-    'action'
+    'Publisher'     |
+    'Subscriber'    |
+    'RPC'           |
+    'Action'
 ;
 
 Array:
@@ -37,3 +114,16 @@ Member:
 ;
 
 NID: /(.*?)\n/;
+
+FQN: ID+['.'];
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)? ';';
+
+Description: /\#(.*?)$/;
+
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;
+

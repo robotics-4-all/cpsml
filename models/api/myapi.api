@@ -1,0 +1,30 @@
+API MyAPI
+    broker
+        type: MQTT
+        host: 'localhost'
+        port: 1883
+        username: 'guest'
+        password: 'guest'
+    end
+
+    endpoints
+        publisher
+            uri: 'test.sensor1'
+            msg: skata
+        end
+        publisher
+            uri: 'test.sensor2'
+            msg: skata
+        end
+        subscriber
+            uri: 'mobility.moveBase'
+            msg: skata
+        end
+    end
+
+    messages
+        TopicMsg skata
+            a: int
+        end
+    end
+end

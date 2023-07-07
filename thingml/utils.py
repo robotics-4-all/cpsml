@@ -93,6 +93,25 @@ def get_communication_mm(debug=False):
     return mm
 
 
+def get_api_mm(debug=False):
+    mm = metamodel_from_file(
+        join(THIS_DIR, 'grammar','api.tx'),
+        global_repository=True,
+        classes=[PrimitiveDataType],
+        builtins=type_builtins,
+        debug=debug
+    )
+
+    mm.register_scope_providers(
+        {
+            "types": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'datatypes','*.dtype')
+            ),
+        }
+    )
+    return mm
+
+
 def build_model(model_fpath):
     model_filename = basename(model_fpath)
     if model_filename.endswith('.net'):
@@ -103,6 +122,10 @@ def build_model(model_fpath):
         mm = get_resource_mm()
     elif model_filename.endswith('.comm'):
         mm = get_communication_mm()
+    elif model_filename.endswith('.dtype'):
+        mm = get_dtype_mm()
+    elif model_filename.endswith('.api'):
+        mm = get_api_mm()
     else:
         raise ValueError('Not a valid model extension.')
     model = mm.model_from_file(model_fpath)

@@ -5,7 +5,8 @@ from thingml.utils import (
     get_resource_mm,
     get_networking_mm,
     get_communication_mm,
-    get_dtype_mm
+    get_dtype_mm,
+    get_api_mm
 )
 
 
@@ -41,4 +42,11 @@ def networking_language():
 def communication_language():
     "thingml communication language"
     mm = get_communication_mm()
+    return mm
+
+
+@language('thingml-api', '*.api')
+def api_language():
+    "thingml API language"
+    mm = get_api_mm()
     return mm

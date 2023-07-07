@@ -4,7 +4,8 @@ from thingml.language import (
     resources_language,
     networking_language,
     communication_language,
-    dtypes_language
+    dtypes_language,
+    api_language
 )
 
 __version__ = "0.1.0"
