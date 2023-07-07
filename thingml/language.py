@@ -4,7 +4,8 @@ from thingml.utils import (
     get_thing_mm,
     get_resource_mm,
     get_networking_mm,
-    get_communication_mm
+    get_communication_mm,
+    get_dtype_mm
 )
 
 
@@ -12,6 +13,13 @@ from thingml.utils import (
 def things_language():
     "thingml language"
     mm = get_thing_mm()
+    return mm
+
+
+@language('thingml-dtype', '*.dtype')
+def dtypes_language():
+    "thingml language for data types"
+    mm = get_dtype_mm()
     return mm
 
 

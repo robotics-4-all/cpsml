@@ -1,6 +1,24 @@
-Model:
-    networks*=Network
+//import thing
+
+Networking:
+    (
+    (networks*=Network)?
+    (topology=NetworkTopology)?
+    )#
 ;
+
+NetworkTopology:
+    'NetTopology' name=ID
+        'networks:' '-' networks*=[Network:FQN]['-']
+        'connections:' '-' connections*=N2NConnection['-']
+    'end'
+;
+
+
+N2NConnection:
+    from=[Network:FQN] '->' to=[Network:FQN]
+;
+
 
 Network: WiredNetwork| WirelessNetwork;
 
@@ -28,14 +46,26 @@ WirelessNetwork:
     'end'
 ;
 
-N2NConnection:
-    'N2N' from=[Network] '->' to=[Network]
-;
+//NetworkConnection: N2NConnection | T2NConnection;
 
-NetworkTopology:
-    'NetworkTopology' name=ID
-        connections*=[N2NConnection]
-    'end'
+/*
+T2NConnection:
+    'D2N' from=[Thing:FQN] '->' to=[Network:FQN]
 ;
-
+*/
 NID: /(.*?)\n/;
+
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;

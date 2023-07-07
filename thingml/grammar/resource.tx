@@ -1,8 +1,10 @@
-reference comm_idl as idl
+import datatype
+import msg
 
-Model:
-    resources*=Resource
+ResourceModel:
     tags*=CustomTag
+    msgs*=Message
+    resources*=Resource
 ;
 
 Resource: SenseResource | ActResource | ComputeResource | StorageResource;
@@ -73,60 +75,47 @@ Interface:
 
 SenseInterface:
     AsyncProducer   |
-    RPCService
+    ReqRespService
 ;
 
 ActInterface:
-    AsyncConsumer   |
-    RPCService   |
+    AsyncConsumer    |
+    ReqRespService   |
     ActionService
 ;
 
 ComputeInterface:
-    RPCService   |
+    ReqRespService   |
     ActionService
 ;
 
 StorageInterface:
-    RPCService   |
+    ReqRespService   |
     AsyncConsumer
 ;
 
 ProducerInterface: AsyncProducer;
 
-ConsumerInterface: AsyncConsumer | RPCService | ActionService;
+ConsumerInterface: AsyncConsumer | ReqRespService | ActionService;
 
 AsyncProducer:
-    'AsyncProducer' '<' outDataType=[idl.DataType:FQN] '>'
+    'AsyncProducer' '<' msg=[TopicMessage:FQN] '>'
 ;
 
 
 AsyncConsumer:
-    'AsyncConsumer' '<' inDataType=[idl.DataType:FQN] '>'
+    'AsyncConsumer' '<' msg=[TopicMessage:FQN] '>'
 ;
 
 
-RPCService:
-    'RPCService' '<'
-        inDataType=[idl.DataType:FQN] ','
-        outDataType=[idl.DataType:FQN]
-    '>'
+ReqRespService:
+    'ReqRespService' '<' msg=[ReqRespMessage:FQN] '>'
 ;
 
 ActionService:
-    'ActionService'
-        '<' goalDataType=[idl.DataType:FQN] ','
-            feedbackDataType=[idl.DataType:FQN] ','
-            resultDataType=[idl.DataType:FQN]
-        '>'
+    'ActionService' '<' msg=[ActionMessage:FQN] '>'
 ;
 
-RESTService:
-    'RESTService'
-        '<' inDataType=[idl.DataType:FQN] ','
-            outDataType=[idl.DataType:FQN] ','
-        '>'
-;
 
 Tag: CustomTag | PredefinedTags;
 

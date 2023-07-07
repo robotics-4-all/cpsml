@@ -1,0 +1,64 @@
+import datatype
+
+MessageModel:
+    (
+        (imports*=Import)
+        (msgs*=Message)
+    )#
+;
+
+Message: TopicMessage | ReqRespMessage | ActionMessage;
+
+TopicMessage:
+	'TopicMsg' name=ID
+        (description=Description)?
+		properties*=Property
+    'end'
+;
+
+Request: properties*=Property;
+
+Response: properties*=Property;
+
+ReqRespMessage:
+    'ReqRespMsg' name=ID
+        (description=Description)?
+        request=Request
+        '---'
+        response=Response
+    'end'
+;
+
+ActionGoal: properties*=Property;
+
+ActionResult: properties*=Property;
+
+ActionFeedback: properties*=Property;
+
+ActionMessage:
+	'ActionMsg' name=ID
+        (description=Description)?
+		goal=ActionGoal
+		'---'
+		result=ActionResult
+		'---'
+		feedback=ActionFeedback
+    'end'
+;
+
+NID: /(.*?)\n/;
+
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;

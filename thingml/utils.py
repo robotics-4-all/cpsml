@@ -2,12 +2,14 @@ from os.path import dirname, join, basename
 from textx import metamodel_from_file
 import textx.scoping.providers as scoping_providers
 
+from .lib.datatype import type_builtins, PrimitiveDataType
+
 THIS_DIR = dirname(__file__)
 MODEL_REPO_PATH = join(THIS_DIR, '..', 'models')
 
 
 def get_thing_mm(debug=False):
-    mm= metamodel_from_file(
+    mm = metamodel_from_file(
         join(THIS_DIR, 'grammar','thing.tx'),
         global_repository=True,
         debug=debug
@@ -15,7 +17,7 @@ def get_thing_mm(debug=False):
     mm.register_scope_providers(
         {
             "*.dataModel": scoping_providers.FQNGlobalRepo(
-                join(MODEL_REPO_PATH, 'datatypes','*.idl')
+                join(MODEL_REPO_PATH, 'datatypes','*.dtype')
             ),
             "*.things": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'things','*.thing')
@@ -30,28 +32,37 @@ def get_thing_mm(debug=False):
     )
     return mm
 
+def get_dtype_mm(debug=False):
+    mm = metamodel_from_file(
+        join(THIS_DIR, 'grammar','datatype.tx'),
+        global_repository=True,
+        classes=[PrimitiveDataType],
+        builtins=type_builtins,
+        debug=debug
+    )
+    return mm
+
 
 def get_resource_mm(debug=False):
-    mm= metamodel_from_file(
+    mm = metamodel_from_file(
         join(THIS_DIR, 'grammar','resource.tx'),
         global_repository=True,
+        classes=[PrimitiveDataType],
+        builtins=type_builtins,
         debug=debug
     )
     mm.register_scope_providers(
         {
-            "*.inDataType": scoping_providers.FQNGlobalRepo(
-                join(MODEL_REPO_PATH, 'datatypes','*.idl')
+            "types": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'datatypes','*.dtype')
             ),
-            "*.outDataType": scoping_providers.FQNGlobalRepo(
-                join(MODEL_REPO_PATH, 'datatypes','*.idl')
-            )
         }
     )
     return mm
 
 
 def get_networking_mm(debug=False):
-    mm= metamodel_from_file(
+    mm = metamodel_from_file(
         join(THIS_DIR, 'grammar','networking.tx'),
         global_repository=True,
         debug=debug
@@ -67,7 +78,7 @@ def get_networking_mm(debug=False):
 
 
 def get_communication_mm(debug=False):
-    mm= metamodel_from_file(
+    mm = metamodel_from_file(
         join(THIS_DIR, 'grammar','communication.tx'),
         global_repository=True,
         debug=debug

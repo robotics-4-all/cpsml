@@ -1,7 +1,10 @@
+TopicMsg  RangeFinderMsg
+    a: int
+end
 
     Resource<Sense> HCSR04
         uri: 'myrobot.sensors.rangefinder.hcsr04'
-        interface: AsyncProducer<RangeFinderData>
+        interface: AsyncProducer<RangeFinderMsg>
         namespace: ''
         tags:
             - Physical
@@ -9,7 +12,7 @@
 
     Resource<Sense> VL53L0X
         uri: 'myrobot.sensors.rangefinder.vl53l0x'
-        interface: AsyncProducer<RangeFinderData>
+        interface: AsyncProducer<RangeFinderMsg>
         namespace: ''
         tags:
             - Physical

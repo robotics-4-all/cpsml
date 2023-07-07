@@ -10,13 +10,13 @@ Robot MyRobot
     actuators:
         - DFRobotMotorCtrl
         - GenericLedArray
-    functionalities:
+    functionality:
         - Mobility
         - FaceDetection
         - VoiceInterraction
     networking: CSAL
     communication: HomeEMQX
-    rcm:
+    rmm:
         control:
             volume: true
             ssh: true
@@ -27,4 +27,5 @@ Robot MyRobot
             types:
                 - ROS
                 - R4A
+                - NodeRED
 end

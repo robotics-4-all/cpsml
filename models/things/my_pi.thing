@@ -1,6 +1,5 @@
 Device MyPi
     type: RPi3
-    os: RaspbianOS
     sensors:
         - HCSR04
         - VL53L0X
@@ -8,7 +7,7 @@ Device MyPi
         - GenericLedArray
     networking: CSAL
     communication: HomeEMQX
-    rcm:
+    rmm:
         control:
             volume: true
             ssh: true

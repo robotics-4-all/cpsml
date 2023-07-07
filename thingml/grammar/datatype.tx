@@ -1,0 +1,59 @@
+// Root rule
+DataTypeModel:
+    (
+        (imports*=Import)
+        (package=Package)?
+        (types*=CustomDataType)
+        (enums*=Enumeration)
+    )#
+;
+
+Package:
+    'Package'
+        'name' ':' name=ID
+        ('version' ':' version=STRING)?
+        ('description' ':' description=STRING)?
+        ('author' ':' author=STRING)?
+        ('email' ':' email=STRING)?
+    'end'
+;
+
+DataType: PrimitiveDataType | CustomDataType | Enumeration;
+
+CustomDataType:
+    'DataType' name=ID
+        (description=Description)?
+        properties*=Property  // Each Message has one or more properties.
+    'end'
+;
+
+Property: ListProperty | SimpleProperty;
+
+SimpleProperty: name=ID ':' type=[DataType:FQN] ('=' default=STRING)?;
+
+ListProperty: name=ID ':' type=[DataType:FQN]'[]' ('=' default=STRING)?;
+
+Enumeration:
+    'Enum' name=ID
+        (description=Description)?
+        elements+=EnumerationElement
+    'end'
+;
+
+EnumerationElement: name=STRING;
+
+// Primitive data types
+PrimitiveDataType: 'type' name=ID;
+
+FQN: ID+['.'];
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)? ';';
+
+Description: /\#(.*?)$/;
+
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;
+

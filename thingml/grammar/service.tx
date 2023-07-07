@@ -1,0 +1,74 @@
+Model:
+    services*=Service
+;
+
+EService: EServiceREST;
+
+EServiceREST:
+    'EServiceREST' name=ID
+        (
+            'verb:' verb=RESTVerb
+            'host:' host=STRING
+            ('port:' port=INT)?
+            ('path:' path=STRING)?
+            ('params:'
+                ('query:' '-' queryParams*=EServiceParam['-'])?
+                ('path:' '-' pathParams*=EServiceParam['-'])?
+                ('body:' '-' bodyParams*=EServiceParam['-'])?
+            )?
+        )#
+    'end'
+;
+
+RESTVerb:
+    'GET'   |
+    'POST'  |
+    'PUT'
+;
+
+EServiceParam: name=ID ':' value=ParameterType;
+
+
+ParameterType:
+    INT                 |
+    FLOAT               |
+    STRING              |
+    BOOL                |
+    List                |
+    Dict
+;
+
+
+List:
+    "[" values*=Value[','] "]"
+;
+
+Value:
+    STRING | FLOAT | BOOL | Dict | List | "null"
+;
+
+Dict:
+    "{" members*=Member[','] "}"
+;
+
+Member:
+    key=STRING ':' value=Value
+;
+
+
+NID: /(.*?)\n/;
+
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;

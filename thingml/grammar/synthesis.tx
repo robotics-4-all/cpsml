@@ -1,0 +1,35 @@
+import thing
+import service
+
+Synthesis:
+    imports*=Import
+    system=System
+;
+
+System:
+    'System' name=ID
+    (
+        ('systems' ':' systems*=[System:FQN]
+        ('things' ':' '-' things*=[Thing:FQN|+m:things]['-'])
+        ('services' ':' '-' services*=[EService:FQN|+m:services]['-'])
+        ('broker' ':' broker=[CommunicationMiddleware])
+    )#
+    'end'
+;
+
+NID: /(.*?)\n/;
+
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;
