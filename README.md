@@ -1,6 +1,6 @@
 # thing-dsl
 
-DSL for Things
+DSL for Cyber-Physical Systems in the context of IoT
 
 
 # Credits
