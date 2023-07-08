@@ -1,4 +1,4 @@
-# thing-dsl changelog
+# cpsml changelog
 
 All _notable_ changes to this project will be documented in this file.
 
@@ -21,7 +21,7 @@ please take a look at related PRs and issues and see if the change affects you.
 ### Changed
 
 
-[Unreleased]: https://github.com/CHANGEME/thing-dsl/commits/master
+[Unreleased]: https://github.com/CHANGEME/cpsml/commits/master
 
 
 [keepachangelog]: https://keepachangelog.com/

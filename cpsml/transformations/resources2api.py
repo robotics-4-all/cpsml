@@ -1,6 +1,6 @@
 from os.path import basename
 
-from thingml.utils import get_resource_mm, build_model
+from cpsml.utils import get_resource_mm, build_model
 
 
 def r2api_m2m(resource_model_path: str, output_model=''):

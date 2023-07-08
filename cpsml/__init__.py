@@ -1,5 +1,5 @@
 
-from thingml.language import (
+from cpsml.language import (
     things_language,
     resources_language,
     networking_language,

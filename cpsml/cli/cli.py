@@ -2,12 +2,12 @@ import click
 import json
 from pprint import pprint
 
-from thingml.utils import build_model
-from thingml.transformations.thing2resources import t2r_m2m
-from thingml.transformations.resources2api import r2api_m2m
+from cpsml.utils import build_model
+from cpsml.transformations.thing2resources import t2r_m2m
+from cpsml.transformations.resources2api import r2api_m2m
 
 
-@click.group("thingml")
+@click.group("cpsml")
 @click.pass_context
 def cli(ctx):
    """An example CLI for interfacing with a document"""
@@ -44,7 +44,7 @@ def r2api(ctx, resource_model):
 
 
 def main():
-   cli(prog_name="thingml")
+   cli(prog_name="cpsml")
 
 
 if __name__ == '__main__':

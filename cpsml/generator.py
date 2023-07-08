@@ -3,7 +3,7 @@ from os import path, mkdir, getcwd
 from textx import GeneratorDesc
 import jinja2
 
-from thingml.utils import build_model
+from cpsml.utils import build_model
 
 _THIS_DIR = path.abspath(path.dirname(__file__))
 
@@ -37,7 +37,7 @@ def _generator_commlib_py_impl(metamodel, model, output_path, overwrite,
 
 
 generator_commlib = GeneratorDesc(
-    language='thingml',
+    language='cpsml',
     target='python',
     description='Generates python source code for Things',
     generator=_generator_commlib_py_impl)

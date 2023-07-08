@@ -1,6 +1,6 @@
 from textx import language
 
-from thingml.utils import (
+from cpsml.utils import (
     get_thing_mm,
     get_resource_mm,
     get_networking_mm,
@@ -10,43 +10,43 @@ from thingml.utils import (
 )
 
 
-@language('thingml-thing', '*.thing')
+@language('cpsml-thing', '*.thing')
 def things_language():
-    "thingml language"
+    "cpsml language"
     mm = get_thing_mm()
     return mm
 
 
-@language('thingml-dtype', '*.dtype')
+@language('cpsml-dtype', '*.dtype')
 def dtypes_language():
-    "thingml language for data types"
+    "cpsml language for data types"
     mm = get_dtype_mm()
     return mm
 
 
-@language('thingml-resource', '*.resource')
+@language('cpsml-resource', '*.resource')
 def resources_language():
-    "thingml resource language"
+    "cpsml resource language"
     mm = get_resource_mm()
     return mm
 
 
-@language('thingml-network', '*.net')
+@language('cpsml-network', '*.net')
 def networking_language():
-    "thingml network language"
+    "cpsml network language"
     mm = get_networking_mm()
     return mm
 
 
-@language('thingml-comm', '*.comm')
+@language('cpsml-comm', '*.comm')
 def communication_language():
-    "thingml communication language"
+    "cpsml communication language"
     mm = get_communication_mm()
     return mm
 
 
-@language('thingml-api', '*.api')
+@language('cpsml-api', '*.api')
 def api_language():
-    "thingml API language"
+    "cpsml API language"
     mm = get_api_mm()
     return mm
