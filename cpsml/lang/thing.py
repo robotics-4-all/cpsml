@@ -15,7 +15,6 @@ def get_thing_mm(debug=False):
         global_repository=True,
         debug=debug
     )
-    print('AAAAAAAAAAAAAAAAAAA')
     mm.register_scope_providers(
         {
             "*.dataModel": scoping_providers.FQNGlobalRepo(

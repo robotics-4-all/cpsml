@@ -43,16 +43,15 @@ def t2r(ctx, model_file):
         raise ValueError()
     mm = get_thing_mm()
     model = mm.model_from_file(model_file)
-    things = model.things
-    for thing in things:
-        resources_model = thing_to_resources_m2m(thing)
-        filepath = f'{thing.name}.resource'
-        with open(filepath, 'w') as fp:
-            fp.write(resources_model)
-        print(f'[*] Validating {thing.name} Resource model...')
-        model = build_model(filepath)
-        if model:
-            print(f'[*] Validation passed!')
+    thing = model.thing
+    resources_model = thing_to_resources_m2m(thing)
+    filepath = f'{thing.name}.resource'
+    with open(filepath, 'w') as fp:
+        fp.write(resources_model)
+    print(f'[*] Validating {thing.name} Resource model...')
+    model = build_model(filepath)
+    if model:
+        print(f'[*] Validation passed!')
 
 
 @cli.command("r2api")
@@ -90,16 +89,15 @@ def t2api(ctx, model_file):
     thing_mm = get_thing_mm()
     resource_mm = get_resource_mm()
     tmodel = thing_mm.model_from_file(model_file)
-    things = tmodel.things
-    for thing in things:
-        api_model = thing_to_api_m2m(thing)
-        filepath = f'{thing.name}.api'
-        with open(filepath, 'w') as fp:
-            fp.write(api_model)
-        print(f'[*] Validating API model...')
-        model = build_model(filepath)
-        if model:
-            print(f'[*] Validation passed!')
+    thing = tmodel.thing
+    api_model = thing_to_api_m2m(thing)
+    filepath = f'{thing.name}.api'
+    with open(filepath, 'w') as fp:
+        fp.write(api_model)
+    print(f'[*] Validating API model...')
+    model = build_model(filepath)
+    if model:
+        print(f'[*] Validation passed!')
 
 
 def main():
