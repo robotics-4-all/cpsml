@@ -15,18 +15,22 @@ def get_thing_mm(debug=False):
         global_repository=True,
         debug=debug
     )
+    print('AAAAAAAAAAAAAAAAAAA')
     mm.register_scope_providers(
         {
             "*.dataModel": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'datatypes','*.dtype')
             ),
-            "things": scoping_providers.GlobalRepo(
+            "*.sensors": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'things','*.thing')
             ),
-            "networks": scoping_providers.GlobalRepo(
+            "*.actuators": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'things','*.thing')
+            ),
+            "*.networking": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'networks','*.net')
             ),
-            "communication": scoping_providers.GlobalRepo(
+            "*.communication": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'communication','*.comm')
             )
         }

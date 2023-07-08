@@ -22,11 +22,11 @@ Robot:
         (
             ('type' ':' rtype=RobotType)
             ('boards' ':' '-' boards+=DeviceBoardType['-'])
-            ('sensors' ':' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
-            ('actuators' ':' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
+            ('sensors' ':' '-' sensors*=[Sensor:FQN]['-'])?
+            ('actuators' ':' '-' actuators*=[Actuator:FQN]['-'])?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
-            ('networking' ':' networking=[Network:FQN|+m:networks])?
-            ('communication' ':' communication=[CommunicationMiddleware:FQN|+m:communication])?
+            ('networking' ':' networking=[Network:FQN])?
+            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('rmm' ':' rmm=RMM)?
             ('hasBle' ':' ble=BOOL)?
         )#
@@ -37,9 +37,9 @@ Device:
     'Device' name=ID
         (
             ('type: ' type=DeviceBoardType)
-            ('sensors:' '-' sensors*=[Sensor:FQN|+m:things]['-'])?
-            ('actuators:' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
-            ('networking' ':' networking=[Network:FQN|+m:networks])?
+            ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
+            ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
+            ('networking' ':' networking=[Network:FQN])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('rmm' ':' rmm=RMM)?
             ('hasBle: ' ble=BOOL)?
