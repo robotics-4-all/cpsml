@@ -1,18 +1,31 @@
 import thing
 import service
+import communication
 
 Synthesis:
     imports*=Import
+    (metadata=Metadata)?
     system=System
 ;
+
+Metadata:
+    'Metadata'
+    (
+        ('name:' name=ID)
+        ('author:' author=STRING)?
+        ('description:' description=STRING)?
+    )#
+    'end'
+;
+
 
 System:
     'System' name=ID
     (
-        ('systems' ':' systems*=[System:FQN]
-        ('things' ':' '-' things*=[Thing:FQN|+m:things]['-'])
-        ('services' ':' '-' services*=[EService:FQN|+m:services]['-'])
-        ('broker' ':' broker=[CommunicationMiddleware])
+        ('communication' ':' communication=[CommunicationMiddleware])
+        ('things' ':' '-' things*=[Thing:FQN]['-'])
+        ('services' ':' '-' services*=[EService:FQN]['-'])?
+        ('systems' ':' '-' systems*=[System:FQN]['-'])?
     )#
     'end'
 ;
@@ -23,11 +36,6 @@ FQN: ID('.'ID)*;
 FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)?;
 
-Description: /\#(.*?)$/;
-
-// Special rule for comments. Comments start with //
-
-// Comments
 Comment: CommentLine | CommentBlock ;
 
 CommentLine: /\/\/.*?$/;

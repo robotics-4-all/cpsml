@@ -1,5 +1,5 @@
 Device MyPi
-    type: RPi3
+    type: RPi4
     sensors:
         - HCSR04
         - VL53L0X

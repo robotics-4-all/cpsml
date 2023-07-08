@@ -4,4 +4,5 @@ from .datatype import get_dtype_mm
 from .networking import get_networking_mm
 from .resource import get_resource_mm
 from .thing import get_thing_mm
+from .synthesis import get_synthesis_mm
 from .utils import build_model

@@ -6,7 +6,8 @@ from cpsml.lang import (
     get_communication_mm,
     get_networking_mm,
     get_dtype_mm,
-    get_api_mm
+    get_api_mm,
+    get_synthesis_mm
 )
 
 
@@ -49,4 +50,11 @@ def communication_language():
 def api_language():
     "cpsml API language"
     mm = get_api_mm()
+    return mm
+
+
+@language('cpsml-synth', '*.system')
+def synthesis_language():
+    "cpsml Synthesis language"
+    mm = get_synthesis_mm()
     return mm

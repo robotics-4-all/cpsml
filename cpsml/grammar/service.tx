@@ -1,5 +1,16 @@
 Model:
-    services*=Service
+    (metadata=Metadata)?
+    services*=EService
+;
+
+Metadata:
+    'Metadata'
+    (
+        ('name:' name=ID)
+        ('author:' author=STRING)?
+        ('description:' description=STRING)?
+    )#
+    'end'
 ;
 
 EService: EServiceREST;
@@ -7,14 +18,17 @@ EService: EServiceREST;
 EServiceREST:
     'EServiceREST' name=ID
         (
-            'verb:' verb=RESTVerb
-            'host:' host=STRING
-            ('port:' port=INT)?
-            ('path:' path=STRING)?
-            ('params:'
+            ('verb:' verb=RESTVerb)
+            ('host:' host=STRING)
+            ('port:' port=INT)
+            ('path:' path=STRING)
+            ('base_url:' baseUrl=STRING)?
+            (
+            'params:'
                 ('query:' '-' queryParams*=EServiceParam['-'])?
                 ('path:' '-' pathParams*=EServiceParam['-'])?
                 ('body:' '-' bodyParams*=EServiceParam['-'])?
+            ('headers:' '-' headers*=EServiceParam['-'])?
             )?
         )#
     'end'

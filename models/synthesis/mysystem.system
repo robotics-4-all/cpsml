@@ -1,0 +1,6 @@
+System MySystem
+    communication: HomeEMQX
+    things:
+        - MyRobot
+        - MyPi
+end

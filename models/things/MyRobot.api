@@ -1,0 +1,44 @@
+API MyAPI
+    broker
+        type: MQTT
+        host: "emqx.home.local"
+        port: 1883
+    end
+
+    endpoints
+        publisher
+            uri: "myrobot.sensors.rangefinder.hcsr04"
+            msg: RangeFinderDataMsg
+        end
+        publisher
+            uri: "myrobot.sensors.rangefinder.vl53l0x"
+            msg: RangeFinderDataMsg
+        end
+    end
+
+    messages
+        TopicMsg RangeFinderDataMsg
+            range: float
+            hfov: float
+            vfov: float
+            range_min: float
+            range_max: float
+            sensor_id: str
+        end
+        TopicMsg RangeFinderDataMsg
+            range: float
+            hfov: float
+            vfov: float
+            range_min: float
+            range_max: float
+            sensor_id: str
+        end
+        TopicMsg MotorControllerCmdVelMsg
+            velocities: float
+        end
+        TopicMsg LedArrayDataMsg
+            size: int
+            colors: float
+        end
+    end
+end

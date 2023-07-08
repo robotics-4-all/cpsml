@@ -5,7 +5,7 @@ Model:
 
 
 CommunicationMiddleware:
-    MessageBroker | RestAPI | AsyncAPI
+    MessageBroker | REST
 ;
 
 
@@ -14,26 +14,24 @@ MessageBroker:
 ;
 
 
-RestAPI:
-    'RestAPI' name=ID
-        'namespace' ':' namespace=STRING
+REST:
+    'Communication<REST>' name=ID
+        'baseUrl' ':' baseUrl=STRING
         'port' ':' port=INT
-    'end'
-;
-
-AsyncAPI:
-    'AsyncAPI' name=ID
-        'namespace' ':' namespace=STRING
-        'broker' ':' broker=[MessageBroker:FQN]
+        'auth' ':' auth=Authentication
     'end'
 ;
 
 
-BrokerAuth: BrokerAuthPlain;
+Authentication: AuthPlain | AuthApiKey;
 
-BrokerAuthPlain:
+AuthPlain:
     'username' ':' username=STRING
     'password' ':' password=STRING
+;
+
+AuthApiKey:
+    'key' ':' key=STRING
 ;
 
 AMQPBroker:
@@ -43,7 +41,7 @@ AMQPBroker:
         ('port:' port=INT)
         ('vhost:' vhost=STRING)?
         ('ssl' ':' ssl=BOOL)?
-        ('auth' ':' auth=BrokerAuth)?
+        ('auth' ':' auth=Authentication)?
     )#
     'end'
 ;
@@ -54,7 +52,7 @@ MQTTBroker:
         ('host:' host=STRING)
         ('port:' port=INT)
         ('ssl' ':' ssl=BOOL)?
-        ('auth' ':' auth=BrokerAuth)?
+        ('auth' ':' auth=Authentication)?
     )#
     'end'
 ;
@@ -66,7 +64,7 @@ RedisBroker:
         ('port:' port=INT)
         ('db:' db=INT)?
         ('ssl' ':' ssl=BOOL)?
-        ('auth' ':' auth=BrokerAuth)?
+        ('auth' ':' auth=Authentication)?
     )#
     'end'
 ;

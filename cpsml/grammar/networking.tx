@@ -25,10 +25,9 @@ Network: WiredNetwork| WirelessNetwork;
 WiredNetwork:
     'WiredNetwork' name=ID
         'subnet:' subnet=STRING
-        'subnet_mask:' subnet_mask=STRING
         'gateway:' gateway=STRING
         'dhcp:' dhcp=BOOL
-        ('dns:' '[' dns*=STRING[','] ']')?
+        ('dns:' '-' dns*=STRING['-'])?
     'end'
 ;
 
@@ -38,7 +37,7 @@ WirelessNetwork:
     (
         ('ssid: ' wifi_ssid=STRING)
         ('psk: ' psk=STRING)
-        ('ipv4:' ipv4=STRING)?
+        ('ipv4:' ip=STRING)?
         ('subnet:' subnet=STRING)?
         ('gateway:' gateway=STRING)?
         ('dns:' '-' dns*=NID['-'])?
