@@ -2,7 +2,7 @@ import click
 import json
 from pprint import pprint
 
-from cpsml.utils import build_model
+from cpsml.lang.utils import build_model
 from cpsml.transformations.thing2resources import t2r_m2m
 from cpsml.transformations.resources2api import r2api_m2m
 

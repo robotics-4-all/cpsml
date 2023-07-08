@@ -1,6 +1,7 @@
 from os.path import basename
 
-from cpsml.utils import get_thing_mm, build_model
+from cpsml.lang import build_model
+from cpsml.lang import get_thing_mm
 
 
 def dt2msg_name(name):
