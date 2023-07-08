@@ -9,7 +9,7 @@ import datatype
 Model:
     (
     imports*=Import
-    things*=Thing
+    thing=Thing
     )#
 ;
 
@@ -26,7 +26,7 @@ Robot:
             ('actuators' ':' '-' actuators*=[Actuator:FQN|+m:things]['-'])?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
             ('networking' ':' networking=[Network:FQN|+m:networks])?
-            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+            ('communication' ':' communication=[CommunicationMiddleware:FQN|+m:communication])?
             ('rmm' ':' rmm=RMM)?
             ('hasBle' ':' ble=BOOL)?
         )#

@@ -1,0 +1,4 @@
+Speaker MySpeaker
+  dataModel: MotorControllerCmdVel
+  connectivity: Hardware
+end

@@ -20,13 +20,13 @@ def get_thing_mm(debug=False):
             "*.dataModel": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'datatypes','*.dtype')
             ),
-            "*.things": scoping_providers.FQNGlobalRepo(
+            "things": scoping_providers.GlobalRepo(
                 join(MODEL_REPO_PATH, 'things','*.thing')
             ),
-            "*.networks": scoping_providers.FQNGlobalRepo(
+            "networks": scoping_providers.GlobalRepo(
                 join(MODEL_REPO_PATH, 'networks','*.net')
             ),
-            "*.communication": scoping_providers.FQNGlobalRepo(
+            "communication": scoping_providers.GlobalRepo(
                 join(MODEL_REPO_PATH, 'communication','*.comm')
             )
         }

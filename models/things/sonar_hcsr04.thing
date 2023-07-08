@@ -1,0 +1,10 @@
+RangeFinder HCSR04
+  type: Sonar
+  dataModel: RangeFinderData
+  connectivity: Hardware
+  maxFreq: 10.0
+  hfov: 60.0
+  vfov: 37.9
+  minRange: 10.0  // cm
+  maxRange: 250.0  // cm
+end
