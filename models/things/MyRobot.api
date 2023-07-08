@@ -1,7 +1,7 @@
 API MyAPI
     broker
         type: MQTT
-        host: "localhost"
+        host: "emqx.home.local"
         port: 1883
     end
 

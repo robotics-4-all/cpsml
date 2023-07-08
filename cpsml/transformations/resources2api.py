@@ -15,13 +15,14 @@ jinja_env = jinja2.Environment(
 api_tpl = jinja_env.get_template('api_model.jinja')
 
 
-def build_api_model_file(context, filename='myapi'):
-    filepath = f'{filename}.api'
-    modelf = api_tpl.render(
-        context
-    )
-    with open(filepath, 'w') as fp:
-        fp.write(modelf)
+def build_api_model(broker, endpoints, msgs):
+    context = {
+        'broker': broker,
+        'endpoints': endpoints,
+        'msgs': msgs
+    }
+    modelf = api_tpl.render(context)
+    return modelf
 
 
 def resource_to_endpoint(resource):
@@ -32,6 +33,10 @@ def resource_to_endpoint(resource):
         etype = 'subscriber'
     elif iface.__class__.__name__ == 'AsyncProducer':
         etype = 'publisher'
+    elif iface.__class__.__name__ == 'ReqRespService':
+        etype = 'rpc'
+    elif iface.__class__.__name__ == 'ActionService':
+        etype = 'action'
     else:
         # TODO
         raise ValueError()
@@ -44,32 +49,34 @@ def resource_to_endpoint(resource):
     return e, msg
 
 
-def r2api_m2m(resource_model_path: str, output_model=''):
-    model_filename = basename(resource_model_path)
-    if not model_filename.endswith('.resource'):
-        print(f'[X] Not a resource model.')
-        raise ValueError()
-    mm = get_resource_mm()
-    model = mm.model_from_file(resource_model_path)
-    resources = model.resources
-    print(f'[*] Found {len(resources)} Resources')
-    print(f'[*] {resources}')
-
-    broker = {
-        'type': 'MQTT',
-        'host': 'localhost',
-        'port': 1883
-    }
+def r2api_m2m(resources, broker=None) -> str:
+    if broker is None:
+        _broker = {
+            'type': 'MQTT',
+            'host': 'localhost',
+            'port': 1883,
+            'username': '',
+            'password': '',
+        }
+    else:
+        _broker = {
+            'host': broker.host,
+            'port': broker.port,
+        }
+        if broker.__class__.__name__ == 'MQTTBroker':
+            _broker['type'] = 'MQTT'
+        elif broker.__class__.__name__ == 'RedisBroker':
+            _broker['type'] = 'Redis'
+        elif broker.__class__.__name__ == 'AMQPBroker':
+            _broker['type'] = 'AMQP'
+        if broker.auth is not None:
+            if broker.auth.__class__.__name__ == 'BrokerAuthPlain':
+                _broker['username'] = broker.auth.username
+                _broker['password'] = broker.auth.password
     endpoints = []
     msgs = []
     for r in resources:
         e, msg = resource_to_endpoint(r)
         endpoints.append(e)
         msgs.append(msg)
-        print(msg.__class__.__name__)
-    context = {
-        'broker': broker,
-        'endpoints': endpoints,
-        'msgs': msgs
-    }
-    build_api_model_file(context)
+    return build_api_model(_broker, endpoints, msgs)

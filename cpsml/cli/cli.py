@@ -1,10 +1,14 @@
 import click
 import json
 from pprint import pprint
+from os.path import basename
 
-from cpsml.lang.utils import build_model
-from cpsml.transformations.thing2resources import t2r_m2m
+from cpsml.lang import build_model
+from cpsml.lang import get_thing_mm, get_resource_mm
+
+from cpsml.transformations.thing2resources import thing_to_resources_m2m
 from cpsml.transformations.resources2api import r2api_m2m
+from cpsml.transformations.thing2api import thing_to_api_m2m
 
 
 @click.group("cpsml")
@@ -30,17 +34,72 @@ def validate(ctx, model_filepath):
                 print(f'- {attr}: {val}')
 
 @cli.command("t2r")
-@click.argument("thing_model")
+@click.argument("model_file")
 @click.pass_context
-def t2r(ctx, thing_model):
-    t2r_m2m(thing_model)
+def t2r(ctx, model_file):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a thing model.')
+        raise ValueError()
+    mm = get_thing_mm()
+    model = mm.model_from_file(model_file)
+    things = model.things
+    for thing in things:
+        resources_model = thing_to_resources_m2m(thing)
+        filepath = f'{thing.name}.resource'
+        with open(filepath, 'w') as fp:
+            fp.write(resources_model)
+        print(f'[*] Validating {thing.name} Resource model...')
+        model = build_model(filepath)
+        if model:
+            print(f'[*] Validation passed!')
 
 
 @cli.command("r2api")
-@click.argument("resource_model")
+@click.argument("model_file")
 @click.pass_context
-def r2api(ctx, resource_model):
-    r2api_m2m(resource_model)
+def r2api(ctx, model_file):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.resource'):
+        print(f'[X] Not a resource model.')
+        raise ValueError()
+    mm = get_resource_mm()
+    model = mm.model_from_file(model_file)
+    resources = model.resources
+    print(f'[*] Found {len(resources)} Resources')
+    for r in resources:
+        print(f'- {r.name}: {r.__class__.__name__}')
+    api_model = r2api_m2m(resources)
+    filepath = f'myapi.api'
+    with open(filepath, 'w') as fp:
+        fp.write(api_model)
+    print(f'[*] Validating API model...')
+    model = build_model(filepath)
+    if model:
+        print(f'[*] Validation passed!')
+
+
+@cli.command("t2api")
+@click.argument("model_file")
+@click.pass_context
+def t2api(ctx, model_file):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a thing model.')
+        raise ValueError()
+    thing_mm = get_thing_mm()
+    resource_mm = get_resource_mm()
+    tmodel = thing_mm.model_from_file(model_file)
+    things = tmodel.things
+    for thing in things:
+        api_model = thing_to_api_m2m(thing)
+        filepath = f'{thing.name}.api'
+        with open(filepath, 'w') as fp:
+            fp.write(api_model)
+        print(f'[*] Validating API model...')
+        model = build_model(filepath)
+        if model:
+            print(f'[*] Validation passed!')
 
 
 def main():

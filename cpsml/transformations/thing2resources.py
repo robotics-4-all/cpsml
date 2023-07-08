@@ -91,21 +91,9 @@ def build_resources_model_file(resources: str, filename='resources'):
     return filepath
 
 
-def t2r_m2m(thing_model, output_model=''):
-    model_filename = basename(thing_model)
-    if not model_filename.endswith('.thing'):
-        print(f'[X] Not a thing model.')
-        raise ValueError()
-    mm = get_thing_mm()
-    model = mm.model_from_file(thing_model)
-    things = model.things
-    for thing in things:
-        log_thing_info(thing)
-        msgs = build_thing_messages(thing)
-        resources = build_thing_resources(thing)
-        rmodel = msgs + resources
-        model_filepath = build_resources_model_file(rmodel, thing.name)
-        print(f'[*] Validating {thing.name} Resource model...')
-        model = build_model(model_filepath)
-        if model:
-            print(f'[*] Validation passed!')
+def thing_to_resources_m2m(thing) -> str:
+    log_thing_info(thing)
+    msgs = build_thing_messages(thing)
+    resources = build_thing_resources(thing)
+    rmodel_str = msgs + resources
+    return rmodel_str
