@@ -1,13 +1,11 @@
 from textx import language
 
-from cpsml.utils import (
-    get_thing_mm,
-    get_resource_mm,
-    get_networking_mm,
-    get_communication_mm,
-    get_dtype_mm,
-    get_api_mm
-)
+from cpsml.lang.thing import get_thing_mm
+from cpsml.lang.resource import get_resource_mm
+from cpsml.lang.communication import get_communication_mm
+from cpsml.lang.networking import get_networking_mm
+from cpsml.lang.datatype import get_dtype_mm
+from cpsml.lang.api import get_api_mm
 
 
 @language('cpsml-thing', '*.thing')

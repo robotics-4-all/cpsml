@@ -5,9 +5,7 @@ from cpsml.utils import MODEL_REPO_PATH, THIS_DIR
 from textx import metamodel_from_file
 import textx.scoping.providers as scoping_providers
 from textx import (
-    gen_file, generator,
     get_children_of_type,
-    get_output_filename
 )
 
 
