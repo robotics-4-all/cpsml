@@ -3,4 +3,6 @@ System MySystem
     things:
         - MyRobot
         - MyPi
+    services:
+        - FaceDetectorSvc
 end

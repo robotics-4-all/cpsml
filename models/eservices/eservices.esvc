@@ -1,6 +1,6 @@
 EServiceREST FaceDetectorSvc
     verb: POST
-    host: "myplatform.net"
+    host: "facedetector.myplatform.net"
     port: 8080
     path: "/"
     params:
@@ -9,8 +9,8 @@ EServiceREST FaceDetectorSvc
 end
 
 EServiceREST WeatherForecast
-    verb: POST
-    host: "myplatform.net"
+    verb: GET
+    host: "weather.myplatform.net"
     port: 8080
     path: "/"
     params:

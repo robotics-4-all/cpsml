@@ -28,10 +28,10 @@ EServiceREST:
             ('base_url:' baseUrl=STRING)?
             (
             'params:'
-                ('query:' '-' queryParams*=EServiceParam['-'])?
-                ('path:' '-' pathParams*=EServiceParam['-'])?
-                ('body:' '-' bodyParams*=EServiceParam['-'])?
-            ('headers:' '-' headers*=EServiceParam['-'])?
+                ('query:' '-' queryParams*=Property['-'])?
+                ('path:' '-' pathParams*=Property['-'])?
+                ('body:' '-' bodyParams*=Property['-'])?
+            ('headers:' '-' headers*=Property['-'])?
             )?
         )#
     'end'
@@ -43,8 +43,6 @@ RESTVerb:
     'PUT'
 ;
 
-EServiceParam: Property;
-
 NID: /(.*?)\n/;
 
 FQN: ID('.'ID)*;
@@ -53,9 +51,6 @@ Import: 'import' importURI=FQNI ('as' name=ID)?;
 
 Description: /\#(.*?)$/;
 
-// Special rule for comments. Comments start with //
-
-// Comments
 Comment: CommentLine | CommentBlock ;
 
 CommentLine: /\/\/.*?$/;

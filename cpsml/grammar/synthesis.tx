@@ -1,6 +1,6 @@
 import thing
-import service
 import communication
+import eservice
 
 Synthesis:
     imports*=Import

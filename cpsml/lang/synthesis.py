@@ -23,6 +23,9 @@ def get_synthesis_mm(debug=False):
             "*.communication": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'communication','*.comm')
             ),
+            "*.services": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'eservices','*.esvc')
+            ),
         }
     )
     return mm
