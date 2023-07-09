@@ -3,7 +3,7 @@ from os import path, mkdir, getcwd
 from textx import GeneratorDesc
 import jinja2
 
-from cpsml.utils import build_model
+from cpsml.lang import build_model
 
 _THIS_DIR = path.abspath(path.dirname(__file__))
 
