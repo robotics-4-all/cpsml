@@ -1,0 +1,64 @@
+API<Async> MyRobotAPI
+    broker
+        type: MQTT
+        host: "emqx.home.local"
+        port: 1883
+    end
+
+    endpoints
+        publisher
+            uri: "myrobot.sensors.hcsr04"
+            msg: RangeFinderDataMsg
+        end
+        publisher
+            uri: "myrobot.sensors.vl53l0x"
+            msg: RangeFinderDataMsg
+        end
+        publisher
+            uri: "myrobot.sensors.tf"
+            msg: TransformStampedMsg
+        end
+        publisher
+            uri: "myrobot.sensors.joint_states"
+            msg: JointStateMsg
+        end
+    end
+
+    messages
+        TopicMsg RangeFinderDataMsg
+            range: float
+            hfov: float
+            vfov: float
+            range_min: float
+            range_max: float
+            sensor_id: str
+        end
+        TopicMsg RangeFinderDataMsg
+            range: float
+            hfov: float
+            vfov: float
+            range_min: float
+            range_max: float
+            sensor_id: str
+        end
+        TopicMsg MotorControllerCmdVelMsg
+            velocities: float
+        end
+        TopicMsg LedArrayDataMsg
+            size: int
+            colors: float
+        end
+        TopicMsg TransformStampedMsg
+            timestamp: int
+            frame_id: str
+            child_frame_id: str
+            transform: Transform
+        end
+        TopicMsg JointStateMsg
+            name: str
+            position: float
+            velocity: float
+            effort: float
+        end
+    end
+end

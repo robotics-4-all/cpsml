@@ -11,5 +11,6 @@ def thing_to_api_m2m(thing) -> str:
     resources_model_str = thing_to_resources_m2m(thing)
     rmm = get_resource_mm()
     rmodel = rmm.model_from_str(resources_model_str)
-    api_model_str = r2api_m2m(rmodel.resources, thing.communication)
+    api_name = f'{thing.name}API'
+    api_model_str = r2api_m2m(rmodel.resources, thing.communication, api_name)
     return api_model_str

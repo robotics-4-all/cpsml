@@ -15,8 +15,9 @@ jinja_env = jinja2.Environment(
 api_tpl = jinja_env.get_template('r2api.jinja')
 
 
-def build_api_model(broker, endpoints, msgs):
+def build_api_model(name, broker, endpoints, msgs):
     context = {
+        'name': name,
         'broker': broker,
         'endpoints': endpoints,
         'msgs': msgs
@@ -49,7 +50,7 @@ def resource_to_endpoint(resource):
     return e, msg
 
 
-def r2api_m2m(resources, broker=None) -> str:
+def r2api_m2m(resources, broker=None, name='MyAPI') -> str:
     if broker is None:
         _broker = {
             'type': 'MQTT',
@@ -79,4 +80,4 @@ def r2api_m2m(resources, broker=None) -> str:
         e, msg = resource_to_endpoint(r)
         endpoints.append(e)
         msgs.append(msg)
-    return build_api_model(_broker, endpoints, msgs)
+    return build_api_model(name, _broker, endpoints, msgs)
