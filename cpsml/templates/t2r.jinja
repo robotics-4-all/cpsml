@@ -1,0 +1,78 @@
+{% set dModels = [] %}
+{% for tag in tags %}
+Tag
+    name: {{ tag.name }}
+    description: {{ tag.description }}
+end
+{% endfor %}
+
+{% for sensor in thing.sensors %}
+{% if sensor.dataModel.name not in dModels %}
+TopicMsg {{ sensor.dataModel.name }}Msg
+    {% for p in sensor.dataModel.properties %}
+    {{ p.name }}: {{ p.type }}
+    {% endfor %}
+end
+{% set dModels = dModels.append(sensor.dataModel.name) %}
+{% endif %}
+{% endfor %}
+
+{% if thing.__class__.__name__ == 'Robot' %}
+TopicMsg JointStateMsg
+    name: str[]
+    position: float[]
+    velocity: float[]
+    effort: float[]
+end
+
+TopicMsg TransformStampedMsg
+    timestamp: int
+    frame_id: str
+    child_frame_id: str
+    transform: Transform
+end
+{% endif %}
+
+{% for actuator in thing.actuators %}
+{% if actuator.dataModel.name not in dModels %}
+TopicMsg {{ actuator.dataModel.name }}Msg
+    {% for p in actuator.dataModel.properties %}
+    {{ p.name }}: {{ p.type }}
+    {% endfor %}
+end
+{% set dModels = dModels.append(actuator.dataModel.name) %}
+{% endif %}
+
+{% endfor %}
+
+// Sense Resources ---------------------------------------------------------
+{% for sensor in thing.sensors %}
+Resource<Sense> {{ sensor.name }}
+    uri: '{{ thing.name.lower() }}.sensors.{{ sensor.name.lower() }}'
+    interface: AsyncProducer<{{ sensor.dataModel.name }}Msg>
+end
+{% endfor %}
+// -----------------------------------------------------------------------
+
+// Act Resources ---------------------------------------------------------
+{% for actuator in thing.actuators %}
+Resource<Act> {{ actuator.name }}
+    uri: '{{ thing.name.lower() }}.actuators.{{ actuator.name.lower() }}'
+    interface: AsyncConsumer<{{ actuator.dataModel.name }}Msg>
+end
+{% endfor %}
+// -----------------------------------------------------------------------
+
+// Robotic Resources ----------------------------------------------------
+{% if thing.__class__.__name__ == 'Robot' %}
+Resource<Sense> Tf
+    uri: '{{ thing.name.lower() }}.sensors.tf'
+    interface: AsyncProducer<TransformStampedMsg>
+end
+
+Resource<Sense> JointStates
+    uri: '{{ thing.name.lower() }}.sensors.joint_states'
+    interface: AsyncProducer<JointStateMsg>
+end
+{% endif %}
+// -----------------------------------------------------------------------

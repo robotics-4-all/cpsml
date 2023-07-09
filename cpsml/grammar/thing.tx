@@ -21,6 +21,7 @@ Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
+            ('urdf' ':' urdfPath=STRING)
             ('boards' ':' '-' boards+=DeviceBoardType['-'])
             ('sensors' ':' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators' ':' '-' actuators*=[Actuator:FQN]['-'])?

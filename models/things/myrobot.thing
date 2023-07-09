@@ -2,6 +2,7 @@
 
 Robot MyRobot
     type: UGV
+    urdf: "/tmp/robot.urdf"
     boards:
         - RPi4
     sensors:

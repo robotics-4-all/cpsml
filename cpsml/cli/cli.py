@@ -23,15 +23,10 @@ def cli(ctx):
 @click.argument("model_filepath")
 @click.pass_context
 def validate(ctx, model_filepath):
-   print(f'[*] Running validation for model {model_filepath}')
-   model = build_model(model_filepath)
-   for thing in model.things:
-        print()
-        print(f'[*] Found model for Thing: {thing.name}')
-        print('---------------------------------------')
-        for attr, val in thing.__dict__.items():
-            if attr not in ('_tx_position', '_tx_position_end', 'parent'):
-                print(f'- {attr}: {val}')
+    print(f'[*] Running validation for model {model_filepath}')
+    model = build_model(model_filepath)
+    if model:
+        print(f'[*] Validation passed!')
 
 @cli.command("t2r")
 @click.argument("model_file")
@@ -48,6 +43,7 @@ def t2r(ctx, model_file):
     filepath = f'{thing.name}.resource'
     with open(filepath, 'w') as fp:
         fp.write(resources_model)
+    print(f'[*] Stored Resources model in file: {filepath}')
     print(f'[*] Validating {thing.name} Resource model...')
     model = build_model(filepath)
     if model:
@@ -72,6 +68,7 @@ def r2api(ctx, model_file):
     filepath = f'myapi.api'
     with open(filepath, 'w') as fp:
         fp.write(api_model)
+    print(f'[*] Stored API model in file: {filepath}')
     print(f'[*] Validating API model...')
     model = build_model(filepath)
     if model:

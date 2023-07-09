@@ -12,7 +12,7 @@ jinja_env = jinja2.Environment(
     lstrip_blocks=True
 )
 
-api_tpl = jinja_env.get_template('api_model.jinja')
+api_tpl = jinja_env.get_template('r2api.jinja')
 
 
 def build_api_model(broker, endpoints, msgs):

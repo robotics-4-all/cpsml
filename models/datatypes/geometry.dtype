@@ -1,0 +1,33 @@
+Package
+  name: GeometryDataTypes
+  version: "0.1.0"
+  description: "Commonly used geometry data types"
+  author: "Konstantinos Panayiotou"
+end
+
+// This expresses a transform from coordinate frame header.frame_id
+// to the coordinate frame child_frame_id
+DataType TransformStamped
+    timestamp: int
+    frame_id: str
+    child_frame_id: str
+    transform: Transform
+end
+
+DataType Transform
+    translation: Vector3
+    rotation: Quaternion
+end
+
+DataType Vector3
+    x: float
+    y: float
+    z: float
+end
+
+DataType Quaternion
+    x: float
+    y: float
+    z: float
+    w: float
+end

@@ -1,7 +1,7 @@
 Package
   name: SensorDataTypes
   version: "0.1.0"
-  description: "Interface Messages for Sensors"
+  description: "Commonly used sensor data types"
   author: "Konstantinos Panayiotou"
 end
 
@@ -67,6 +67,13 @@ DataType LedArrayData
   # N channel motor controller data using velocitty commands
   size: int
   colors: float[]
+end
+
+DataType JointState
+    name: str[]
+    position: float[]
+    velocity: float[]
+    effort: float[]
 end
 
 Enum NodeState
