@@ -1,4 +1,4 @@
-API MyAPI
+API<Async> MyAPI
     broker
         type: {{broker.type}}
         host: "{{broker.host}}"
@@ -30,7 +30,7 @@ API MyAPI
         {% if msg.__class__.__name__ == "TopicMessage" %}
         TopicMsg {{ msg.name }}
             {% for p in msg.properties %}
-            {{ p.name }}: {{ p.type }}
+            {{ p.name }}: {{ p.type.name }}
             {% endfor %}
         end
         {% endif %}

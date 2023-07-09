@@ -15,8 +15,10 @@ Metadata:
     'end'
 ;
 
-API:
-    'API' name=ID
+API: AsyncAPI | RestAPI;
+
+AsyncAPI:
+    'API<Async>' name=ID
     (
         'broker'
             broker=BrokerInfo
@@ -31,6 +33,10 @@ API:
         'end'
     )#
     'end'
+;
+
+RestAPI:
+    'NOT_IMPLEMENTED_REST_API'
 ;
 
 BrokerInfo:

@@ -1,4 +1,4 @@
-API MyAPI
+API<Async> MyAPI
     broker
         type: MQTT
         host: 'localhost'
