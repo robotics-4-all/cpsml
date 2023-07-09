@@ -11,7 +11,8 @@ from cpsml.lang import (
     get_networking_mm,
     get_dtype_mm,
     get_api_mm,
-    get_synthesis_mm
+    get_synthesis_mm,
+    get_eservice_mm
 )
 
 
@@ -31,6 +32,8 @@ def build_model(model_fpath):
         mm = get_api_mm()
     elif model_filename.endswith('.system'):
         mm = get_synthesis_mm()
+    elif model_filename.endswith('.esvc'):
+        mm = get_eservice_mm()
     else:
         raise ValueError('Not a valid model extension.')
     model = mm.model_from_file(model_fpath)

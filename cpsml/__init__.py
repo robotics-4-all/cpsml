@@ -6,7 +6,8 @@ from cpsml.language import (
     communication_language,
     dtypes_language,
     api_language,
-    synthesis_language
+    synthesis_language,
+    eservice_language
 )
 
 __version__ = "0.1.0"

@@ -1,4 +1,7 @@
+import datatype
+
 Model:
+    (imports*=Import)
     (metadata=Metadata)?
     services*=EService
 ;
@@ -40,35 +43,7 @@ RESTVerb:
     'PUT'
 ;
 
-EServiceParam: name=ID ':' value=ParameterType;
-
-
-ParameterType:
-    INT                 |
-    FLOAT               |
-    STRING              |
-    BOOL                |
-    List                |
-    Dict
-;
-
-
-List:
-    "[" values*=Value[','] "]"
-;
-
-Value:
-    STRING | FLOAT | BOOL | Dict | List | "null"
-;
-
-Dict:
-    "{" members*=Member[','] "}"
-;
-
-Member:
-    key=STRING ':' value=Value
-;
-
+EServiceParam: Property;
 
 NID: /(.*?)\n/;
 

@@ -7,13 +7,14 @@ from cpsml.lang import (
     get_networking_mm,
     get_dtype_mm,
     get_api_mm,
-    get_synthesis_mm
+    get_synthesis_mm,
+    get_eservice_mm
 )
 
 
 @language('cpsml-thing', '*.thing')
 def things_language():
-    "cpsml language"
+    "cpsml Things language"
     mm = get_thing_mm()
     return mm
 
@@ -27,7 +28,7 @@ def dtypes_language():
 
 @language('cpsml-resource', '*.resource')
 def resources_language():
-    "cpsml resource language"
+    "cpsML resource language"
     mm = get_resource_mm()
     return mm
 
@@ -57,4 +58,11 @@ def api_language():
 def synthesis_language():
     "cpsml Synthesis language"
     mm = get_synthesis_mm()
+    return mm
+
+
+@language('cpsml-esvc', '*.esvc')
+def eservice_language():
+    "cpsml Services language"
+    mm = get_eservice_mm()
     return mm

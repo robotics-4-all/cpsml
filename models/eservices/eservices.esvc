@@ -1,0 +1,20 @@
+EServiceREST FaceDetectorSvc
+    verb: POST
+    host: "myplatform.net"
+    port: 8080
+    path: "/"
+    params:
+        body:
+            - imgData: int
+end
+
+EServiceREST WeatherForecast
+    verb: POST
+    host: "myplatform.net"
+    port: 8080
+    path: "/"
+    params:
+        query:
+            - from: str
+            - to: str
+end
