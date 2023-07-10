@@ -5,6 +5,7 @@
 import networking
 import communication
 import datatype
+import geometry
 
 Model:
     (
@@ -21,8 +22,8 @@ Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('urdf' ':' urdfPath=STRING)
             ('boards' ':' '-' boards+=DeviceBoardType['-'])
+            ('geometry: ' geometry=ThingGeometry)?
             ('sensors' ':' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators' ':' '-' actuators*=[Actuator:FQN]['-'])?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
@@ -38,6 +39,7 @@ Device:
     'Device' name=ID
         (
             ('type: ' type=DeviceBoardType)
+            ('geometry: ' geometry=ThingGeometry)?
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
             ('networking' ':' networking=[Network:FQN])?

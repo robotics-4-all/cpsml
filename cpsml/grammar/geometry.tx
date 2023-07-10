@@ -1,0 +1,15 @@
+ThingGeometry: ThingGeometryCube | ThingGeometrySphere;
+
+ThingGeometryCube:
+    'lengthX:' x=FLOAT
+    'lengthY:' y=FLOAT
+    'lengthZ:' z=FLOAT
+    'mass:' mass=FLOAT
+;
+
+ThingGeometrySphere:
+    'radiusX:' x=FLOAT
+    'radiusY:' y=FLOAT
+    'radiusZ:' z=FLOAT
+    'mass:' mass=FLOAT
+;
