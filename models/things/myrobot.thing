@@ -10,11 +10,11 @@ Robot MyRobot
         - GenericLedArray
     functionality:
         - Mobility
-        - FaceDetection
-        - VoiceInterraction
+        - Mapping
     networking: CSAL
     communication: HomeEMQX
     rmm:
+        communication: Redis
         control:
             volume: true
             ssh: true

@@ -8,6 +8,7 @@ Device MyPi
     networking: CSAL
     communication: HomeEMQX
     rmm:
+        communication: Redis
         control:
             volume: true
             ssh: true

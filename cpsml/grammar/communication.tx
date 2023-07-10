@@ -69,7 +69,6 @@ RedisBroker:
     'end'
 ;
 
-
 FQN: ID('.'ID)*;
 FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)?;

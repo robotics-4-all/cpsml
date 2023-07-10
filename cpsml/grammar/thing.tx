@@ -255,13 +255,12 @@ IMUType: '6DOF' | '9DOF';
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
 RobotFunctionality:
-    'Mobility'          |
-    'VoiceInterraction' |
-    'NLU'               |
-    'Navigation'        |
-    'Mapping'           |
-    'SLAM'              |
-    'FaceDetection'     |
+    'Mobility'                      |
+    'Manipulation'                  |
+    'NLU'                           |
+    'Navigation'                    |
+    'Mapping'                       |
+    'FaceDetection'                 |
     'ObjectDetection'
 ;
 
@@ -288,6 +287,7 @@ ActuatorType:
 
 RMM:
     (
+        ('communication' ':' localBroker=DeviceLocalBroker)
         (
         'control' ':'
         (
@@ -315,6 +315,13 @@ ApplicationType:
     "ROS"       |
     "R4A"       |
     "NodeRED"
+;
+
+DeviceLocalBroker:
+    'MQTT_EMQX'     |
+    'MQTT_Mosquito' |
+    'AMQP_RabbitMQ' |
+    'Redis'
 ;
 
 DeviceConnectivity: WirelessConnection | HardwareConnection;
