@@ -1,0 +1,23 @@
+import thing
+
+World:
+    'World' '<' dimensions=WorldDimensions '>'name=ID
+        'things'
+            (things*=[Thing:FQN|+m:thing] '@' poses*=WorldPose)*
+        'end'
+
+        'obstacles'
+            (obstracles*=[Obstacle:FQN] '@' poses*=WorldPose)*
+        'end'
+    'end'
+;
+
+Pose:
+    'Pose' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
+;
+
+Obstacle:
+    'THIS IS AN OBSTACLE'
+;
+
+WorldDimensions: '2D' | '3D';
