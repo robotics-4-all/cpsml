@@ -4,7 +4,7 @@ import geometry
 Model:
     imports*=Import
     (
-    environment=Environment
+    environment?=Environment
     obstacles*=Obstacle
     )#
 ;
@@ -19,7 +19,7 @@ Environment:
         )?
         (
         'obstacles'
-            (obstacles=[Obstacle:FQN] '@' poses=Pose)*
+            (obstacles=[Obstacle:FQN|+m:obstacles] '@' poses=Pose)*
         'end'
         )?
     )#
