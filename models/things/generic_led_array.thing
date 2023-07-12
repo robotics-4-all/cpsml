@@ -2,5 +2,4 @@ LedArray GenericLedArray
   size: 10
   shape: Rectangle(10, 1)
   dataModel: LedArrayData
-  connectivity: Hardware
 end

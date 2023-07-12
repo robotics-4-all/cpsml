@@ -2,7 +2,6 @@ RangeFinder HCSR04
   type: Sonar
   dataModel: RangeFinderData
   shape: Rectangle(5, 2)
-  connectivity: Hardware
   maxFreq: 10.0
   hfov: 60.0
   vfov: 37.9

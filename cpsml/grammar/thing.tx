@@ -82,7 +82,6 @@ GenericSensor:
             ('type:' type=SensorType)
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' acqFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -95,7 +94,6 @@ MotorController:
             ('type:' type=MotorControllerType)
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
         )#
     'end'
 ;
@@ -105,7 +103,6 @@ Speaker:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
         )#
     'end'
 ;
@@ -118,7 +115,6 @@ SingleLed:
             ('dataModel:' dataModel=[DataType:FQN])
             ('color' ':' color=INT)?
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
@@ -130,7 +126,6 @@ LedArray:
             ('size:' size=INT)
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
@@ -142,7 +137,6 @@ GenericActuator:
             ('type:' type=ActuatorType)
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
@@ -163,7 +157,6 @@ Button:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
     'end'
@@ -175,7 +168,6 @@ RangeFinder:
             ('type:' type=[RangeFinderType])
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('hfov:' hfov=FLOAT)?
@@ -191,7 +183,6 @@ LiDARSensor:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('minAngle:' minAngle=FLOAT)?
@@ -208,7 +199,6 @@ CameraRGB:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('resHeight:' resHeight=FLOAT)?
@@ -224,7 +214,6 @@ CameraThermal:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('resHeight:' resHeight=FLOAT)?
@@ -240,7 +229,6 @@ Accelerometer:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -252,7 +240,6 @@ Magnetometer:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -264,7 +251,6 @@ Gyroscope:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -277,7 +263,6 @@ IMU:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('connectivity:' connectivity=[DeviceConnectivity])?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -357,12 +342,12 @@ DeviceLocalBroker:
     'AMQP_RabbitMQ' |
     'Redis'
 ;
-
-DeviceConnectivity: WirelessConnection | HardwareConnection;
+/*
+SimpleThingConnectivity: WirelessConnection | HardwareConnection;
 
 WirelessConnection: 'Wifi' | 'BLE';
 HardwareConnection: 'Hardware';
-
+*/
 // HardwareConnection: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH' | 'PWM';
 
 RangeFinderType: 'Sonar' | 'ToF' | 'IR';
