@@ -28,7 +28,12 @@ CompositeDevice:
 ;
 
 // revisit concept name
-SimpleThing: Sensor | Actuator | CompositeSimpleThing;
+// The biggest difference between an SBC and a microcontroller is that the former is a self-contained computer with the ability to run an OS, whereas the latter is just a chip with far fewer resources.
+
+// Also, unlike SBCs, microcontrollers are intended to run only one program repeatedly. For instance, SBCs like Raspberry Pie run Linux, while boards like Arduino Uno don’t.
+SimpleThing: PeripheralDevice | CompositeSimpleThing;
+
+PeripheralDevice: Sensor | Actuator;
 
 CompositeSimpleThing:
     'CSThing' name=ID
@@ -41,7 +46,7 @@ Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('boards' ':' '-' boards+=DeviceBoardType['-'])
+            ('boards' ':' '-' boards+=Board['-'])
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
             ('shape' ':' shape=Shape)?
@@ -57,7 +62,7 @@ Robot:
 Device:
     'Device' name=ID
         (
-            ('type: ' type=DeviceBoardType)
+            ('board: ' type=Board)
             ('shape' ':' shape=Shape)?
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
@@ -352,7 +357,20 @@ HardwareConnection: 'Hardware';
 
 RangeFinderType: 'Sonar' | 'ToF' | 'IR';
 
-DeviceBoardType: 'ESP32' | 'ESP8266' | 'RPi3' | 'RPi4' | 'JetsonNano';
+Board: SBC | Microcontroller;
+
+SBC:
+    'GenericSBC'        |
+    'RaspberryPi3'      |
+    'RaspberryPi4'      |
+    'JetsonNano'
+;
+
+Microcontroller:
+    'GenericESP32'        |
+    'GenericESP8266'      |
+    'GenericArduino'
+;
 
 OperatingSystem: 'RaspbianOS' | 'RiotOS' | 'UbuntuOS' | 'OtherOS';
 

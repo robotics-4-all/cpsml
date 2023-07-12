@@ -1,5 +1,5 @@
 Device MyPi
-    type: RPi4
+    board: RaspberryPi4
     shape: Rectangle(15, 8)
     sensors:
         - HCSR04

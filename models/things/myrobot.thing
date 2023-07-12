@@ -2,7 +2,7 @@ Robot MyRobot
     type: UGV
     shape: Square(30)  // 30 cm side length
     boards:
-        - RPi4
+        - RaspberryPi4
     sensors:
         - HCSR04
         - VL53L0X
