@@ -44,7 +44,6 @@ Robot:
             ('boards' ':' '-' boards+=DeviceBoardType['-'])
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
-            ('pose' ':' pose=Pose)?
             ('shape' ':' shape=Shape)?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
             ('networking' ':' networking=[Network:FQN])?
@@ -59,7 +58,6 @@ Device:
     'Device' name=ID
         (
             ('type: ' type=DeviceBoardType)
-            ('pose' ':' pose=Pose)?
             ('shape' ':' shape=Shape)?
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
@@ -83,6 +81,7 @@ GenericSensor:
         (
             ('type:' type=SensorType)
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' acqFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -95,6 +94,7 @@ MotorController:
         (
             ('type:' type=MotorControllerType)
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
         )#
     'end'
@@ -104,6 +104,7 @@ Speaker:
     'Speaker' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
         )#
     'end'
@@ -116,6 +117,7 @@ SingleLed:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('color' ':' color=INT)?
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('responseTime:' responseTime=FLOAT)?
         )#
@@ -127,6 +129,7 @@ LedArray:
         (
             ('size:' size=INT)
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('responseTime:' responseTime=FLOAT)?
         )#
@@ -138,6 +141,7 @@ GenericActuator:
         (
             ('type:' type=ActuatorType)
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('responseTime:' responseTime=FLOAT)?
         )#
@@ -158,6 +162,7 @@ Button:
     'Button' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -169,6 +174,7 @@ RangeFinder:
         (
             ('type:' type=[RangeFinderType])
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -184,6 +190,7 @@ LiDARSensor:
     'LiDARSensor' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -200,6 +207,7 @@ CameraRGB:
     'CameraRGB' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -215,6 +223,7 @@ CameraThermal:
     'CameraThermal' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -230,6 +239,7 @@ Accelerometer:
     'Accelerometer' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -241,6 +251,7 @@ Magnetometer:
     'Magnetometer' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -252,6 +263,7 @@ Gyroscope:
     'Gyroscope' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=DeviceConnectivity)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
@@ -264,6 +276,7 @@ IMU:
         'type:' type=IMUType
         (
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
             ('connectivity:' connectivity=[DeviceConnectivity])?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?

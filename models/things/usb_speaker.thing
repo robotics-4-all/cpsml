@@ -1,4 +1,5 @@
 Speaker MySpeaker
-  dataModel: MotorControllerCmdVel
-  connectivity: Hardware
+    dataModel: MotorControllerCmdVel
+    shape: Rectangle(7, 5)
+    connectivity: Hardware
 end

@@ -1,5 +1,6 @@
 Device MyPi
     type: RPi4
+    shape: Rectangle(15, 8)
     sensors:
         - HCSR04
         - VL53L0X
