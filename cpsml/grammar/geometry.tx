@@ -1,15 +1,53 @@
-ThingGeometry: ThingGeometryCube | ThingGeometrySphere;
-
-ThingGeometryCube:
-    'lengthX:' x=FLOAT
-    'lengthY:' y=FLOAT
-    'lengthZ:' z=FLOAT
-    'mass:' mass=FLOAT
+Point:
+    'Point' '(' x=FLOAT ',' y=FLOAT ',' z=FLOAT ')'
 ;
 
-ThingGeometrySphere:
-    'radiusX:' x=FLOAT
-    'radiusY:' y=FLOAT
-    'radiusZ:' z=FLOAT
-    'mass:' mass=FLOAT
+Translation:
+    'Translation' '(' x=FLOAT ',' y=FLOAT ',' z=FLOAT ')'
+;
+
+Rotation:
+    'Rotation' '(' x=FLOAT ',' y=FLOAT ',' z=FLOAT ')'
+;
+
+Transformation:
+    'Transform' '(' translation=Translation ',' rotation=Rotation ')'
+;
+
+Pose:
+    'Pose' '(' translation=Translation ',' rotation=Rotation ')'
+;
+
+Shape: PredefinedShape | ArbitraryShape | ComplexShape;
+
+ComplexShape:
+    'shapes' ':' '-' shapes*=ShapeDefinition
+;
+
+ShapeDefinition:
+    shape=Shape '@' Trans=Transformation
+;
+
+PredefinedShape: Circle | Square | Rectangle | Cylinder;
+
+Circle:
+    'radius' ':' radius=FLOAT
+;
+
+Square:
+    'length' ':' length=FLOAT
+;
+
+Rectangle:
+    'width' ':' width=FLOAT
+    'length' ':' length=FLOAT
+;
+
+Cylinder:
+    'radius' ':' radius=FLOAT
+    'height' ':' height=FLOAT
+;
+
+ArbitraryShape:
+    'points' ':' '-' points*=Point['-']
 ;

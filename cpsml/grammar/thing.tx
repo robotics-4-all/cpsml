@@ -14,27 +14,37 @@ Model:
     )#
 ;
 
-Thing: Robot | Device | Peripheral;
+Thing: SmartThing | SimpleThing;
+
+SmartThing: Robot | Device;
 
 Device: SingleDevice | CompositeDevice;
 
 CompositeDevice:
-	devices*=Device
+    'CDevice' name=ID
+        'devices' ':'  '-' devices*=[Device:FQN]['-']
+        ('shape' ':' shape=Shape)?
+    'end'
 ;
 
-// Thing: SmartThing | SimpleThing;
-
-//SmartThing: Robot | Device;
-
 // revisit concept name
-Peripheral: Sensor | Actuator;
+SimpleThing: Sensor | Actuator | CompositeSimpleThing;
+
+CompositeSimpleThing:
+    'CSThing' name=ID
+        'includes' ':' includes*=[SimpleThing:FQN]
+    'end'
+;
 
 
 Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('devices' ':' '-' devices*=[Device:FQN]['-'])?
+            //('devices' ':' '-' devices*=[Device:FQN]['-'])?
+            ('boards' ':' '-' boards+=DeviceBoardType['-'])
+            ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
+            ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
             ('pose' ':' pose=Pose)?
             ('shape' ':' shape=Shape)?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?

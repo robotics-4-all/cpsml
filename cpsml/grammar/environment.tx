@@ -1,75 +1,43 @@
 import thing
+import geometry
 
-World:
-    'World' '<' dimensions=WorldDimensions '>'name=ID
+Model:
+    imports*=Import
+    environment=Environment
+;
+
+Environment:
+    'Environment' '<' dimensions=EnvDimensions '>' name=ID
         'things'
-            (things*=[Thing:FQN|+m:thing] '@' poses*=WorldPose)*
+            (things*=[Thing:FQN|+m:thing] '@' poses*=Pose)*
         'end'
 
         'obstacles'
-            (obstracles*=[Obstacle:FQN] '@' poses*=WorldPose)*
+            (obstracles*=[Obstacle:FQN] '@' poses*=Pose)*
         'end'
     'end'
 ;
 
-Point:
-    'Point' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
-;
-
-Translation:
-    'Translation' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
-;
-
-Rotation:
-    'Rotation' '(' roll=FLOAT, pitch=FLOAT, yaw=FLOAT ')'
-;
-
-Transformation:
-    'Transform' '(' translation=Translation ',' rotation=Rotation ')'
-;
-
-Pose:
-    'Pose' '(' translation=Translation ',' rotation=Rotation ')'
-;
+EnvDimensions: '2D' | '3D';
 
 Obstacle:
     'pose' ':' pose=Pose
     'shape' ':' shape=Shape
 ;
 
-Shape: PredefinedShape | ArbitraryShape | ComplexShape;
+NID: /(.*?)\n/;
 
-ComplexShape:
-    'shapes' ':' '-' shapes*=ShapeDefinition
-;
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;
 
-ShapeDefinition:
-    shape=Shape '@' Trans=Transformation
-;
+Description: /\#(.*?)$/;
 
-PredefinedShape: Circle | Square | Rectangle | Cylinder;
+// Special rule for comments. Comments start with //
 
-Circle:
-    'radius' ':' radius=FLOAT
-;
+// Comments
+Comment: CommentLine | CommentBlock ;
 
-Square:
-    'side' ':' side=FLOAT
-;
+CommentLine: /\/\/.*?$/;
 
-Square:
-    'width' ':' width=FLOAT
-    'length' ':' length=FLOAT
-;
-
-Cylinder:
-    'radius' ':' radius=FLOAT
-    'height' ':' height=FLOAT
-;
-
-ArbitraryShape:
-    'points' ':' '-' points*=Point['-']
-;
-
-
-WorldDimensions: '2D' | '3D';
+CommentBlock: /\/\*(.|\n)*?\*\//;
