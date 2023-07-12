@@ -12,12 +12,64 @@ World:
     'end'
 ;
 
+Point:
+    'Point' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
+;
+
+Translation:
+    'Translation' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
+;
+
+Rotation:
+    'Rotation' '(' roll=FLOAT, pitch=FLOAT, yaw=FLOAT ')'
+;
+
+Transformation:
+    'Transform' '(' translation=Translation ',' rotation=Rotation ')'
+;
+
 Pose:
-    'Pose' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
+    'Pose' '(' translation=Translation ',' rotation=Rotation ')'
 ;
 
 Obstacle:
-    'THIS IS AN OBSTACLE'
+    'pose' ':' pose=Pose
+    'shape' ':' shape=Shape
 ;
+
+Shape: PredefinedShape | ArbitraryShape | ComplexShape;
+
+ComplexShape:
+    'shapes' ':' '-' shapes*=ShapeDefinition
+;
+
+ShapeDefinition:
+    shape=Shape '@' Trans=Transformation
+;
+
+PredefinedShape: Circle | Square | Rectangle | Cylinder;
+
+Circle:
+    'radius' ':' radius=FLOAT
+;
+
+Square:
+    'side' ':' side=FLOAT
+;
+
+Square:
+    'width' ':' width=FLOAT
+    'length' ':' length=FLOAT
+;
+
+Cylinder:
+    'radius' ':' radius=FLOAT
+    'height' ':' height=FLOAT
+;
+
+ArbitraryShape:
+    'points' ':' '-' points*=Point['-']
+;
+
 
 WorldDimensions: '2D' | '3D';

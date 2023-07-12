@@ -14,18 +14,29 @@ Model:
     )#
 ;
 
+Thing: Robot | Device | Peripheral;
 
-Thing: Robot | Device | Sensor | Actuator;
+Device: SingleDevice | CompositeDevice;
+
+CompositeDevice:
+	devices*=Device
+;
+
+// Thing: SmartThing | SimpleThing;
+
+//SmartThing: Robot | Device;
+
+// revisit concept name
+Peripheral: Sensor | Actuator;
 
 
 Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('boards' ':' '-' boards+=DeviceBoardType['-'])
-            ('geometry: ' geometry=ThingGeometry)?
-            ('sensors' ':' '-' sensors*=[Sensor:FQN]['-'])?
-            ('actuators' ':' '-' actuators*=[Actuator:FQN]['-'])?
+            ('devices' ':' '-' devices*=[Device:FQN]['-'])?
+            ('pose' ':' pose=Pose)?
+            ('shape' ':' shape=Shape)?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
             ('networking' ':' networking=[Network:FQN])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
@@ -39,7 +50,8 @@ Device:
     'Device' name=ID
         (
             ('type: ' type=DeviceBoardType)
-            ('geometry: ' geometry=ThingGeometry)?
+            ('pose' ':' pose=Pose)?
+            ('shape' ':' shape=Shape)?
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
             ('networking' ':' networking=[Network:FQN])?
