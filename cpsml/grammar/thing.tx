@@ -27,10 +27,6 @@ CompositeDevice:
     'end'
 ;
 
-// revisit concept name
-// The biggest difference between an SBC and a microcontroller is that the former is a self-contained computer with the ability to run an OS, whereas the latter is just a chip with far fewer resources.
-
-// Also, unlike SBCs, microcontrollers are intended to run only one program repeatedly. For instance, SBCs like Raspberry Pie run Linux, while boards like Arduino Uno don’t.
 SimpleThing: PeripheralDevice | CompositeSimpleThing;
 
 PeripheralDevice: Sensor | Actuator;
@@ -357,6 +353,9 @@ HardwareConnection: 'Hardware';
 
 RangeFinderType: 'Sonar' | 'ToF' | 'IR';
 
+// The biggest difference between an SBC and a microcontroller is that the former is a self-contained computer with the ability to run an OS, whereas the latter is just a chip with far fewer resources.
+
+// Also, unlike SBCs, microcontrollers are intended to run only one program repeatedly. For instance, SBCs like Raspberry Pie run Linux, while boards like Arduino Uno don’t.
 Board: SBC | Microcontroller;
 
 SBC:
