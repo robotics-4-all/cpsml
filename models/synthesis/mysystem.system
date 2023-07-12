@@ -5,4 +5,5 @@ System MySystem
         - MyPi
     services:
         - FaceDetectorSvc
+        - WeatherForecastSvc
 end
