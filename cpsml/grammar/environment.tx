@@ -3,26 +3,35 @@ import geometry
 
 Model:
     imports*=Import
+    (
     environment=Environment
+    obstacles*=Obstacle
+    )#
 ;
 
 Environment:
     'Environment' '<' dimensions=EnvDimensions '>' name=ID
+    (
+        (
         'things'
-            (things*=[Thing:FQN|+m:thing] '@' poses*=Pose)*
+            (things=[Thing:FQN|+m:thing] '@' poses=Pose)*
         'end'
-
+        )?
+        (
         'obstacles'
-            (obstracles*=[Obstacle:FQN] '@' poses*=Pose)*
+            (obstacles=[Obstacle:FQN] '@' poses=Pose)*
         'end'
+        )?
+    )#
     'end'
 ;
 
 EnvDimensions: '2D' | '3D';
 
 Obstacle:
-    'pose' ':' pose=Pose
-    'shape' ':' shape=Shape
+    'Obstacle' name=ID
+        'shape' ':' shape=Shape
+    'end'
 ;
 
 NID: /(.*?)\n/;

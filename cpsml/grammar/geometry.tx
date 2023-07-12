@@ -1,13 +1,13 @@
 Point:
-    'Point' '(' x=FLOAT ',' y=FLOAT ',' z=FLOAT ')'
+    'Point' '(' x=FLOAT ',' y=FLOAT (',' z=FLOAT)? ')'
 ;
 
 Translation:
-    'Translation' '(' x=FLOAT ',' y=FLOAT ',' z=FLOAT ')'
+    'Translation' '(' x=FLOAT ',' y=FLOAT (',' z=FLOAT)? ')'
 ;
 
 Rotation:
-    'Rotation' '(' x=FLOAT ',' y=FLOAT ',' z=FLOAT ')'
+    'Rotation' '(' yaw=FLOAT ',' pitch=FLOAT (',' roll=FLOAT)? ')'
 ;
 
 Transformation:
@@ -21,33 +21,27 @@ Pose:
 Shape: PredefinedShape | ArbitraryShape | ComplexShape;
 
 ComplexShape:
-    'shapes' ':' '-' shapes*=ShapeDefinition
-;
-
-ShapeDefinition:
-    shape=Shape '@' Trans=Transformation
+    'ComplexShape' '(' shapes*=Shape[','] ')'
 ;
 
 PredefinedShape: Circle | Square | Rectangle | Cylinder;
 
 Circle:
-    'radius' ':' radius=FLOAT
+    'Circle' '(' radius=FLOAT ')'
 ;
 
 Square:
-    'length' ':' length=FLOAT
+    'Square' '(' length=FLOAT ')'
 ;
 
 Rectangle:
-    'width' ':' width=FLOAT
-    'length' ':' length=FLOAT
+    'Rectangle' '(' width=FLOAT ',' length=FLOAT ')'
 ;
 
 Cylinder:
-    'radius' ':' radius=FLOAT
-    'height' ':' height=FLOAT
+    'Cylinder' '(' radius=FLOAT ',' height=FLOAT ')'
 ;
 
 ArbitraryShape:
-    'points' ':' '-' points*=Point['-']
+    'ArbitraryShape' '(' points*=Point[','] ')'
 ;

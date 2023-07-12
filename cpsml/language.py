@@ -8,7 +8,8 @@ from cpsml.lang import (
     get_dtype_mm,
     get_api_mm,
     get_synthesis_mm,
-    get_eservice_mm
+    get_eservice_mm,
+    get_env_mm
 )
 
 
@@ -65,4 +66,11 @@ def synthesis_language():
 def eservice_language():
     "cpsml Services language"
     mm = get_eservice_mm()
+    return mm
+
+
+@language('cpsml-env', '*.env')
+def environment_language():
+    "cpsml Environment language"
+    mm = get_env_mm()
     return mm

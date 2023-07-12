@@ -6,4 +6,5 @@ from .resource import get_resource_mm
 from .thing import get_thing_mm
 from .synthesis import get_synthesis_mm
 from .eservice import get_eservice_mm
+from .environment import get_env_mm
 from .utils import build_model

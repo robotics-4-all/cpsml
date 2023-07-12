@@ -16,9 +16,9 @@ Model:
 
 Thing: SmartThing | SimpleThing;
 
-SmartThing: Robot | Device;
+SmartThing: Robot | SmartDevice;
 
-Device: SingleDevice | CompositeDevice;
+SmartDevice: Device | CompositeDevice;
 
 CompositeDevice:
     'CDevice' name=ID
@@ -41,7 +41,6 @@ Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            //('devices' ':' '-' devices*=[Device:FQN]['-'])?
             ('boards' ':' '-' boards+=DeviceBoardType['-'])
             ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
             ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
