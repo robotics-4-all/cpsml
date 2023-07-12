@@ -6,4 +6,5 @@ System MySystem
     services:
         - FaceDetectorSvc
         - WeatherForecastSvc
+    environment:  MyHome
 end
