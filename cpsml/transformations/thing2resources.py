@@ -29,14 +29,17 @@ def build_resources_model(thing, tags):
 def log_thing_info(thing):
     print(f'[*] Thing model: {thing.name}')
     print(f'[*] Installed Sensors:')
-    for sensor in thing.sensors:
+    for posed_sensor in thing.sensors:
+        sensor = posed_sensor.ref
         print(f'- {sensor.name}: {sensor.__class__.__name__}')
     print(f'[*] Installed Actuators:')
-    for actuator in thing.actuators:
+    for posed_actuator in thing.actuators:
+        actuator = posed_actuator.ref
         print(f'- {actuator.name}: {actuator.__class__.__name__}')
     if thing.__class__.__name__ == 'Robot':
         print(f'[*] Installed Computation Boards:')
-        for board in thing.boards:
+        for posed_board in thing.boards:
+            board = posed_board.ref
             print(f'- {board}')
 
 

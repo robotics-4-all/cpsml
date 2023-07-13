@@ -7,13 +7,13 @@ end
 {% endfor %}
 
 {% for sensor in thing.sensors %}
-{% if sensor.dataModel.name not in dModels %}
-TopicMsg {{ sensor.dataModel.name }}Msg
-    {% for p in sensor.dataModel.properties %}
+{% if sensor.ref.dataModel.name not in dModels %}
+TopicMsg {{ sensor.ref.dataModel.name }}Msg
+    {% for p in sensor.ref.dataModel.properties %}
     {{ p.name }}: {{ p.type }}
     {% endfor %}
 end
-{% set dModels = dModels.append(sensor.dataModel.name) %}
+{% set dModels = dModels.append(sensor.ref.dataModel.name) %}
 {% endif %}
 {% endfor %}
 
@@ -34,31 +34,31 @@ end
 {% endif %}
 
 {% for actuator in thing.actuators %}
-{% if actuator.dataModel.name not in dModels %}
-TopicMsg {{ actuator.dataModel.name }}Msg
-    {% for p in actuator.dataModel.properties %}
+{% if actuator.ref.dataModel.name not in dModels %}
+TopicMsg {{ actuator.ref.dataModel.name }}Msg
+    {% for p in actuator.ref.dataModel.properties %}
     {{ p.name }}: {{ p.type }}
     {% endfor %}
 end
-{% set dModels = dModels.append(actuator.dataModel.name) %}
+{% set dModels = dModels.append(actuator.ref.dataModel.name) %}
 {% endif %}
 
 {% endfor %}
 
 // Sense Resources ---------------------------------------------------------
 {% for sensor in thing.sensors %}
-Resource<Sense> {{ sensor.name }}
-    uri: '{{ thing.name.lower() }}.sensors.{{ sensor.name.lower() }}'
-    interface: AsyncProducer<{{ sensor.dataModel.name }}Msg>
+Resource<Sense> {{ sensor.ref.name }}
+    uri: '{{ thing.name.lower() }}.sensors.{{ sensor.ref.name.lower() }}'
+    interface: AsyncProducer<{{ sensor.ref.dataModel.name }}Msg>
 end
 {% endfor %}
 // -----------------------------------------------------------------------
 
 // Act Resources ---------------------------------------------------------
 {% for actuator in thing.actuators %}
-Resource<Act> {{ actuator.name }}
-    uri: '{{ thing.name.lower() }}.actuators.{{ actuator.name.lower() }}'
-    interface: AsyncConsumer<{{ actuator.dataModel.name }}Msg>
+Resource<Act> {{ actuator.ref.name }}
+    uri: '{{ thing.name.lower() }}.actuators.{{ actuator.ref.name.lower() }}'
+    interface: AsyncConsumer<{{ actuator.ref.dataModel.name }}Msg>
 end
 {% endfor %}
 // -----------------------------------------------------------------------

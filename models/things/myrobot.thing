@@ -1,10 +1,13 @@
 Robot MyRobot
     type: UGV
     shape: Square(30)  // 30 cm side length
+    networking: CSAL
+    communication: HomeEMQX
     boards:
         - RaspberryPi4
+        - JetsonNano @ Transform(Translation(0, 0), Rotation(0, 0))
     sensors:
-        - HCSR04
+        - HCSR04 @ Transform(Translation(10, 2), Rotation(0, 10))
         - VL53L0X
     actuators:
         - DFRobotMotorCtrl
@@ -12,8 +15,6 @@ Robot MyRobot
     functionality:
         - Mobility
         - Mapping
-    networking: CSAL
-    communication: HomeEMQX
     rmm:
         communication: Redis
         control:

@@ -42,9 +42,9 @@ Robot:
     'Robot' name=ID
         (
             ('type' ':' rtype=RobotType)
-            ('boards' ':' '-' boards+=Board['-'])
-            ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
-            ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
+            ('boards' ':' '-' boards+=PosedBoard['-'])
+            ('sensors:' '-' sensors*=PosedSensor['-'])?
+            ('actuators:' '-' actuators*=PosedActuator['-'])?
             ('shape' ':' shape=Shape)?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
             ('networking' ':' networking=[Network:FQN])?
@@ -60,14 +60,26 @@ Device:
         (
             ('board: ' type=Board)
             ('shape' ':' shape=Shape)?
-            ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
-            ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
+            ('sensors:' '-' sensors*=PosedSensor['-'])?
+            ('actuators:' '-' actuators*=PosedActuator['-'])?
             ('networking' ':' networking=[Network:FQN])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('rmm' ':' rmm=RMM)?
             ('hasBle: ' ble=BOOL)?
         )#
     'end'
+;
+
+PosedSensor:
+    ref=[Sensor:FQN|+m:thing] ('@' transformation=Transformation)?
+;
+
+PosedActuator:
+    ref=[Actuator:FQN|+m:thing] ('@' transformation=Transformation)?
+;
+
+PosedBoard:
+    ref=Board ('@' transformation=Transformation)?
 ;
 
 Actuator:
