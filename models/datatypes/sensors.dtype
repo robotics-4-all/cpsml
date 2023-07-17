@@ -36,6 +36,18 @@ DataType LiDARData
   sensor_id: str
 end
 
+DataType TemperatureData
+  temperatures: float[]
+  sensor_id: str
+end
+
+DataType EnvData
+  humidity: float
+  temperature: float
+  gas: float
+  sensor_id: str
+end
+
 DataType SensorInternalState
   state: int
   status_msg: str

@@ -1,0 +1,10 @@
+CSThing CompositeSensor
+    Sensor S1
+        type:  Other
+        dataModel: RangeFinderData
+    end
+    Sensor S2
+        type:  Other
+        dataModel: TemperatureData
+    end
+end

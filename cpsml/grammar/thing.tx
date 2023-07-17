@@ -22,18 +22,16 @@ SmartDevice: Device | CompositeDevice;
 
 CompositeDevice:
     'CDevice' name=ID
-        'devices' ':'  '-' devices*=[Device:FQN]['-']
+        'devices' ':'  '-' devices*=[SmartDevice:FQN]['-']
         ('shape' ':' shape=Shape)?
     'end'
 ;
 
-SimpleThing: PeripheralDevice | CompositeSimpleThing;
-
-PeripheralDevice: Sensor | Actuator;
+SimpleThing: Sensor | Actuator | CompositeSimpleThing;
 
 CompositeSimpleThing:
     'CSThing' name=ID
-        'includes' ':' includes*=[SimpleThing:FQN]
+        includes+=SimpleThing
     'end'
 ;
 
@@ -306,7 +304,8 @@ SensorType:
     'IMU'           |
     'Compass'       |
     'Accelerometer' |
-    'Magnetometer'
+    'Magnetometer'  |
+    'Other'
 ;
 
 ActuatorType:
