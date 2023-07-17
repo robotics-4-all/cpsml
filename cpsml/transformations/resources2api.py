@@ -50,7 +50,7 @@ def resource_to_endpoint(resource):
     return e, msg
 
 
-def r2api_m2m(resources, broker=None, name='MyAPI') -> str:
+def resources_to_api_m2m(resources, broker=None, name='MyAPI') -> str:
     if broker is None:
         _broker = {
             'type': 'MQTT',

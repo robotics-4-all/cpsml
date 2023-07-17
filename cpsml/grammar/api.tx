@@ -44,6 +44,7 @@ BrokerInfo:
         ('type' ':' btype=BrokerType)
         ('host' ':' host=STRING)
         ('port' ':' port=INT)
+        ('ssl' ':' ssl=BOOL)?
         ('username' ':' username=STRING)?
         ('password' ':' password=STRING)?
     )#
@@ -55,17 +56,7 @@ BrokerType:
     'Redis'
 ;
 
-/*
-Endpoint:
-    (
-        ('uri:' uri=ID)
-        ('type:' type=EndpointType)
-        ('msg:' msg=Message)
-        ('namespace:' namespace=STRING)
-    )#
-;
-*/
-Endpoint: Publisher | Subscriber;
+Endpoint: Publisher | Subscriber | RPC | Action;
 
 Publisher:
     'publisher'
@@ -91,7 +82,7 @@ RPC:
     'rpc'
     (
         ('uri:' uri=STRING)
-        ('msg:' msg=[ReqRespMessage:FQN|+m:msgs])?
+        ('msg:' msg=[ReqRespMessage:FQN|^msgs])?
         ('namespace:' namespace=STRING)?
     )#
     'end'
@@ -101,7 +92,7 @@ Action:
     'action'
     (
         ('uri:' uri=STRING)
-        ('msg:' msg=[ActionMessage:FQN|+m:msgs])?
+        ('msg:' msg=[ActionMessage:FQN|^msgs])?
         ('namespace:' namespace=STRING)?
     )#
     'end'

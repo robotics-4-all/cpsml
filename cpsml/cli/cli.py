@@ -7,9 +7,10 @@ from cpsml.lang import build_model
 from cpsml.lang import get_thing_mm, get_resource_mm, get_synthesis_mm
 
 from cpsml.transformations.thing2resources import thing_to_resources_m2m
-from cpsml.transformations.resources2api import r2api_m2m
+from cpsml.transformations.resources2api import resources_to_api_m2m
 from cpsml.transformations.thing2api import thing_to_api_m2m
 from cpsml.transformations.system2apis import system_to_apis_m2m
+from cpsml.transformations.thing2vcode import thing_to_vcode
 
 
 @click.group("cpsml")
@@ -119,6 +120,30 @@ def s2apis(ctx, model_file):
         model = build_model(filepath)
         if model:
             print(f'[*] Validation passed!')
+
+
+@cli.command("t2vc")
+@click.argument("model_file")
+@click.pass_context
+def t2vc(ctx, model_file):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a thing model.')
+        raise ValueError()
+    thing_mm = get_thing_mm()
+    tmodel = thing_mm.model_from_file(model_file)
+    thing = tmodel.thing
+    a = thing_to_vcode(thing)
+    return
+
+    api_model = thing_to_api_m2m(thing)
+    filepath = f'{thing.name}.api'
+    with open(filepath, 'w') as fp:
+        fp.write(api_model)
+    print(f'[*] Validating API model...')
+    model = build_model(filepath)
+    if model:
+        print(f'[*] Validation passed!')
 
 
 def main():
