@@ -50,6 +50,7 @@ Robot:
             ('boards' ':' '-' boards+=PosedBoard['-'])
             ('sensors:' '-' sensors*=PosedSensor['-'])?
             ('actuators:' '-' actuators*=PosedActuator['-'])?
+            ('composites:' '-' composites*=PosedCSThing['-'])?
             ('shape' ':' shape=Shape)?
             ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
             ('networking' ':' networking=[Network:FQN])?
@@ -67,6 +68,7 @@ Device:
             ('shape' ':' shape=Shape)?
             ('sensors:' '-' sensors*=PosedSensor['-'])?
             ('actuators:' '-' actuators*=PosedActuator['-'])?
+            ('composites:' '-' composites*=PosedCSThing['-'])?
             ('networking' ':' networking=[Network:FQN])?
             ('communication' ':' communication=[CommunicationMiddleware:FQN])?
             ('rmm' ':' rmm=RMM)?
@@ -107,6 +109,7 @@ Actuator:
     GenericActuator     |
     MotorController     |
     ServoController     |
+    PanTilt				|
     Speaker             |
     Led
 ;
@@ -134,6 +137,16 @@ ServoController:
         (
             ('channels:' INT)
             ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
+        )#
+    'end'
+;
+
+PanTilt:
+    'PanTilt' name=ID
+        (
+            ('dataModel:' dataModel=[DataType:FQN])
+            ('joints' ':' '-' joints*=Transformation['-'])?
             ('shape' ':' shape=Shape)?
         )#
     'end'

@@ -1,0 +1,28 @@
+CSThing PanTiltCamera
+    shape: Cylinder(10, 40)
+    actuators:
+        - MyPanTilt
+    sensors:
+        - MyRGBCamera @ Transform(Translation(0, 0, 30), Rotation(0, 0))
+end
+
+
+/*
+CSThing PanTiltCamera
+    shape: Cylinder(10, 40)
+    actuators:
+        - DynamixelServo @ Transform(Translation(0, 0), Rotation(0, 0))
+        - DynamixelServo @ Transform(Translation(10, 0), Rotation(0, 0))
+    sensors:
+        - MyRGBCamera @ Transform(Translation(0, 0, 30), Rotation(0, 0))
+end
+*/
+
+/*
+CSThing PanTiltCamera
+    sensors:
+        - MyRGBCamera @ Transform(Translation(0, 0, 30), Rotation(0, 0))
+    composites:
+        - PanTilt @ Transform(Translation(0, 0, 0), Rotation(0, 0))
+end
+*/
