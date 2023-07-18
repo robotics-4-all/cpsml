@@ -10,7 +10,7 @@ import geometry
 Model:
     (
     imports*=Import
-    thing=Thing
+    things*=Thing
     )#
 ;
 
@@ -83,27 +83,27 @@ PosedThing: PosedSmartDevice | PosedSimpleThing | PosedBoard;
 PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
 
 PosedCSThing:
-    ref=[CompositeSimpleThing:FQN|+m:thing] ('@' transformation=DTransformation)?
+    ref=[CompositeSimpleThing:FQN|+m:things] (transformation=DTransformation)?
 ;
 
 PosedSmartDevice:
-    ref=[SmartDevice:FQN|+m:thing] ('@' transformation=DTransformation)?
+    ref=[SmartDevice:FQN|+m:things] (transformation=DTransformation)?
 ;
 
 PosedDevice:
-    ref=[Device:FQN|+m:thing] ('@' transformation=DTransformation)?
+    ref=[Device:FQN|+m:things] (transformation=DTransformation)?
 ;
 
 PosedSensor:
-    ref=[Sensor:FQN|+m:thing] ('@' transformation=DTransformation)?
+    ref=[Sensor:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
 ;
 
 PosedActuator:
-    ref=[Actuator:FQN|+m:thing] ('@' transformation=DTransformation)?
+    ref=[Actuator:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
 ;
 
 PosedBoard:
-    ref=Board ('@' transformation=DTransformation)?
+    ref=Board (transformation=DTransformation)?
 ;
 
 Actuator:
@@ -430,7 +430,7 @@ Import: 'import' importURI=FQNI ('as' name=ID)?;
 Description: /\#(.*?)$/;
 
 DTransformation:
-    transformation=Transformation ('on' parentThing=[Thing:FQN])?
+    ('@' transformation=Transformation)? ('on' parentThing=[PosedThing:FQN])?
 ;
 
 // Special rule for comments. Comments start with //

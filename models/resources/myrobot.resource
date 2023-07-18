@@ -1,4 +1,4 @@
-TopicMsg RangeFinderDataMsg
+TopicMsg RangeDataMsg
     range: float
     hfov: float
     vfov: float
@@ -18,13 +18,13 @@ end
 
 Resource<Sense> HCSR04
    uri: 'myrobot.sensors.rangefinder.hcsr04'
-   interface: AsyncProducer<RangeFinderDataMsg>
+   interface: AsyncProducer<RangeDataMsg>
    namespace: ''
 end
 
 Resource<Sense> VL53L0X
    uri: 'myrobot.sensors.rangefinder.vl53l0x'
-   interface: AsyncProducer<RangeFinderDataMsg>
+   interface: AsyncProducer<RangeDataMsg>
    namespace: ''
 end
 

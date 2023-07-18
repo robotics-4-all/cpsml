@@ -15,7 +15,7 @@ DataType Header
   node_id: str
 end
 
-DataType RangeFinderData
+DataType RangeData
   # Data model for range-finder sensors, suchs as sonar, tof and ir
   range: float
   hfov: float

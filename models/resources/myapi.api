@@ -8,16 +8,16 @@ API MyAPI
     endpoints
         publisher
             uri: "myrobot.sensors.rangefinder.hcsr04"
-            msg: RangeFinderDataMsg
+            msg: RangeDataMsg
         end
         publisher
             uri: "myrobot.sensors.rangefinder.vl53l0x"
-            msg: RangeFinderDataMsg
+            msg: RangeDataMsg
         end
     end
 
     messages
-        TopicMsg RangeFinderDataMsg
+        TopicMsg RangeDataMsg
             range: float
             hfov: float
             vfov: float
@@ -25,7 +25,7 @@ API MyAPI
             range_max: float
             sensor_id: str
         end
-        TopicMsg RangeFinderDataMsg
+        TopicMsg RangeDataMsg
             range: float
             hfov: float
             vfov: float

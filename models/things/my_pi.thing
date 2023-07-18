@@ -2,7 +2,7 @@ Device MyPi
     board: RaspberryPi4
     shape: Rectangle(15, 8)
     sensors:
-        - HCSR04
+        - SonarHCSR04
         - VL53L0X
     actuators:
         - GenericLedArray

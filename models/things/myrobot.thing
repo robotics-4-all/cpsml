@@ -5,15 +5,16 @@ Robot MyRobot
     communication: HomeEMQX
     boards:
         - RaspberryPi4
-        - JetsonNano @ Transform(Translation(0, 0), Rotation(0, 0))
+        - JetsonNano @ Transform(Translation(0, 5), Rotation(0, 0))
     sensors:
-        - HCSR04 @ Transform(Translation(10, 2), Rotation(0, 10))
-        - VL53L0X
-        - MyRGBCamera @ Transform(Translation(0, 0, 30), Rotation(0, 0)) on MyPanTilt
+        - SonarHCSR04 @ Transform(Translation(10, 2), Rotation(0, 10))
+        - VL53L0X(VL1)
+        - MyRGBCamera(Cam1) @ Transform(Translation(0, 0, 30), Rotation(0, 0)) on PT1
     actuators:
         - DFRobotMotorCtrl
-        - GenericLedArray
-        - MyPanTilt @ Transform(Translation(0, 10), Rotation(0, 0))
+        - GenericLedArray on Cam1
+        - MyPanTilt(PT1) @ Transform(Translation(0, 10), Rotation(0, 0))
+        - MyPanTilt(PT2) @ Transform(Translation(0, -10), Rotation(0, 0))
     composites:
         - PanTiltCamera @ Transform(Translation(10, 0), Rotation(0, 0))
     functionality:
