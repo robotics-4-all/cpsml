@@ -87,10 +87,17 @@ Actuator:
     Led
 ;
 
+CustomSensorType:
+    'SensorType' stype=ID
+;
+
+CustomActuatorType:
+    'ActuatorType' atype=ID
+;
+
 GenericSensor:
-    'Sensor' name=ID
+    'GenericSensor' name=ID
         (
-            ('type:' type=SensorType)
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
             ('freq:' acqFreq=FLOAT)?
@@ -143,9 +150,8 @@ LedArray:
 ;
 
 GenericActuator:
-    'Actuator' name=ID
+    'Actuator' '<' atype=[CustomActuatorType] '>' name=ID
         (
-            ('type:' type=ActuatorType)
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
             ('responseTime:' responseTime=FLOAT)?
