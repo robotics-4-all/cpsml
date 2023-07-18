@@ -21,7 +21,7 @@ SmartThing: Robot | SmartDevice;
 SmartDevice: Device | CompositeDevice;
 
 CompositeDevice:
-    'CDevice' name=ID
+    'CompositeDevice' name=ID
         'devices' ':'  '-' devices*=[SmartDevice:FQN]['-']
         ('shape' ':' shape=Shape)?
     'end'
@@ -32,6 +32,7 @@ SimpleThing: Sensor | Actuator | CompositeSimpleThing;
 CompositeSimpleThing:
     'CSThing' name=ID
         includes+=SimpleThing
+        ('shape' ':' shape=Shape)?
     'end'
 ;
 
@@ -56,7 +57,7 @@ Robot:
 Device:
     'Device' name=ID
         (
-            ('board: ' type=Board)
+            ('board' ':' board=PosedBoard)
             ('shape' ':' shape=Shape)?
             ('sensors:' '-' sensors*=PosedSensor['-'])?
             ('actuators:' '-' actuators*=PosedActuator['-'])?
@@ -66,6 +67,19 @@ Device:
             ('hasBle: ' ble=BOOL)?
         )#
     'end'
+;
+
+PosedThing: PosedDevice | PosedSimpleThing | PosedBoard;
+
+PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
+
+PosedCSThing:
+    ref=[CompositeSimpleThing:FQN|+m:thing] ('@' transformation=Transformation)?
+;
+
+
+PosedDevice:
+    ref=[Device:FQN|+m:thing] ('@' transformation=Transformation)?
 ;
 
 PosedSensor:
@@ -93,17 +107,6 @@ CustomSensorType:
 
 CustomActuatorType:
     'ActuatorType' atype=ID
-;
-
-GenericSensor:
-    'GenericSensor' name=ID
-        (
-            ('dataModel:' dataModel=[DataType:FQN])
-            ('shape' ':' shape=Shape)?
-            ('freq:' acqFreq=FLOAT)?
-            ('maxFreq:' maxFreq=FLOAT)?
-        )#
-    'end'
 ;
 
 MotorController:
@@ -167,6 +170,18 @@ Sensor:
     CameraRGB       |
     CameraThermal   |
     Button
+;
+
+
+GenericSensor:
+    'GenericSensor' '<' stype=[CustomSensorType] '>' name=ID
+        (
+            ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
+            ('freq:' acqFreq=FLOAT)?
+            ('maxFreq:' maxFreq=FLOAT)?
+        )#
+    'end'
 ;
 
 Button:
@@ -298,28 +313,6 @@ RobotFunctionality:
     'Mapping'                       |
     'FaceDetection'                 |
     'ObjectDetection'
-;
-
-SensorType:
-    'Range'         |
-    'LiDAR'         |
-    'CameraRGB'     |
-    'Thermal'       |
-    'ThermalArray'  |
-    'CameraThermal' |
-    'IMU'           |
-    'Compass'       |
-    'Accelerometer' |
-    'Magnetometer'  |
-    'Other'
-;
-
-ActuatorType:
-    'MotorController'   |
-    'LED'               |
-    'RGBLed'            |
-    'NeopixelLED'       |
-    'ServoController'
 ;
 
 RMM:

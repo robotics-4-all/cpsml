@@ -1,10 +1,10 @@
 CSThing CompositeSensor
-    Sensor S1
-        type:  Other
+    Button S1
         dataModel: RangeFinderData
+        shape: Rectangle(1,1)
     end
-    Sensor S2
-        type:  Other
+    Button S2
         dataModel: TemperatureData
+        shape: Rectangle(1,1)
     end
 end
