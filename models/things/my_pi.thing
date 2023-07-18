@@ -9,7 +9,7 @@ Device MyPi
     networking: CSAL
     communication: HomeEMQX
     rmm:
-        communication: Redis
+        broker: Redis
         control:
             volume: true
             ssh: true
@@ -18,6 +18,5 @@ Device MyPi
             logs: false
         applications:
             types:
-                - ROS
                 - R4A
 end
