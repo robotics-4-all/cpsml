@@ -31,6 +31,7 @@ CompositeDevice:
 
 SimpleThing: Sensor | Actuator | CompositeSimpleThing;
 
+
 CompositeSimpleThing:
     'CSThing' name=ID
 	(
@@ -82,27 +83,27 @@ PosedThing: PosedSmartDevice | PosedSimpleThing | PosedBoard;
 PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
 
 PosedCSThing:
-    ref=[CompositeSimpleThing:FQN|+m:thing] ('@' transformation=Transformation)?
+    ref=[CompositeSimpleThing:FQN|+m:thing] ('@' transformation=DTransformation)?
 ;
 
 PosedSmartDevice:
-    ref=[SmartDevice:FQN|+m:thing] ('@' transformation=Transformation)?
+    ref=[SmartDevice:FQN|+m:thing] ('@' transformation=DTransformation)?
 ;
 
 PosedDevice:
-    ref=[Device:FQN|+m:thing] ('@' transformation=Transformation)?
+    ref=[Device:FQN|+m:thing] ('@' transformation=DTransformation)?
 ;
 
 PosedSensor:
-    ref=[Sensor:FQN|+m:thing] ('@' transformation=Transformation)?
+    ref=[Sensor:FQN|+m:thing] ('@' transformation=DTransformation)?
 ;
 
 PosedActuator:
-    ref=[Actuator:FQN|+m:thing] ('@' transformation=Transformation)?
+    ref=[Actuator:FQN|+m:thing] ('@' transformation=DTransformation)?
 ;
 
 PosedBoard:
-    ref=Board ('@' transformation=Transformation)?
+    ref=Board ('@' transformation=DTransformation)?
 ;
 
 Actuator:
@@ -425,6 +426,10 @@ FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)?;
 
 Description: /\#(.*?)$/;
+
+DTransformation:
+    transformation=Transformation ('on' parentThing=[Thing:FQN])?
+;
 
 // Special rule for comments. Comments start with //
 

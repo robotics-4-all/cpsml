@@ -17,6 +17,7 @@ def get_thing_mm(debug=False):
     )
     mm.register_scope_providers(
         {
+            "*.*": scoping_providers.FQNImportURI(),
             "*.dataModel": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'datatypes','*.dtype')
             ),

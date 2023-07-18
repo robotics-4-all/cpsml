@@ -3,7 +3,9 @@ CSThing PanTiltCamera
     actuators:
         - MyPanTilt
     sensors:
-        - MyRGBCamera @ Transform(Translation(0, 0, 30), Rotation(0, 0))
+        - MyRGBCamera @ Transform(Translation(0, 0, 30), Rotation(0, 0)) on MyPanTilt
+        - HCSR04 @ Transform(Translation(0, 0, 0), Rotation(0, 0))
+        - HCSR04 @ Transform(Translation(0, 0, 0), Rotation(0, 0)) on MyRGBCamera
 end
 
 
