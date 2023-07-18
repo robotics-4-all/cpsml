@@ -22,8 +22,10 @@ SmartDevice: Device | CompositeDevice;
 
 CompositeDevice:
     'CompositeDevice' name=ID
-        'devices' ':'  '-' devices*=[SmartDevice:FQN]['-']
+	(
+        ('devices' ':'  '-' devices+=[PosedSmartDevice:FQN]['-'])
         ('shape' ':' shape=Shape)?
+	)#
     'end'
 ;
 
@@ -31,8 +33,12 @@ SimpleThing: Sensor | Actuator | CompositeSimpleThing;
 
 CompositeSimpleThing:
     'CSThing' name=ID
-        includes+=SimpleThing
+	(
         ('shape' ':' shape=Shape)?
+        ('sensors' ':' '-' sensors+=PosedSensor['-'])?
+        ('actuators' ':' '-' actuators+=PosedActuator['-'])?
+        ('composites' ':' '-' composites+=PosedCSThing['-'])?
+	)#
     'end'
 ;
 
@@ -69,7 +75,7 @@ Device:
     'end'
 ;
 
-PosedThing: PosedDevice | PosedSimpleThing | PosedBoard;
+PosedThing: PosedSmartDevice | PosedSimpleThing | PosedBoard;
 
 PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
 
@@ -77,6 +83,9 @@ PosedCSThing:
     ref=[CompositeSimpleThing:FQN|+m:thing] ('@' transformation=Transformation)?
 ;
 
+PosedSmartDevice:
+    ref=[SmartDevice:FQN|+m:thing] ('@' transformation=Transformation)?
+;
 
 PosedDevice:
     ref=[Device:FQN|+m:thing] ('@' transformation=Transformation)?
@@ -97,6 +106,7 @@ PosedBoard:
 Actuator:
     GenericActuator     |
     MotorController     |
+    ServoController     |
     Speaker             |
     Led
 ;
@@ -118,6 +128,17 @@ MotorController:
         )#
     'end'
 ;
+
+ServoController:
+    'ServoController' name=ID
+        (
+            ('channels:' INT)
+            ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
+        )#
+    'end'
+;
+
 
 Speaker:
     'Speaker' name=ID
@@ -153,7 +174,7 @@ LedArray:
 ;
 
 GenericActuator:
-    'Actuator' '<' atype=[CustomActuatorType] '>' name=ID
+    'GenericActuator' '<' atype=[CustomActuatorType] '>' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
@@ -178,7 +199,6 @@ GenericSensor:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
-            ('freq:' acqFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
     'end'

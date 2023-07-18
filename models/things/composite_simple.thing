@@ -1,10 +1,6 @@
-CSThing CompositeSensor
-    Button S1
-        dataModel: RangeFinderData
-        shape: Rectangle(1,1)
-    end
-    Button S2
-        dataModel: TemperatureData
-        shape: Rectangle(1,1)
-    end
+CSThing ButtonArray
+    sensors:
+        - ButtonA @ Transform(Translation(0, 0), Rotation(0, 0))
+        - ButtonA @ Transform(Translation(1, 0), Rotation(0, 0))
+        - ButtonA @ Transform(Translation(2, 0), Rotation(0, 0))
 end

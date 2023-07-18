@@ -36,6 +36,14 @@ DataType LiDARData
   sensor_id: str
 end
 
+DataType Image
+    height: int
+    width: int
+    encoding: str
+    step: int
+    data: uint[]
+end
+
 DataType TemperatureData
   temperatures: float[]
   sensor_id: str
@@ -53,9 +61,18 @@ DataType SensorInternalState
   status_msg: str
 end
 
+DataType ButtonData
+  state: int
+end
+
 DataType MotorControllerCmdPwm
   # N channel motor controller data using pwm signals
   pwmVals: float[]
+end
+
+DataType ServoControllerData
+  # N channel motor controller data using pwm signals
+  angles: float[]
 end
 
 DataType MotorControllerCmdVel
