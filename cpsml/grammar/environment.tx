@@ -12,6 +12,9 @@ Model:
 Environment:
     'Environment' '<' dimensions=EnvDimensions '>' name=ID
     (
+        'properties'
+            properties*=EnvironmentalProperty
+        'end'
         (
         'things'
             (things=[Thing:FQN] '@' poses=Pose)*
@@ -20,6 +23,11 @@ Environment:
         (
         'obstacles'
             (obstacles=[Obstacle:FQN] '@' poses=Pose)*
+        'end'
+        )?
+        (
+        'entities'
+            (entities=[PerceivableEntity:FQN] '@' poses=Pose)*
         'end'
         )?
     )#
@@ -32,6 +40,46 @@ Obstacle:
     'Obstacle' name=ID
         'shape' ':' shape=Shape
     'end'
+;
+
+PerceivableEntity:
+    'PerceivableEntity'
+        'properties' ':' '-' properties*=PerceptionProperty['-']
+        'shape' ':' shape=Shape
+    'end'
+;
+
+PerceptionProperty:
+    type=PerceptionPropertyType 'with value' value=FLOAT ('with range' range=FLOAT)?
+        ('with dispersion' dispersion=DispersionType)?
+;
+
+PerceptionPropertyType:
+    'Temperature' |
+    'Humidity'    |
+    'Sound'       |
+    'Speech'
+;
+
+
+EnvironmentalProperty:
+    type=EnvironmentalPropertyType 'with' value=FLOAT
+;
+
+EnvironmentalPropertyType:
+    'temperature'  |
+    'airQUality'   |
+    'soundLevelDB' |
+    'humidity'
+;
+
+
+DispersionType:
+    'Constant'      |
+    'Linear'        |
+    'Exponential'   |
+    'Logarithmic'   |
+    'Quadratic'
 ;
 
 NID: /(.*?)\n/;

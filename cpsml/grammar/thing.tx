@@ -339,6 +339,8 @@ IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
+
+/*
 RobotFunctionality:
     'Mobility'                      |
     'Manipulation'                  |
@@ -347,6 +349,41 @@ RobotFunctionality:
     'Mapping'                       |
     'FaceDetection'                 |
     'ObjectDetection'
+;
+*/
+
+RobotFunctionality:
+    'Functionality'
+        'name:' name=ID
+        // Operator
+        ('requiredSensors:' number=INT requiredSensors*=SensorType)?
+        ('optionalSensors:' optionalSensors*=SensorType)?
+        ('requiredActuators:'requiredActuators*=ActuatorType)?
+        ('optionalActuators:' optionalActuators*=ActuatorType)?
+        ('dependsOn:' functionalities*=[RobotFunctionality])?
+    'end'
+;
+
+SensorType:
+    'Range'         |
+    'LiDAR'         |
+    'CameraRGB'     |
+    'Thermal'       |
+    'ThermalArray'  |
+    'CameraThermal' |
+    'IMU'           |
+    'Compass'       |
+    'Accelerometer' |
+    'Magnetometer'  |
+    'Other'
+;
+
+ActuatorType:
+    'MotorController'   |
+    'LED'               |
+    'RGBLed'            |
+    'NeopixelLED'       |
+    'ServoController'
 ;
 
 RMM:
