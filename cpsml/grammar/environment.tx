@@ -68,7 +68,7 @@ EnvironmentalProperty:
 
 EnvironmentalPropertyType:
     'temperature'  |
-    'airQUality'   |
+    'airQuality'   |
     'soundLevelDB' |
     'humidity'
 ;
