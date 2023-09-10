@@ -17,9 +17,6 @@ Robot MyRobot
         - MyPanTilt(PT2) @ Transform(Translation(0, -10), Rotation(0, 0))
     composites:
         - PanTiltCamera @ Transform(Translation(10, 0), Rotation(0, 0))
-    functionality:
-        - Mobility
-        - Mapping
     rmm:
         broker: Redis
         control:

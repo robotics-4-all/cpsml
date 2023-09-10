@@ -36,9 +36,12 @@ CompositeSimpleThing:
     'CSThing' name=ID
 	(
         ('shape' ':' shape=Shape)?
-        ('sensors' ':' '-' sensors+=PosedSensor['-'])?
-        ('actuators' ':' '-' actuators+=PosedActuator['-'])?
-        ('composites' ':' '-' composites+=PosedCSThing['-'])?
+        ('sensors' ':'
+             '-' sensors+=PosedSensor['-'])?
+        ('actuators' ':'
+             '-' actuators+=PosedActuator['-'])?
+        ('composites' ':'
+             '-' composites+=PosedCSThing['-'])?
 	)#
     'end'
 ;
@@ -46,35 +49,36 @@ CompositeSimpleThing:
 
 Robot:
     'Robot' name=ID
-        (
-            ('type' ':' rtype=RobotType)
-            ('boards' ':' '-' boards+=PosedBoard['-'])
-            ('sensors:' '-' sensors*=PosedSensor['-'])?
-            ('actuators:' '-' actuators*=PosedActuator['-'])?
-            ('composites:' '-' composites*=PosedCSThing['-'])?
-            ('shape' ':' shape=Shape)?
-            ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
-            ('networking' ':' networking=[Network:FQN])?
-            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
-            ('rmm' ':' rmm=RMM)?
-            ('hasBle' ':' ble=BOOL)?
-        )#
+    (
+        ('type' ':' rtype=RobotType)
+        ('boards' ':' '-' boards+=PosedBoard['-'])
+        ('sensors:' '-' sensors*=PosedSensor['-'])?
+        ('actuators:' '-' actuators*=PosedActuator['-'])?
+        ('composites:' '-' composites*=PosedCSThing['-'])?
+        ('functionality' ':' '-' functionality+=[RobotFunctionality:FQN]['-'])?
+        ('networking' ':' networking=[Network:FQN])?
+        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('shape' ':' shape=Shape)?
+        ('rmm' ':' rmm=RMM)?
+        ('hasBle' ':' ble=BOOL)?
+    )#
     'end'
 ;
 
+
 Device:
     'Device' name=ID
-        (
-            ('board' ':' board=PosedBoard)
-            ('shape' ':' shape=Shape)?
-            ('sensors:' '-' sensors*=PosedSensor['-'])?
-            ('actuators:' '-' actuators*=PosedActuator['-'])?
-            ('composites:' '-' composites*=PosedCSThing['-'])?
-            ('networking' ':' networking=[Network:FQN])?
-            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
-            ('rmm' ':' rmm=RMM)?
-            ('hasBle: ' ble=BOOL)?
-        )#
+    (
+        ('board' ':' board=PosedBoard)
+        ('sensors:' '-' sensors*=PosedSensor['-'])?
+        ('actuators:' '-' actuators*=PosedActuator['-'])?
+        ('composites:' '-' composites*=PosedCSThing['-'])?
+        ('networking' ':' networking=[Network:FQN])?
+        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('shape' ':' shape=Shape)?
+        ('rmm' ':' rmm=RMM)?
+        ('hasBle: ' ble=BOOL)?
+    )#
     'end'
 ;
 

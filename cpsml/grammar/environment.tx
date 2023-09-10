@@ -9,24 +9,23 @@ Model:
     )#
 ;
 
+
 Environment:
     'Environment' '<' dimensions=EnvDimensions '>' name=ID
     (
-        'properties'
-            properties*=EnvironmentalProperty
+        ('properties'
+            (properties*=EnvironmentalProperty)
         'end'
-        (
-        'things'
+        )
+        ('things'
             (things=[Thing:FQN] '@' poses=Pose)*
         'end'
         )?
-        (
-        'obstacles'
+        ('obstacles'
             (obstacles=[Obstacle:FQN] '@' poses=Pose)*
         'end'
         )?
-        (
-        'entities'
+        ('entities'
             (entities=[PerceivableEntity:FQN] '@' poses=Pose)*
         'end'
         )?
@@ -34,13 +33,16 @@ Environment:
     'end'
 ;
 
+
 EnvDimensions: '2D' | '3D';
+
 
 Obstacle:
     'Obstacle' name=ID
         'shape' ':' shape=Shape
     'end'
 ;
+
 
 PerceivableEntity:
     'PerceivableEntity'
@@ -49,10 +51,12 @@ PerceivableEntity:
     'end'
 ;
 
+
 PerceptionProperty:
-    type=PerceptionPropertyType 'with value' value=FLOAT ('with range' range=FLOAT)?
+    type=PerceptionPropertyType ':' value=FLOAT ('with range' range=FLOAT)?
         ('with dispersion' dispersion=DispersionType)?
 ;
+
 
 PerceptionPropertyType:
     'Temperature' |
@@ -63,8 +67,10 @@ PerceptionPropertyType:
 
 
 EnvironmentalProperty:
-    type=EnvironmentalPropertyType 'with' value=FLOAT
+    type=EnvironmentalPropertyType ':' value=FLOAT
+        ('with dispersion' dispersion=DispersionType)?
 ;
+
 
 EnvironmentalPropertyType:
     'temperature'  |

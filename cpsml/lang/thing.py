@@ -2,10 +2,11 @@ from os.path import dirname, join, basename
 
 from cpsml.utils import MODEL_REPO_PATH, THIS_DIR
 
-from textx import metamodel_from_file
 import textx.scoping.providers as scoping_providers
+
 from textx import (
     get_children_of_type,
+    metamodel_from_file,
 )
 
 
