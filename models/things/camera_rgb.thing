@@ -1,0 +1,4 @@
+CameraRGB MyRGBCamera
+    dataModel: Image
+    shape: Rectangle(15, 7)
+end

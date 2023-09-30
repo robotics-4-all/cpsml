@@ -1,7 +1,7 @@
 RangeFinder VL53L0X
   type: ToF
-  dataModel: RangeFinderData
-  connectivity: Hardware
+  dataModel: RangeData
+  shape: Rectangle(3, 2)
   maxFreq: 50.0  // hz
   hfov: 10.0
   vfov: 21.9

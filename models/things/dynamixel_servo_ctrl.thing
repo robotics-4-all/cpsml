@@ -1,0 +1,4 @@
+ServoController DynamixelServo
+    channels: 1
+    dataModel: ServoControllerData
+end

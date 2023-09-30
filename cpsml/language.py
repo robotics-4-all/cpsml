@@ -8,61 +8,69 @@ from cpsml.lang import (
     get_dtype_mm,
     get_api_mm,
     get_synthesis_mm,
-    get_eservice_mm
+    get_eservice_mm,
+    get_env_mm
 )
 
 
 @language('cpsml-thing', '*.thing')
 def things_language():
-    "cpsml Things language"
+    "CPS-ML Things language"
     mm = get_thing_mm()
     return mm
 
 
 @language('cpsml-dtype', '*.dtype')
 def dtypes_language():
-    "cpsml language for data types"
+    "CPS-ML DataType language"
     mm = get_dtype_mm()
     return mm
 
 
 @language('cpsml-resource', '*.resource')
 def resources_language():
-    "cpsML resource language"
+    "CPS-ML Resource language"
     mm = get_resource_mm()
     return mm
 
 
 @language('cpsml-network', '*.net')
 def networking_language():
-    "cpsml network language"
+    "CPS-ML Networking language"
     mm = get_networking_mm()
     return mm
 
 
 @language('cpsml-comm', '*.comm')
 def communication_language():
-    "cpsml communication language"
+    "CPS-ML Communication language"
     mm = get_communication_mm()
     return mm
 
 
 @language('cpsml-api', '*.api')
 def api_language():
-    "cpsml API language"
+    "CPS-ML API language"
     mm = get_api_mm()
     return mm
 
 
 @language('cpsml-synth', '*.system')
 def synthesis_language():
-    "cpsml Synthesis language"
+    "CPS-ML System Synthesis language"
     mm = get_synthesis_mm()
     return mm
 
 
 @language('cpsml-esvc', '*.esvc')
 def eservice_language():
-    "cpsml Services language"
+    "CPS-ML Services language"
     mm = get_eservice_mm()
+    return mm
+
+
+@language('cpsml-env', '*.env')
+def environment_language():
+    "CPS-ML Environment language"
+    mm = get_env_mm()
     return mm

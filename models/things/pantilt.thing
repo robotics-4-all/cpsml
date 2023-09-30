@@ -1,0 +1,8 @@
+PanTilt MyPanTilt
+    shape: Cylinder(10, 30)
+    dataModel: PanTiltData
+    joints:
+        - Transform(Translation(0, 0), Rotation(0, 0))
+        - Transform(Translation(10, 0), Rotation(0, 0))
+end
+

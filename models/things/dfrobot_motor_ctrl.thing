@@ -1,5 +1,5 @@
 MotorController DFRobotMotorCtrl
-  type: DualMotor
-  dataModel: MotorControllerCmdVel
-  connectivity: Hardware
+    type: DualMotor
+    dataModel: MotorControllerCmdVel
+    shape: Rectangle(5, 3)
 end

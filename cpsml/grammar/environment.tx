@@ -1,23 +1,106 @@
 import thing
+import geometry
 
-World:
-    'World' '<' dimensions=WorldDimensions '>'name=ID
-        'things'
-            (things*=[Thing:FQN|+m:thing] '@' poses*=WorldPose)*
-        'end'
+Model:
+    imports*=Import
+    (
+    (environment=Environment)?
+    obstacles*=Obstacle
+    )#
+;
 
-        'obstacles'
-            (obstracles*=[Obstacle:FQN] '@' poses*=WorldPose)*
+
+Environment:
+    'Environment' '<' dimensions=EnvDimensions '>' name=ID
+    (
+        ('properties'
+            (properties*=EnvironmentalProperty)
         'end'
+        )
+        ('things'
+            (things=[Thing:FQN] '@' poses=Pose)*
+        'end'
+        )?
+        ('obstacles'
+            (obstacles=[Obstacle:FQN] '@' poses=Pose)*
+        'end'
+        )?
+        ('entities'
+            (entities=[PerceivableEntity:FQN] '@' poses=Pose)*
+        'end'
+        )?
+    )#
     'end'
 ;
 
-Pose:
-    'Pose' '(' x=FLOAT, y=FLOAT, z=FLOAT ')'
-;
+
+EnvDimensions: '2D' | '3D';
+
 
 Obstacle:
-    'THIS IS AN OBSTACLE'
+    'Obstacle' name=ID
+        'shape' ':' shape=Shape
+    'end'
 ;
 
-WorldDimensions: '2D' | '3D';
+
+PerceivableEntity:
+    'PerceivableEntity'
+        'properties' ':' '-' properties*=PerceptionProperty['-']
+        'shape' ':' shape=Shape
+    'end'
+;
+
+
+PerceptionProperty:
+    type=PerceptionPropertyType ':' value=FLOAT ('with range' range=FLOAT)?
+        ('with dispersion' dispersion=DispersionType)?
+;
+
+
+PerceptionPropertyType:
+    'Temperature' |
+    'Humidity'    |
+    'Sound'       |
+    'Speech'
+;
+
+
+EnvironmentalProperty:
+    type=EnvironmentalPropertyType ':' value=FLOAT
+        ('with dispersion' dispersion=DispersionType)?
+;
+
+
+EnvironmentalPropertyType:
+    'temperature'  |
+    'airQuality'   |
+    'soundLevelDB' |
+    'humidity'
+;
+
+
+DispersionType:
+    'Constant'      |
+    'Linear'        |
+    'Exponential'   |
+    'Logarithmic'   |
+    'Quadratic'
+;
+
+NID: /(.*?)\n/;
+
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Description: /\#(.*?)$/;
+
+// Special rule for comments. Comments start with //
+
+// Comments
+Comment: CommentLine | CommentBlock ;
+
+CommentLine: /\/\/.*?$/;
+
+CommentBlock: /\/\*(.|\n)*?\*\//;

@@ -17,6 +17,7 @@ def get_synthesis_mm(debug=False):
     )
     mm.register_scope_providers(
         {
+            # "*.*": scoping_providers.FQN(),
             "*.things": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'things','*.thing')
             ),
@@ -25,6 +26,9 @@ def get_synthesis_mm(debug=False):
             ),
             "*.services": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'eservices','*.esvc')
+            ),
+            "*.environment": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'environment','*.env')
             ),
         }
     )

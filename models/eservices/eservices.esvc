@@ -8,7 +8,7 @@ EServiceREST FaceDetectorSvc
             - imgData: int
 end
 
-EServiceREST WeatherForecast
+EServiceREST WeatherForecastSvc
     verb: GET
     host: "weather.myplatform.net"
     port: 8080

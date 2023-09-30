@@ -1,0 +1,37 @@
+DataType MotorControllerCmdPwm
+  # N channel motor controller data using pwm signals
+  pwmVals: float[]
+end
+
+DataType ServoControllerData
+  # N channel motor controller data using pwm signals
+  angles: float[]
+end
+
+DataType MotorControllerCmdVel
+  # N channel motor controller data using velocitty commands
+  velocities: float[]
+end
+
+DataType MoveBaseVel
+  # N channel motor controller data using velocitty commands
+  linear_vel: float
+  rotation_vel: float
+end
+
+DataType MoveBase
+  # N channel motor controller data using velocitty commands
+  position: float[]
+  orientation: float[]
+end
+
+DataType LedArrayData
+  # N channel motor controller data using velocitty commands
+  size: int
+  colors: float[]
+end
+
+DataType PanTiltData
+    panAngle: float
+    tiltAngle: float
+end

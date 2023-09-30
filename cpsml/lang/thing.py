@@ -2,10 +2,11 @@ from os.path import dirname, join, basename
 
 from cpsml.utils import MODEL_REPO_PATH, THIS_DIR
 
-from textx import metamodel_from_file
 import textx.scoping.providers as scoping_providers
+
 from textx import (
     get_children_of_type,
+    metamodel_from_file,
 )
 
 
@@ -17,6 +18,7 @@ def get_thing_mm(debug=False):
     )
     mm.register_scope_providers(
         {
+            "*.*": scoping_providers.FQNImportURI(),
             "*.dataModel": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'datatypes','*.dtype')
             ),

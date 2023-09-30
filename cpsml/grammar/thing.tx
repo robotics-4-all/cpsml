@@ -10,63 +10,121 @@ import geometry
 Model:
     (
     imports*=Import
-    thing=Thing
+    things*=Thing
     )#
 ;
 
+Thing: SmartThing | SimpleThing;
 
-Thing: Robot | Device | Sensor | Actuator;
+SmartThing: Robot | SmartDevice;
+
+SmartDevice: Device | CompositeDevice;
+
+CompositeDevice:
+    'CompositeDevice' name=ID
+	(
+        ('devices' ':'  '-' devices+=[PosedSmartDevice:FQN]['-'])
+        ('shape' ':' shape=Shape)?
+	)#
+    'end'
+;
+
+SimpleThing: Sensor | Actuator | CompositeSimpleThing;
+
+
+CompositeSimpleThing:
+    'CSThing' name=ID
+	(
+        ('shape' ':' shape=Shape)?
+        ('sensors' ':'
+             '-' sensors+=PosedSensor['-'])?
+        ('actuators' ':'
+             '-' actuators+=PosedActuator['-'])?
+        ('composites' ':'
+             '-' composites+=PosedCSThing['-'])?
+	)#
+    'end'
+;
 
 
 Robot:
     'Robot' name=ID
-        (
-            ('type' ':' rtype=RobotType)
-            ('boards' ':' '-' boards+=DeviceBoardType['-'])
-            ('geometry: ' geometry=ThingGeometry)?
-            ('sensors' ':' '-' sensors*=[Sensor:FQN]['-'])?
-            ('actuators' ':' '-' actuators*=[Actuator:FQN]['-'])?
-            ('functionality' ':' '-' functionality+=RobotFunctionality['-'])?
-            ('networking' ':' networking=[Network:FQN])?
-            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
-            ('rmm' ':' rmm=RMM)?
-            ('hasBle' ':' ble=BOOL)?
-        )#
+    (
+        ('type' ':' rtype=RobotType)
+        ('boards' ':' '-' boards+=PosedBoard['-'])
+        ('sensors:' '-' sensors*=PosedSensor['-'])?
+        ('actuators:' '-' actuators*=PosedActuator['-'])?
+        ('composites:' '-' composites*=PosedCSThing['-'])?
+        ('functionality' ':' '-' functionality+=[RobotFunctionality:FQN]['-'])?
+        ('networking' ':' networking=[Network:FQN])?
+        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('shape' ':' shape=Shape)?
+        ('rmm' ':' rmm=RMM)?
+        ('hasBle' ':' ble=BOOL)?
+    )#
     'end'
 ;
 
+
 Device:
     'Device' name=ID
-        (
-            ('type: ' type=DeviceBoardType)
-            ('geometry: ' geometry=ThingGeometry)?
-            ('sensors:' '-' sensors*=[Sensor:FQN]['-'])?
-            ('actuators:' '-' actuators*=[Actuator:FQN]['-'])?
-            ('networking' ':' networking=[Network:FQN])?
-            ('communication' ':' communication=[CommunicationMiddleware:FQN])?
-            ('rmm' ':' rmm=RMM)?
-            ('hasBle: ' ble=BOOL)?
-        )#
+    (
+        ('board' ':' board=PosedBoard)
+        ('sensors:' '-' sensors*=PosedSensor['-'])?
+        ('actuators:' '-' actuators*=PosedActuator['-'])?
+        ('composites:' '-' composites*=PosedCSThing['-'])?
+        ('networking' ':' networking=[Network:FQN])?
+        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('shape' ':' shape=Shape)?
+        ('rmm' ':' rmm=RMM)?
+        ('hasBle: ' ble=BOOL)?
+    )#
     'end'
+;
+
+PosedThing: PosedSmartDevice | PosedSimpleThing | PosedBoard;
+
+PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
+
+PosedCSThing:
+    ref=[CompositeSimpleThing:FQN|+m:things] (transformation=DTransformation)?
+;
+
+PosedSmartDevice:
+    ref=[SmartDevice:FQN|+m:things] (transformation=DTransformation)?
+;
+
+PosedDevice:
+    ref=[Device:FQN|+m:things] (transformation=DTransformation)?
+;
+
+PosedSensor:
+    ref=[Sensor:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
+;
+
+PosedActuator:
+    ref=[Actuator:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
+;
+
+PosedBoard:
+    ref=Board (transformation=DTransformation)?
 ;
 
 Actuator:
     GenericActuator     |
     MotorController     |
+    ServoController     |
+    PanTilt				|
     Speaker             |
     Led
 ;
 
-GenericSensor:
-    'Sensor' name=ID
-        (
-            ('type:' type=SensorType)
-            ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
-            ('freq:' acqFreq=FLOAT)?
-            ('maxFreq:' maxFreq=FLOAT)?
-        )#
-    'end'
+CustomSensorType:
+    'SensorType' stype=ID
+;
+
+CustomActuatorType:
+    'ActuatorType' atype=ID
 ;
 
 MotorController:
@@ -74,16 +132,37 @@ MotorController:
         (
             ('type:' type=MotorControllerType)
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
         )#
     'end'
 ;
+
+ServoController:
+    'ServoController' name=ID
+        (
+            ('channels:' INT)
+            ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
+        )#
+    'end'
+;
+
+PanTilt:
+    'PanTilt' name=ID
+        (
+            ('dataModel:' dataModel=[DataType:FQN])
+            ('joints' ':' '-' joints*=Transformation['-'])?
+            ('shape' ':' shape=Shape)?
+        )#
+    'end'
+;
+
 
 Speaker:
     'Speaker' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
         )#
     'end'
 ;
@@ -95,7 +174,7 @@ SingleLed:
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('color' ':' color=INT)?
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
@@ -106,18 +185,17 @@ LedArray:
         (
             ('size:' size=INT)
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
 ;
 
 GenericActuator:
-    'Actuator' name=ID
+    'GenericActuator' '<' atype=[CustomActuatorType] '>' name=ID
         (
-            ('type:' type=ActuatorType)
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('responseTime:' responseTime=FLOAT)?
         )#
     'end'
@@ -133,11 +211,22 @@ Sensor:
     Button
 ;
 
+
+GenericSensor:
+    'GenericSensor' '<' stype=[CustomSensorType] '>' name=ID
+        (
+            ('dataModel:' dataModel=[DataType:FQN])
+            ('shape' ':' shape=Shape)?
+            ('maxFreq:' maxFreq=FLOAT)?
+        )#
+    'end'
+;
+
 Button:
     'Button' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
     'end'
@@ -148,7 +237,7 @@ RangeFinder:
         (
             ('type:' type=[RangeFinderType])
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('hfov:' hfov=FLOAT)?
@@ -163,7 +252,7 @@ LiDARSensor:
     'LiDARSensor' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('minAngle:' minAngle=FLOAT)?
@@ -179,7 +268,7 @@ CameraRGB:
     'CameraRGB' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('resHeight:' resHeight=FLOAT)?
@@ -194,7 +283,7 @@ CameraThermal:
     'CameraThermal' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
             ('resHeight:' resHeight=FLOAT)?
@@ -209,7 +298,7 @@ Accelerometer:
     'Accelerometer' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -220,7 +309,7 @@ Magnetometer:
     'Magnetometer' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -231,7 +320,7 @@ Gyroscope:
     'Gyroscope' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=DeviceConnectivity)?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -243,7 +332,7 @@ IMU:
         'type:' type=IMUType
         (
             ('dataModel:' dataModel=[DataType:FQN])
-            ('connectivity:' connectivity=[DeviceConnectivity])?
+            ('shape' ':' shape=Shape)?
             ('freq:' pubFreq=FLOAT)?
             ('maxFreq:' maxFreq=FLOAT)?
         )#
@@ -254,6 +343,8 @@ IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
+
+/*
 RobotFunctionality:
     'Mobility'                      |
     'Manipulation'                  |
@@ -262,6 +353,19 @@ RobotFunctionality:
     'Mapping'                       |
     'FaceDetection'                 |
     'ObjectDetection'
+;
+*/
+
+RobotFunctionality:
+    'Functionality'
+        'name:' name=ID
+        // Operator
+        ('requiredSensors:' number=INT requiredSensors*=SensorType)?
+        ('optionalSensors:' optionalSensors*=SensorType)?
+        ('requiredActuators:'requiredActuators*=ActuatorType)?
+        ('optionalActuators:' optionalActuators*=ActuatorType)?
+        ('dependsOn:' functionalities*=[RobotFunctionality])?
+    'end'
 ;
 
 SensorType:
@@ -274,7 +378,8 @@ SensorType:
     'IMU'           |
     'Compass'       |
     'Accelerometer' |
-    'Magnetometer'
+    'Magnetometer'  |
+    'Other'
 ;
 
 ActuatorType:
@@ -287,7 +392,7 @@ ActuatorType:
 
 RMM:
     (
-        ('communication' ':' localBroker=DeviceLocalBroker)
+        ('broker' ':' broker=RMMBrokerType)
         (
         'control' ':'
         (
@@ -313,27 +418,45 @@ RMM:
 
 ApplicationType:
     "ROS"       |
+    "NodeRED"   |
     "R4A"       |
-    "NodeRED"
+    "ELSA"      |
+    "TekTrain"
 ;
 
-DeviceLocalBroker:
+RMMBrokerType:
     'MQTT_EMQX'     |
     'MQTT_Mosquito' |
     'AMQP_RabbitMQ' |
     'Redis'
 ;
-
-DeviceConnectivity: WirelessConnection | HardwareConnection;
+/*
+SimpleThingConnectivity: WirelessConnection | HardwareConnection;
 
 WirelessConnection: 'Wifi' | 'BLE';
 HardwareConnection: 'Hardware';
-
+*/
 // HardwareConnection: 'SPI' | 'I2C' | 'UART' | 'GPIO' | 'USB' | 'ETH' | 'PWM';
 
 RangeFinderType: 'Sonar' | 'ToF' | 'IR';
 
-DeviceBoardType: 'ESP32' | 'ESP8266' | 'RPi3' | 'RPi4' | 'JetsonNano';
+// The biggest difference between an SBC and a microcontroller is that the former is a self-contained computer with the ability to run an OS, whereas the latter is just a chip with far fewer resources.
+
+// Also, unlike SBCs, microcontrollers are intended to run only one program repeatedly. For instance, SBCs like Raspberry Pie run Linux, while boards like Arduino Uno don’t.
+Board: SBC | Microcontroller;
+
+SBC:
+    'GenericSBC'        |
+    'RaspberryPi3'      |
+    'RaspberryPi4'      |
+    'JetsonNano'
+;
+
+Microcontroller:
+    'GenericESP32'        |
+    'GenericESP8266'      |
+    'GenericArduino'
+;
 
 OperatingSystem: 'RaspbianOS' | 'RiotOS' | 'UbuntuOS' | 'OtherOS';
 
@@ -346,6 +469,10 @@ FQNI: ID+['.']('.*')?;
 Import: 'import' importURI=FQNI ('as' name=ID)?;
 
 Description: /\#(.*?)$/;
+
+DTransformation:
+    ('@' transformation=Transformation)? ('on' parentThing=[PosedThing:FQN])?
+;
 
 // Special rule for comments. Comments start with //
 

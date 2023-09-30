@@ -1,6 +1,7 @@
 import thing
 import communication
 import eservice
+import environment
 
 Synthesis:
     imports*=Import
@@ -26,6 +27,7 @@ System:
         ('things' ':' '-' things*=[Thing:FQN]['-'])
         ('services' ':' '-' services*=[EService:FQN]['-'])?
         ('systems' ':' '-' systems*=[System:FQN]['-'])?
+        ('environment' ':' environment=[Environment:FQN])?
     )#
     'end'
 ;

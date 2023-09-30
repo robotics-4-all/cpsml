@@ -15,7 +15,7 @@ DataType Header
   node_id: str
 end
 
-DataType RangeFinderData
+DataType RangeData
   # Data model for range-finder sensors, suchs as sonar, tof and ir
   range: float
   hfov: float
@@ -36,37 +36,33 @@ DataType LiDARData
   sensor_id: str
 end
 
+DataType Image
+    height: int
+    width: int
+    encoding: str
+    step: int
+    data: uint[]
+end
+
+DataType TemperatureData
+  temperatures: float[]
+  sensor_id: str
+end
+
+DataType EnvData
+  humidity: float
+  temperature: float
+  gas: float
+  sensor_id: str
+end
+
 DataType SensorInternalState
   state: int
   status_msg: str
 end
 
-DataType MotorControllerCmdPwm
-  # N channel motor controller data using pwm signals
-  pwmVals: float[]
-end
-
-DataType MotorControllerCmdVel
-  # N channel motor controller data using velocitty commands
-  velocities: float[]
-end
-
-DataType MoveBaseVel
-  # N channel motor controller data using velocitty commands
-  linear_vel: float
-  rotation_vel: float
-end
-
-DataType MoveBase
-  # N channel motor controller data using velocitty commands
-  position: float[]
-  orientation: float[]
-end
-
-DataType LedArrayData
-  # N channel motor controller data using velocitty commands
-  size: int
-  colors: float[]
+DataType ButtonData
+  state: int
 end
 
 DataType JointState
