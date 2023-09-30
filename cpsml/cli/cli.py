@@ -11,6 +11,7 @@ from cpsml.transformations.resources2api import resources_to_api_m2m
 from cpsml.transformations.thing2api import thing_to_api_m2m
 from cpsml.transformations.system2apis import system_to_apis_m2m
 from cpsml.transformations.thing2vcode import thing_to_vcode
+from cpsml.transformations.openapi_2_eservices import openapi_2_eservices_mm
 
 
 @click.group("cpsml")
@@ -144,6 +145,16 @@ def t2vc(ctx, model_file):
     model = build_model(filepath)
     if model:
         print(f'[*] Validation passed!')
+
+
+@cli.command("oas2esvc")
+@click.argument("swagger_file")
+@click.pass_context
+def openapi2eservices(ctx, swagger_file):
+    model = openapi_2_eservices_mm(swagger_file)
+    filepath = f'eservices.esvc'
+    with open(filepath, 'w') as fp:
+        fp.write(model)
 
 
 def main():

@@ -1,0 +1,42 @@
+EServiceREST findPets
+    host: milarakis.ee.auth.gr
+    port: 8678
+    path: /pet
+    verb: GET
+    params:
+        query:
+            - tags: ARRAY
+            - limit: INTEGER
+end
+
+EServiceREST addPet
+    host: milarakis.ee.auth.gr
+    port: 8678
+    path: /pet
+    verb: POST
+    params:
+        body:
+            - name: STRING
+            - tag: STRING
+end
+
+EServiceREST find pet by id
+    host: milarakis.ee.auth.gr
+    port: 8678
+    path: /pet/{id}
+    verb: GET
+    params:
+        path:
+            - id: INTEGER
+end
+
+EServiceREST deletePet
+    host: milarakis.ee.auth.gr
+    port: 8678
+    path: /pet/{id}
+    verb: DELETE
+    params:
+        path:
+            - id: INTEGER
+end
+
