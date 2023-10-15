@@ -99,7 +99,6 @@ def build_eservice_model(eservices):
     return modelf
 
 
-
 def openapi_2_eservices_mm(filepath: str):
     eservices = parse_openapi3_spec_file(filepath)
     model = build_eservice_model(eservices)
