@@ -1,0 +1,28 @@
+{% for svc in eservices %}
+EServiceREST {{ svc.name }}
+    host: {{ svc.host }}
+    port: {{ svc.port }}
+    path: {{ svc.path }}
+    verb: {{ svc.verb }}
+    params:
+        {% if svc.params.body|length > 0 %}
+        body:
+            {% for p in svc.params.body %}
+            - {{ p.name }}: {{ p.type }}
+            {% endfor %}
+        {% endif %}
+        {% if svc.params.query|length > 0 %}
+        query:
+            {% for p in svc.params.query %}
+            - {{ p.name }}: {{ p.type }}
+            {% endfor %}
+        {% endif %}
+        {% if svc.params.path|length > 0 %}
+        path:
+            {% for p in svc.params.path %}
+            - {{ p.name }}: {{ p.type }}
+            {% endfor %}
+        {% endif %}
+end
+
+{% endfor %}
