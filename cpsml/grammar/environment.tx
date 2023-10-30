@@ -73,10 +73,13 @@ EnvironmentalProperty:
 
 
 EnvironmentalPropertyType:
-    'temperature'  |
-    'airQuality'   |
-    'soundLevelDB' |
-    'humidity'
+    'Temperature'  |
+    'AirQuality'   |
+    'SoundLevelDB' |
+    'CO2'          |
+    'Gas'          |
+    'Illumination' |
+    'Humidity'
 ;
 
 

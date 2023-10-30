@@ -1,0 +1,641 @@
+@startuml
+set namespaceSeparator .
+
+
+class environment.Model  {
+}
+
+
+class environment.Environment  {
+  dimensions : EnvDimensions
+  name : ID
+}
+
+
+class environment.Obstacle  {
+  name : ID
+}
+
+
+class environment.PerceivableEntity  {
+}
+
+
+class environment.PerceptionProperty  {
+  type : PerceptionPropertyType
+  value : FLOAT
+  range : FLOAT
+  dispersion : DispersionType
+}
+
+
+class environment.EnvironmentalProperty  {
+  type : EnvironmentalPropertyType
+  value : FLOAT
+  dispersion : DispersionType
+}
+
+
+class environment.Import  {
+  importURI : FQNI
+  name : ID
+}
+
+
+class thing.Model  {
+}
+
+
+class thing.Thing <<abstract>> {
+}
+
+
+class thing.SmartThing <<abstract>> {
+}
+
+
+class thing.SmartDevice <<abstract>> {
+}
+
+
+class thing.CompositeDevice  {
+  name : ID
+}
+
+
+class thing.SimpleThing <<abstract>> {
+}
+
+
+class thing.CompositeSimpleThing  {
+  name : ID
+}
+
+
+class thing.Robot  {
+  name : ID
+  rtype : RobotType
+  ble : BOOL
+}
+
+
+class thing.Device  {
+  name : ID
+  ble : BOOL
+}
+
+
+class thing.PosedThing <<abstract>> {
+}
+
+
+class thing.PosedSimpleThing <<abstract>> {
+}
+
+
+class thing.PosedCSThing  {
+}
+
+
+class thing.PosedSmartDevice  {
+}
+
+
+class thing.PosedDevice  {
+}
+
+
+class thing.PosedSensor  {
+  name : ID
+}
+
+
+class thing.PosedActuator  {
+  name : ID
+}
+
+
+class thing.PosedBoard  {
+  ref : Board
+}
+
+
+class thing.Actuator <<abstract>> {
+}
+
+
+class thing.CustomSensorType  {
+  stype : ID
+}
+
+
+class thing.CustomActuatorType  {
+  atype : ID
+}
+
+
+class thing.MotorController  {
+  name : ID
+  type : MotorControllerType
+}
+
+
+class thing.ServoController  {
+  name : ID
+}
+
+
+class thing.PanTilt  {
+  name : ID
+}
+
+
+class thing.Speaker  {
+  name : ID
+}
+
+
+class thing.Led <<abstract>> {
+}
+
+
+class thing.SingleLed  {
+  name : ID
+  color : INT
+  responseTime : FLOAT
+}
+
+
+class thing.LedArray  {
+  name : ID
+  size : INT
+  responseTime : FLOAT
+}
+
+
+class thing.GenericActuator  {
+  name : ID
+  responseTime : FLOAT
+}
+
+
+class thing.Sensor <<abstract>> {
+}
+
+
+class thing.GenericSensor  {
+  name : ID
+  maxFreq : FLOAT
+}
+
+
+class thing.Button  {
+  name : ID
+  maxFreq : FLOAT
+}
+
+
+class thing.RangeFinder  {
+  name : ID
+  type : RangeFinderType
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+  hfov : FLOAT
+  vfov : FLOAT
+  minRange : FLOAT
+  maxRange : FLOAT
+}
+
+
+class thing.LiDARSensor  {
+  name : ID
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+  minAngle : FLOAT
+  maxAngle : FLOAT
+  numRanges : FLOAT
+  minRange : FLOAT
+  maxRange : FLOAT
+}
+
+
+class thing.CameraRGB  {
+  name : ID
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+  resHeight : FLOAT
+  resWidth : FLOAT
+  hfov : FLOAT
+  vfov : FLOAT
+}
+
+
+class thing.CameraThermal  {
+  name : ID
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+  resHeight : FLOAT
+  resWidth : FLOAT
+  hfov : FLOAT
+  vfov : FLOAT
+}
+
+
+class thing.Accelerometer  {
+  name : ID
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+}
+
+
+class thing.Magnetometer  {
+  name : ID
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+}
+
+
+class thing.Gyroscope  {
+  name : ID
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+}
+
+
+class thing.IMU  {
+  name : ID
+  type : IMUType
+  pubFreq : FLOAT
+  maxFreq : FLOAT
+}
+
+
+class thing.FTag <<abstract>> {
+}
+
+
+class thing.CustomFTag  {
+  name : STRING
+}
+
+
+class thing.DeviceFunctionality  {
+  name : ID
+  requiredSensors : optional<list[SensorType]>
+  multiply : list[INT]
+  optionalSensors : optional<list[SensorType]>
+  requiredActuators : optional<list[ActuatorType]>
+  optionalActuators : optional<list[ActuatorType]>
+}
+
+
+class thing.RMM  {
+  broker : RMMBrokerType
+  rebootCtrl : BOOL
+  shutdownCtrl : BOOL
+  volumeCtrl : BOOL
+  ssh : BOOL
+  healthM : BOOL
+  logsM : BOOL
+  appType : optional<list[ApplicationType]>
+}
+
+
+class thing.Import  {
+  importURI : FQNI
+  name : ID
+}
+
+
+class thing.DTransformation  {
+}
+
+
+class geometry.Point  {
+  x : FLOAT
+  y : FLOAT
+  z : FLOAT
+}
+
+
+class geometry.Translation  {
+  x : FLOAT
+  y : FLOAT
+  z : FLOAT
+}
+
+
+class geometry.Rotation  {
+  yaw : FLOAT
+  pitch : FLOAT
+  roll : FLOAT
+}
+
+
+class geometry.Transformation  {
+}
+
+
+class geometry.Pose  {
+}
+
+
+class geometry.Shape <<abstract>> {
+}
+
+
+class geometry.ComplexShape  {
+}
+
+
+class geometry.PredefinedShape <<abstract>> {
+}
+
+
+class geometry.Circle  {
+  radius : FLOAT
+}
+
+
+class geometry.Square  {
+  length : FLOAT
+}
+
+
+class geometry.Rectangle  {
+  width : FLOAT
+  length : FLOAT
+}
+
+
+class geometry.Cylinder  {
+  radius : FLOAT
+  height : FLOAT
+}
+
+
+class geometry.ArbitraryShape  {
+}
+
+
+environment.Model *--> environment.Import: imports 0..*
+environment.Model *--> environment.Environment: environment
+environment.Model *--> environment.Obstacle: obstacles 0..*
+environment.Environment *--> environment.EnvironmentalProperty: properties 0..*
+environment.Environment o--> thing.Thing: things 0..*
+environment.Environment *--> geometry.Pose: poses 0..*
+environment.Environment o--> environment.Obstacle: obstacles 0..*
+environment.Environment o--> environment.PerceivableEntity: entities 0..*
+environment.Obstacle *--> geometry.Shape: shape
+environment.PerceivableEntity *--> environment.PerceptionProperty: properties 0..*
+environment.PerceivableEntity *--> geometry.Shape: shape
+thing.Model *--> thing.Import: imports 0..*
+thing.Model *--> thing.Thing: thing
+thing.Thing <|-- thing.SmartThing
+thing.Thing <|-- thing.SimpleThing
+thing.SmartThing <|-- thing.Robot
+thing.SmartThing <|-- thing.SmartDevice
+thing.SmartDevice <|-- thing.Device
+thing.SmartDevice <|-- thing.CompositeDevice
+thing.CompositeDevice o--> thing.PosedSmartDevice: devices 1..*
+thing.CompositeDevice *--> geometry.Shape: shape
+thing.SimpleThing <|-- thing.Sensor
+thing.SimpleThing <|-- thing.Actuator
+thing.SimpleThing <|-- thing.CompositeSimpleThing
+thing.CompositeSimpleThing *--> geometry.Shape: shape
+thing.CompositeSimpleThing *--> thing.PosedSensor: sensors 1..*
+thing.CompositeSimpleThing *--> thing.PosedActuator: actuators 1..*
+thing.CompositeSimpleThing *--> thing.PosedCSThing: composites 1..*
+thing.Robot *--> thing.PosedBoard: boards 1..*
+thing.Robot *--> thing.PosedSensor: sensors 0..*
+thing.Robot *--> thing.PosedActuator: actuators 0..*
+thing.Robot *--> thing.PosedCSThing: composites 0..*
+thing.Robot o--> thing.DeviceFunctionality: functionality 1..*
+thing.Robot o--> networking.Network: networking
+
+
+class networking.Network <<abstract>> {
+}
+thing.Robot o--> communication.CommunicationMiddleware: communication
+
+
+class communication.CommunicationMiddleware <<abstract>> {
+}
+thing.Robot *--> geometry.Shape: shape
+thing.Robot *--> thing.RMM: rmm
+thing.Device *--> thing.PosedBoard: board
+thing.Device *--> thing.PosedSensor: sensors 0..*
+thing.Device *--> thing.PosedActuator: actuators 0..*
+thing.Device *--> thing.PosedCSThing: composites 0..*
+thing.Device o--> thing.DeviceFunctionality: functionality 1..*
+thing.Device o--> networking.Network: networking
+
+
+class networking.Network <<abstract>> {
+}
+thing.Device o--> communication.CommunicationMiddleware: communication
+
+
+class communication.CommunicationMiddleware <<abstract>> {
+}
+thing.Device *--> geometry.Shape: shape
+thing.Device *--> thing.RMM: rmm
+thing.PosedThing <|-- thing.PosedSmartDevice
+thing.PosedThing <|-- thing.PosedSimpleThing
+thing.PosedThing <|-- thing.PosedBoard
+thing.PosedSimpleThing <|-- thing.PosedSensor
+thing.PosedSimpleThing <|-- thing.PosedActuator
+thing.PosedSimpleThing <|-- thing.PosedCSThing
+thing.PosedCSThing o--> thing.CompositeSimpleThing: ref
+thing.PosedCSThing *--> thing.DTransformation: transformation
+thing.PosedSmartDevice o--> thing.SmartDevice: ref
+thing.PosedSmartDevice *--> thing.DTransformation: transformation
+thing.PosedDevice o--> thing.Device: ref
+thing.PosedDevice *--> thing.DTransformation: transformation
+thing.PosedSensor o--> thing.Sensor: ref
+thing.PosedSensor *--> thing.DTransformation: transformation
+thing.PosedActuator o--> thing.Actuator: ref
+thing.PosedActuator *--> thing.DTransformation: transformation
+thing.PosedBoard *--> thing.DTransformation: transformation
+thing.Actuator <|-- thing.GenericActuator
+thing.Actuator <|-- thing.MotorController
+thing.Actuator <|-- thing.ServoController
+thing.Actuator <|-- thing.PanTilt
+thing.Actuator <|-- thing.Speaker
+thing.Actuator <|-- thing.Led
+thing.MotorController o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.MotorController *--> geometry.Shape: shape
+thing.ServoController o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.ServoController *--> geometry.Shape: shape
+thing.PanTilt o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.PanTilt *--> geometry.Transformation: joints 0..*
+thing.PanTilt *--> geometry.Shape: shape
+thing.Speaker o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.Speaker *--> geometry.Shape: shape
+thing.Led <|-- thing.SingleLed
+thing.Led <|-- thing.LedArray
+thing.SingleLed o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.SingleLed *--> geometry.Shape: shape
+thing.LedArray o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.LedArray *--> geometry.Shape: shape
+thing.GenericActuator o--> thing.CustomActuatorType: atype
+thing.GenericActuator o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.GenericActuator *--> geometry.Shape: shape
+thing.Sensor <|-- thing.GenericSensor
+thing.Sensor <|-- thing.RangeFinder
+thing.Sensor <|-- thing.LiDARSensor
+thing.Sensor <|-- thing.CameraRGB
+thing.Sensor <|-- thing.CameraThermal
+thing.Sensor <|-- thing.Button
+thing.GenericSensor o--> thing.CustomSensorType: stype
+thing.GenericSensor o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.GenericSensor *--> geometry.Shape: shape
+thing.Button o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.Button *--> geometry.Shape: shape
+thing.RangeFinder o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.RangeFinder *--> geometry.Shape: shape
+thing.LiDARSensor o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.LiDARSensor *--> geometry.Shape: shape
+thing.CameraRGB o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.CameraRGB *--> geometry.Shape: shape
+thing.CameraThermal o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.CameraThermal *--> geometry.Shape: shape
+thing.Accelerometer o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.Accelerometer *--> geometry.Shape: shape
+thing.Magnetometer o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.Magnetometer *--> geometry.Shape: shape
+thing.Gyroscope o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.Gyroscope *--> geometry.Shape: shape
+thing.IMU o--> datatype.DataType: dataModel
+
+
+class datatype.DataType <<abstract>> {
+}
+thing.IMU *--> geometry.Shape: shape
+thing.FTag <|-- thing.CustomFTag
+thing.DeviceFunctionality o--> thing.DeviceFunctionality: functionalities 0..*
+thing.DeviceFunctionality o--> thing.DeviceFunctionality: edeps 0..*
+thing.DeviceFunctionality *--> thing.FTag: tags 0..*
+thing.DeviceFunctionality *--> datatype.Property: attr 0..*
+
+
+class datatype.Property <<abstract>> {
+}
+thing.DTransformation *--> geometry.Transformation: transformation
+thing.DTransformation o--> thing.PosedThing: parentThing
+geometry.Transformation *--> geometry.Translation: translation
+geometry.Transformation *--> geometry.Rotation: rotation
+geometry.Pose *--> geometry.Translation: translation
+geometry.Pose *--> geometry.Rotation: rotation
+geometry.Shape <|-- geometry.PredefinedShape
+geometry.Shape <|-- geometry.ArbitraryShape
+geometry.Shape <|-- geometry.ComplexShape
+geometry.ComplexShape *--> geometry.Shape: shapes 0..*
+geometry.PredefinedShape <|-- geometry.Circle
+geometry.PredefinedShape <|-- geometry.Square
+geometry.PredefinedShape <|-- geometry.Rectangle
+geometry.PredefinedShape <|-- geometry.Cylinder
+geometry.ArbitraryShape *--> geometry.Point: points 0..*
+
+legend
+  Match rules:
+  |= Name  |= Rule details |
+  | CommentBlock | \\/\\*(.\|\\n)*\?\\*\\/ |
+  | MotorControllerType | SingleMotor\|DualMotor |
+  | RobotType | Humanoid\|UGV\|UAV |
+  | ApplicationType | ROS\|NodeRED\|R4A\|ELSA\|TekTrain |
+  | FQNI | (ID)+ .*\? |
+  | CommentLine | \\/\\/.*\?$ |
+  | OperatingSystem | RaspbianOS\|RiotOS\|UbuntuOS\|OtherOS |
+  | IMUType | 6DOF\|9DOF |
+  | FQN | ID (. ID)* |
+  | Comment |  |
+  | Microcontroller | GenericESP32\|GenericESP8266\|GenericArduino |
+  | PredefinedFTag | Mobility\|Manipulation\|NLU\|Navigation\|Mapping\|SLAM\|FaceDetection\|ObjectDetection |
+  | CommentBlock | \\/\\*(.\|\\n)*\?\\*\\/ |
+  | ActuatorType | MotorController\|LED\|RGBLed\|NeopixelLED\|ServoController |
+  | NID | (.*\?)\\n |
+  | Description | \\#(.*\?)$ |
+  | EnvDimensions | 2D\|3D |
+  | SBC | GenericSBC\|RaspberryPi3\|RaspberryPi4\|JetsonNano |
+  | EnvironmentalPropertyType | temperature\|airQuality\|soundLevelDB\|humidity |
+  | CommentLine | \\/\\/.*\?$ |
+  | SensorType | RangeFinder\|LiDAR\|CameraRGB\|Thermal\|ThermalArray\|CameraThermal\|IMU\|Compass\|Accelerometer\|Magnetometer\|Other |
+  | DispersionType | Constant\|Linear\|Exponential\|Logarithmic\|Quadratic |
+  | FQNI | (ID)+ .*\? |
+  | Board |  |
+  | Comment |  |
+  | FQN | ID (. ID)* |
+  | RangeFinderType | Sonar\|ToF\|IR |
+  | PerceptionPropertyType | Temperature\|Humidity\|Sound\|Speech |
+  | Description | \\#(.*\?)$ |
+  | NID | (.*\?)\\n |
+  | RobotFunctionality | Mobility\|Manipulation\|NLU\|Navigation\|Mapping\|SLAM\|FaceDetection\|ObjectDetection |
+  | RMMBrokerType | MQTT_EMQX\|MQTT_Mosquito\|AMQP_RabbitMQ\|Redis |
+end legend
+
+@enduml
