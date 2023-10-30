@@ -1,0 +1,5 @@
+DFunctionality MyUGVLocalization
+    reqSensors:
+        - IMU
+        - Camera
+end

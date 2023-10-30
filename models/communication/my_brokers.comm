@@ -7,6 +7,8 @@ Communication<AMQP> HomeRabbitMQ
     host: 'rabbit.home.local'
     port: 5678
     vhost: '/'
+    topicExchange: 'amq.topic'
+    rpcExchange: 'DEFAULT'
 end
 
 Communication<Redis> HomeRedis

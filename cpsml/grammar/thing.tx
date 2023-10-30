@@ -10,7 +10,7 @@ import geometry
 Model:
     (
     imports*=Import
-    things*=Thing
+    thing=Thing
     )#
 ;
 
@@ -55,7 +55,7 @@ Robot:
         ('sensors:' '-' sensors*=PosedSensor['-'])?
         ('actuators:' '-' actuators*=PosedActuator['-'])?
         ('composites:' '-' composites*=PosedCSThing['-'])?
-        ('functionality' ':' '-' functionality+=[RobotFunctionality:FQN]['-'])?
+        ('functionality' ':' '-' functionality+=[DeviceFunctionality:FQN]['-'])?
         ('networking' ':' networking=[Network:FQN])?
         ('communication' ':' communication=[CommunicationMiddleware:FQN])?
         ('shape' ':' shape=Shape)?
@@ -73,6 +73,7 @@ Device:
         ('sensors:' '-' sensors*=PosedSensor['-'])?
         ('actuators:' '-' actuators*=PosedActuator['-'])?
         ('composites:' '-' composites*=PosedCSThing['-'])?
+        ('functionality' ':' '-' functionality+=[DeviceFunctionality:FQN]['-'])?
         ('networking' ':' networking=[Network:FQN])?
         ('communication' ':' communication=[CommunicationMiddleware:FQN])?
         ('shape' ':' shape=Shape)?
@@ -87,23 +88,23 @@ PosedThing: PosedSmartDevice | PosedSimpleThing | PosedBoard;
 PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
 
 PosedCSThing:
-    ref=[CompositeSimpleThing:FQN|+m:things] (transformation=DTransformation)?
+    ref=[CompositeSimpleThing:FQN|+m:thing] (transformation=DTransformation)?
 ;
 
 PosedSmartDevice:
-    ref=[SmartDevice:FQN|+m:things] (transformation=DTransformation)?
+    ref=[SmartDevice:FQN|+m:thing] (transformation=DTransformation)?
 ;
 
 PosedDevice:
-    ref=[Device:FQN|+m:things] (transformation=DTransformation)?
+    ref=[Device:FQN|+m:thing] (transformation=DTransformation)?
 ;
 
 PosedSensor:
-    ref=[Sensor:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
+    ref=[Sensor:FQN|+m:thing] ('('name=ID')')? (transformation=DTransformation)?
 ;
 
 PosedActuator:
-    ref=[Actuator:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
+    ref=[Actuator:FQN|+m:thing] ('('name=ID')')? (transformation=DTransformation)?
 ;
 
 PosedBoard:
@@ -344,32 +345,52 @@ IMUType: '6DOF' | '9DOF';
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
 
-/*
 RobotFunctionality:
     'Mobility'                      |
     'Manipulation'                  |
     'NLU'                           |
     'Navigation'                    |
     'Mapping'                       |
+    'SLAM'                          |
     'FaceDetection'                 |
     'ObjectDetection'
 ;
-*/
 
-RobotFunctionality:
-    'Functionality'
+FTag: PredefinedFTag | CustomFTag;
+
+PredefinedFTag:
+    'Mobility'                      |
+    'Manipulation'                  |
+    'NLU'                           |
+    'Navigation'                    |
+    'Mapping'                       |
+    'SLAM'                          |
+    'FaceDetection'                 |
+    'ObjectDetection'
+;
+
+CustomFTag: name=STRING;
+
+DeviceFunctionality:
+    'DFunctionality'
         'name:' name=ID
         // Operator
-        ('requiredSensors:' number=INT requiredSensors*=SensorType)?
-        ('optionalSensors:' optionalSensors*=SensorType)?
-        ('requiredActuators:'requiredActuators*=ActuatorType)?
-        ('optionalActuators:' optionalActuators*=ActuatorType)?
-        ('dependsOn:' functionalities*=[RobotFunctionality])?
+        (
+        ('requiredSensors:' requiredSensors*=SensorType ('x'multiply=INT)?)?
+        ('optionalSensors:' optionalSensors*=SensorType ('x'multiply=INT)?)?
+        ('requiredActuators:'requiredActuators*=ActuatorType ('x'multiply=INT)?)?
+        ('optionalActuators:' optionalActuators*=ActuatorType ('x'multiply=INT)?)?
+        ('dependsOn:' functionalities*=[DeviceFunctionality])?
+        ('externalDeps:' edeps*=[DeviceFunctionality])?
+        ('tags:' '-' tags*=FTag)?
+        ('attributes:' '-' attr*=Property)?
+        )#
     'end'
 ;
 
+
 SensorType:
-    'Range'         |
+    'RangeFinder'         |
     'LiDAR'         |
     'CameraRGB'     |
     'Thermal'       |

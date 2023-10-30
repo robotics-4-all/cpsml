@@ -3,7 +3,10 @@ import msg
 
 ResourceModel:
     tags*=CustomTag
+    (
+    msgs*=Message
     resources*=Resource
+    )#
 ;
 
 Resource: SenseResource | ActResource | ComputeResource | StorageResource;
