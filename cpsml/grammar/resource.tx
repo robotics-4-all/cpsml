@@ -77,41 +77,41 @@ Interface:
 
 SenseInterface:
     AsyncProducer   |
-    ReqRespService
+    RPCService
 ;
 
 ActInterface:
     AsyncConsumer    |
-    ReqRespService   |
+    RPCService   |
     ActionService
 ;
 
 ComputeInterface:
-    ReqRespService   |
+    RPCService   |
     ActionService
 ;
 
 StorageInterface:
-    ReqRespService   |
+    RPCService   |
     AsyncConsumer
 ;
 
 ProducerInterface: AsyncProducer;
 
-ConsumerInterface: AsyncConsumer | ReqRespService | ActionService;
+ConsumerInterface: AsyncConsumer | RPCService | ActionService;
 
 AsyncProducer:
-    'AsyncProducer' '<' msg=[TopicMessage:FQN] '>'
+    'AsyncProducer' '<' msg=[PubSubMessage:FQN] '>'
 ;
 
 
 AsyncConsumer:
-    'AsyncConsumer' '<' msg=[TopicMessage:FQN] '>'
+    'AsyncConsumer' '<' msg=[PubSubMessage:FQN] '>'
 ;
 
 
-ReqRespService:
-    'ReqRespService' '<' msg=[ReqRespMessage:FQN] '>'
+RPCService:
+    'RPCService' '<' msg=[RPCMessage:FQN] '>'
 ;
 
 ActionService:

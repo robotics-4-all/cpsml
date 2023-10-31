@@ -250,7 +250,7 @@ RangeFinder:
 ;
 
 LiDARSensor:
-    'LiDARSensor' name=ID
+    'LiDAR' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
@@ -373,6 +373,11 @@ PredefinedFTag:
 CustomFTag: name=STRING;
 
 DeviceFunctionality:
+	'SKATA' name=STRING 'SKATA'
+;
+
+/*
+DeviceFunctionality:
     'DFunctionality'
         'name:' name=ID
         // Operator
@@ -386,13 +391,13 @@ DeviceFunctionality:
         ('externalDeps:' edeps*=[DeviceFunctionality])?
         ('tags:' '-' tags*=FTag)?
         ('attributes:' '-' attr*=Property)?
-        ('inDataModels:' '-' dataModel*=[DataType:FQN] ('from'
-                                                        fromF=[DeviceFunctionality:FQN])?)?
+        ('inDataModels:' '-' dataModel*=[DataType:FQN]
+			('from' fromF=[DeviceFunctionality:FQN])?)?
         ('outDataModels:' '-' dataModel*=[DataType:FQN])?
         )#
     'end'
 ;
-
+*/
 
 SensorType:
     'RangeFinder'         |

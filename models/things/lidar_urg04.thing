@@ -1,0 +1,10 @@
+LiDAR URG04LX
+  dataModel: LiDARData
+  shape: Rectangle(3, 2)
+  maxFreq: 30.0  // hz
+  freq: 10
+  minAngle: -90
+  maxAngle: 90
+  minRange: 10.0  // cm
+  maxRange: 200.0  // cm
+end

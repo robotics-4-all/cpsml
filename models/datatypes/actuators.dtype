@@ -28,7 +28,8 @@ end
 DataType LedArrayData
   # N channel motor controller data using velocitty commands
   size: int
-  colors: float[]
+  colors: int[]  // 0-255
+  intensity: int[]  // 0-255
 end
 
 DataType PanTiltData

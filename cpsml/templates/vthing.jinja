@@ -15,7 +15,7 @@ from commlib.transports.amqp import ConnectionParameters
 {% endif %}
 
 {% for msg in api.msgs %}
-{% if msg.__class__.__name__ == "TopicMessage" %}
+{% if msg.__class__.__name__ == "PubSubMessage" %}
 class {{ msg.name }}(PubSubMessage):
     {% for p in msg.properties %}
     {{ p.name }}: {{ p.type.name }}

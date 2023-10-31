@@ -35,7 +35,7 @@ API<Async> {{ name }}
 
     messages
     {% for msg in msgs %}
-        {% if msg.__class__.__name__ == "TopicMessage" %}
+        {% if msg.__class__.__name__ == "PubSubMessage" %}
         TopicMsg {{ msg.name }}
             {% for p in msg.properties %}
             {{ p.name }}: {{ p.type.name }}

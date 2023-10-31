@@ -58,14 +58,6 @@ PerceptionProperty:
 ;
 
 
-PerceptionPropertyType:
-    'Temperature' |
-    'Humidity'    |
-    'Sound'       |
-    'Speech'
-;
-
-
 EnvironmentalProperty:
     type=EnvironmentalPropertyType ':' value=FLOAT
         ('with dispersion' dispersion=DispersionType)?

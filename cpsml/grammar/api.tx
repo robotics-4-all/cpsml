@@ -62,7 +62,7 @@ Publisher:
     'publisher'
     (
         ('uri:' uri=STRING)
-        ('msg:' msg=[TopicMessage:FQN|^msgs])?
+        ('msg:' msg=[PubSubMessage:FQN|^msgs])?
         ('namespace:' namespace=STRING)?
     )#
     'end'
@@ -72,7 +72,7 @@ Subscriber:
     'subscriber'
     (
         ('uri:' uri=STRING)
-        ('msg:' msg=[TopicMessage:FQN|^msgs])?
+        ('msg:' msg=[PubSubMessage:FQN|^msgs])?
         ('namespace:' namespace=STRING)?
     )#
     'end'
@@ -82,7 +82,7 @@ RPC:
     'rpc'
     (
         ('uri:' uri=STRING)
-        ('msg:' msg=[ReqRespMessage:FQN|^msgs])?
+        ('msg:' msg=[RPCMessage:FQN|^msgs])?
         ('namespace:' namespace=STRING)?
     )#
     'end'
