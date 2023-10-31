@@ -53,7 +53,7 @@ PerceivableEntity:
 
 
 PerceptionProperty:
-    type=PerceptionPropertyType ':' value=FLOAT ('with range' range=FLOAT)?
+    type=EnvironmentalPropertyType ':' value=FLOAT ('with range' range=FLOAT)?
         ('with dispersion' dispersion=DispersionType)?
 ;
 

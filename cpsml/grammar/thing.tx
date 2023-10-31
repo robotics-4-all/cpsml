@@ -364,6 +364,7 @@ PredefinedFTag:
     'NLU'                           |
     'Navigation'                    |
     'Mapping'                       |
+    'Localization'                  |
     'SLAM'                          |
     'FaceDetection'                 |
     'ObjectDetection'
@@ -380,10 +381,14 @@ DeviceFunctionality:
         ('optionalSensors:' optionalSensors*=SensorType ('x'multiply=INT)?)?
         ('requiredActuators:'requiredActuators*=ActuatorType ('x'multiply=INT)?)?
         ('optionalActuators:' optionalActuators*=ActuatorType ('x'multiply=INT)?)?
-        ('dependsOn:' functionalities*=[DeviceFunctionality])?
+        ('requiredFunctionality:' dependsOn*=[DeviceFunctionality])?
+        ('optionalFunctionality:' canUtilize*=[DeviceFunctionality])?
         ('externalDeps:' edeps*=[DeviceFunctionality])?
         ('tags:' '-' tags*=FTag)?
         ('attributes:' '-' attr*=Property)?
+        ('inDataModels:' '-' dataModel*=[DataType:FQN] ('from'
+                                                        fromF=[DeviceFunctionality:FQN])?)?
+        ('outDataModels:' '-' dataModel*=[DataType:FQN])?
         )#
     'end'
 ;
