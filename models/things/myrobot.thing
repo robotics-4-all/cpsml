@@ -15,7 +15,7 @@ Robot MyRobot
         - URG04LX(L2) @ Transform(Translation(10, 2), Rotation(0, 10))
         - URG04LX(L3) @ Transform(Translation(10, 2), Rotation(0, 10))
     actuators:
-        - DFRobotMotorCtrl
+        - BaseMotorCtrl(Base)
         - GenericLedArray on Cam1
         - MyPanTilt(PT1) @ Transform(Translation(0, 10), Rotation(0, 0))
         - MyPanTilt(PT2) @ Transform(Translation(0, -10), Rotation(0, 0))
@@ -44,4 +44,15 @@ Robot MyRobot
                 - ROS
                 - R4A
                 - NodeRED
+end
+
+DFunctionality Motion
+    reqActuators:
+        - MotorController
+    attributes:
+        - kinematicModel: int = 'SkidSteering'
+    inDataModels:
+        - BaseCmdVel
+    outDataModels:
+        - Odometry
 end

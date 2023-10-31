@@ -11,6 +11,7 @@ Model:
     (
     imports*=Import
     thing=Thing
+    functionality*=DeviceFunctionality
     )#
 ;
 
@@ -42,6 +43,7 @@ CompositeSimpleThing:
              '-' actuators+=PosedActuator['-'])?
         ('composites' ':'
              '-' composites+=PosedCSThing['-'])?
+        ('dataModel:' dataModel=[DataType:FQN])?
 	)#
     'end'
 ;
@@ -373,31 +375,25 @@ PredefinedFTag:
 CustomFTag: name=STRING;
 
 DeviceFunctionality:
-	'SKATA' name=STRING 'SKATA'
-;
-
-/*
-DeviceFunctionality:
-    'DFunctionality'
-        'name:' name=ID
-        // Operator
+    'DFunctionality' name=ID
         (
-        ('requiredSensors:' requiredSensors*=SensorType ('x'multiply=INT)?)?
-        ('optionalSensors:' optionalSensors*=SensorType ('x'multiply=INT)?)?
-        ('requiredActuators:'requiredActuators*=ActuatorType ('x'multiply=INT)?)?
-        ('optionalActuators:' optionalActuators*=ActuatorType ('x'multiply=INT)?)?
-        ('requiredFunctionality:' dependsOn*=[DeviceFunctionality])?
-        ('optionalFunctionality:' canUtilize*=[DeviceFunctionality])?
-        ('externalDeps:' edeps*=[DeviceFunctionality])?
-        ('tags:' '-' tags*=FTag)?
-        ('attributes:' '-' attr*=Property)?
-        ('inDataModels:' '-' dataModel*=[DataType:FQN]
-			('from' fromF=[DeviceFunctionality:FQN])?)?
-        ('outDataModels:' '-' dataModel*=[DataType:FQN])?
+        ('reqSensors:' '-' requiredSensors*=SensorType['-'] ('x'multiply=INT)?)?
+        ('optSensors:' '-' optionalSensors*=SensorType['-'] ('x'multiply=INT)?)?
+        ('reqActuators:' '-' requiredActuators*=ActuatorType['-'] ('x'multiply=INT)?)?
+        ('optActuators:' '-' optionalActuators*=ActuatorType['-'] ('x'multiply=INT)?)?
+        ('reqFunctionality:' '-' reqFunct*=[DeviceFunctionality:FQN]['-'])?
+        ('optFunctionality:' optFunct*=[DeviceFunctionality:FQN]['-'])?
+        ('tags:' '-' tags*=FTag['-'])?
+        ('attributes:' '-' attr*=Property['-'])?
+        ('inDataModels:' '-' inDataModels*=DDataModelDef['-'])?
+        ('outDataModels:' '-' outDataModels*=DDataModelDef['-'])?
         )#
     'end'
 ;
-*/
+
+DDataModelDef:
+    dataModel=[DataType:FQN] ('from' from=[DeviceFunctionality:FQN])?
+;
 
 SensorType:
     'RangeFinder'         |
