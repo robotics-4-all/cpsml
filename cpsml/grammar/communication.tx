@@ -22,8 +22,13 @@ REST:
     'end'
 ;
 
+BrokerConnection:
+    'ref' ':' ref=[MessageBroker:FQN]
+    'auth' ':' auth=Authentication
+;
 
-Authentication: AuthPlain | AuthApiKey;
+
+Authentication: AuthPlain | AuthApiKey | AuthCert;
 
 AuthPlain:
     'username' ':' username=STRING
@@ -34,8 +39,12 @@ AuthApiKey:
     'key' ':' key=STRING
 ;
 
+AuthCert:
+    ('cert' ':' cert=STRING) | ('certPath' ':' certPath=STRING)
+;
+
 AMQPBroker:
-    'Communication<AMQP>' name=ID
+    'Broker<AMQP>' name=ID
     (
         ('host:' host=STRING)
         ('port:' port=INT)
@@ -49,7 +58,7 @@ AMQPBroker:
 ;
 
 MQTTBroker:
-    'Communication<MQTT>' name=ID
+    'Broker<MQTT>' name=ID
     (
         ('host:' host=STRING)
         ('port:' port=INT)
@@ -60,7 +69,7 @@ MQTTBroker:
 ;
 
 RedisBroker:
-    'Communication<Redis>' name=ID
+    'Broker<Redis>' name=ID
     (
         ('host:' host=STRING)
         ('port:' port=INT)

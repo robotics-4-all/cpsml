@@ -1,9 +1,9 @@
-Communication<MQTT> HomeEMQX
+Broker<MQTT> HomeEMQX
     host: 'emqx.home.local'
     port: 1883
 end
 
-Communication<AMQP> HomeRabbitMQ
+Broker<AMQP> HomeRabbitMQ
     host: 'rabbit.home.local'
     port: 5678
     vhost: '/'
@@ -11,7 +11,7 @@ Communication<AMQP> HomeRabbitMQ
     rpcExchange: 'DEFAULT'
 end
 
-Communication<Redis> HomeRedis
+Broker<Redis> HomeRedis
     host: 'redis.home.local'
     port: 6367
     db: 0

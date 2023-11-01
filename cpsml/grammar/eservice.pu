@@ -1,0 +1,138 @@
+@startuml
+set namespaceSeparator .
+
+
+class eservice.Model  {
+}
+
+
+class eservice.Metadata  {
+  name : ID
+  author : STRING
+  description : STRING
+}
+
+
+class eservice.EService <<abstract>> {
+}
+
+
+class eservice.EServiceREST  {
+  name : ID
+  verb : RESTVerb
+  host : STRING
+  port : INT
+  path : STRING
+  baseUrl : STRING
+}
+
+
+class eservice.Import  {
+  importURI : FQNI
+  name : ID
+}
+
+
+class datatype.DataTypeModel  {
+}
+
+
+class datatype.Package  {
+  name : ID
+  version : STRING
+  description : STRING
+  author : STRING
+  email : STRING
+}
+
+
+class datatype.DataType <<abstract>> {
+}
+
+
+class datatype.CustomDataType  {
+  name : ID
+  description : Description
+}
+
+
+class datatype.Property <<abstract>> {
+}
+
+
+class datatype.SimpleProperty  {
+  name : ID
+  default : STRING
+}
+
+
+class datatype.ListProperty  {
+  name : ID
+  default : STRING
+}
+
+
+class datatype.Enumeration  {
+  name : ID
+  description : Description
+}
+
+
+class datatype.EnumerationElement  {
+  name : STRING
+}
+
+
+class datatype.PrimitiveDataType  {
+  name : ID
+}
+
+
+class datatype.Import  {
+  importURI : FQNI
+  name : ID
+}
+
+
+eservice.Model *--> eservice.Import: imports 0..*
+eservice.Model *--> eservice.Metadata: metadata
+eservice.Model *--> eservice.EService: services 0..*
+eservice.EService <|-- eservice.EServiceREST
+eservice.EServiceREST *--> datatype.Property: queryParams 0..*
+eservice.EServiceREST *--> datatype.Property: pathParams 0..*
+eservice.EServiceREST *--> datatype.Property: bodyParams 0..*
+eservice.EServiceREST *--> datatype.Property: headers 0..*
+datatype.DataTypeModel *--> datatype.Import: imports 0..*
+datatype.DataTypeModel *--> datatype.Package: package
+datatype.DataTypeModel *--> datatype.CustomDataType: types 0..*
+datatype.DataTypeModel *--> datatype.Enumeration: enums 0..*
+datatype.DataType <|-- datatype.PrimitiveDataType
+datatype.DataType <|-- datatype.CustomDataType
+datatype.DataType <|-- datatype.Enumeration
+datatype.CustomDataType *--> datatype.Property: properties 0..*
+datatype.Property <|-- datatype.ListProperty
+datatype.Property <|-- datatype.SimpleProperty
+datatype.SimpleProperty o--> datatype.DataType: type
+datatype.ListProperty o--> datatype.DataType: type
+datatype.Enumeration *--> datatype.EnumerationElement: elements 1..*
+
+legend
+  Match rules:
+  |= Name  |= Rule details |
+  | FQN | ID (. ID)* |
+  | Comment |  |
+  | Comment |  |
+  | Description | \\#(.*\?)$ |
+  | NID | (.*\?)\\n |
+  | FQN | FQN |
+  | FQNI | (ID)+ .*\? |
+  | CommentLine | \\/\\/.*\?$ |
+  | CommentLine | \\/\\/.*\?$ |
+  | Description | \\#(.*\?)$ |
+  | RESTVerb | GET\|POST\|PUT |
+  | FQNI | (ID)+ .*\? |
+  | CommentBlock | \\/\\*(.\|\\n)*\?\\*\\/ |
+  | CommentBlock | \\/\\*(.\|\\n)*\?\\*\\/ |
+end legend
+
+@enduml
