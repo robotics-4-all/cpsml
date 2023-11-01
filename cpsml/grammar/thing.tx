@@ -347,11 +347,18 @@ IMUType: '6DOF' | '9DOF';
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
 DeviceFunctionalityDef:
-    ref=[DeviceFunctionality:FQN] ('(' ids*=IDMap[','] ')')?
+    ref=[DeviceFunctionality:FQN] (':'
+    ('mappings:' '-' mappings*=IDMap['-'])?
+    ('attributes:' '-' mappings*=IDSetValue['-'])?
+    )?
 ;
 
 IDMap:
-    to=ID '=' from=ID
+    to=ID ':' from=ID
+;
+
+IDSetValue:
+    to=ID ':' value=BASETYPE
 ;
 
 RMM:
