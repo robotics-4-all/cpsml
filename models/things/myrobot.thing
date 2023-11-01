@@ -21,16 +21,14 @@ Robot MyRobot
         - MyPanTilt(PT2) @ Transform(Translation(0, -10), Rotation(0, 0))
     composites:
         - PanTiltCamera @ Transform(Translation(10, 0), Rotation(0, 0))
-    /*
-    functionalities:
+    functionality:
         - Motion
-        - AMCLLocalization(L1,L3)
-        - CRSMSlam(L2)
+        - AMCLLocalization(L1=L1)
+        - CRSMSlam(L2=L2)
         - PRMPathPlanning
         - MoveBaseNav
         - TargetSelection
         - LiDARFiltering
-    */
     rmm:
         broker: Redis
         control:
@@ -49,10 +47,80 @@ end
 DFunctionality Motion
     reqActuators:
         - MotorController
-    attributes:
-        - kinematicModel: int = 'SkidSteering'
     inDataModels:
         - BaseCmdVel
     outDataModels:
         - Odometry
+    attributes:
+        - kinematicModel: int = 'SkidSteering'
+end
+
+DFunctionality AMCLLocalization
+    reqSensors:
+        - LiDAR(L1)
+    optFunctionality:
+        - Motion
+    inDataModels:
+        - LiDARData(L1)
+        - Map
+    outDataModels:
+        - Pose
+end
+
+DFunctionality CRSMSlam
+    reqSensors:
+        - LiDAR
+    optSensors:
+        - IMU
+    optFunctionality:
+        - Motion
+    inDataModels:
+        - LiDARData
+        - IMUData
+        - Odometry from Motion
+end
+
+DFunctionality PRMPathPlanning
+    reqFunctionality:
+        - CRSMSlam
+    inDataModels:
+        - Pose
+        - Map
+    outDataModels:
+        - Path
+end
+
+DFunctionality TargetSelection
+    reqFunctionality:
+        - AMCLLocalization
+    inDataModels:
+        - Map
+        - Pose from AMCLLocalization
+    outDataModels:
+        - Pose
+end
+
+DFunctionality LiDARFiltering
+    reqSensors:
+        - LiDAR(L1)
+    inDataModels:
+        - LiDARData(L1)
+    outDataModels:
+        - LiDARData
+    attributes:
+        - filter: str = 'Median'
+end
+
+
+DFunctionality MoveBaseNav
+    reqFunctionality:
+        - Motion
+        - PRMPathPlanning
+    inDataModels:
+        - Path from PRMPathPlanning
+        - LiDARData from LiDARFiltering
+        - Pose from AMCLLocalization
+        - Pose from TargetSelection
+    outDataModels:
+        - BaseCmdVel
 end

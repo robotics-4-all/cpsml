@@ -57,7 +57,7 @@ Robot:
         ('sensors:' '-' sensors*=PosedSensor['-'])?
         ('actuators:' '-' actuators*=PosedActuator['-'])?
         ('composites:' '-' composites*=PosedCSThing['-'])?
-        ('functionality' ':' '-' functionality+=[DeviceFunctionality:FQN]['-'])?
+        ('functionality' ':' '-' functionality*=DeviceFunctionalityDef['-'])?
         ('networking' ':' networking=[Network:FQN])?
         ('communication' ':' communication=[CommunicationMiddleware:FQN])?
         ('shape' ':' shape=Shape)?
@@ -75,7 +75,7 @@ Device:
         ('sensors:' '-' sensors*=PosedSensor['-'])?
         ('actuators:' '-' actuators*=PosedActuator['-'])?
         ('composites:' '-' composites*=PosedCSThing['-'])?
-        ('functionality' ':' '-' functionality+=[DeviceFunctionality:FQN]['-'])?
+        ('functionality' ':' '-' functionality+=[DeviceFunctionalityDef:FQN]['-'])?
         ('networking' ':' networking=[Network:FQN])?
         ('communication' ':' communication=[CommunicationMiddleware:FQN])?
         ('shape' ':' shape=Shape)?
@@ -374,29 +374,51 @@ PredefinedFTag:
 
 CustomFTag: name=STRING;
 
+DeviceFunctionalityDef:
+    ref=[DeviceFunctionality:FQN] ('(' ids*=IDMap[','] ')')?
+;
+
+IDMap:
+    to=ID '=' from=ID
+;
+
 DeviceFunctionality:
     'DFunctionality' name=ID
         (
-        ('reqSensors:' '-' requiredSensors*=SensorType['-'] ('x'multiply=INT)?)?
-        ('optSensors:' '-' optionalSensors*=SensorType['-'] ('x'multiply=INT)?)?
-        ('reqActuators:' '-' requiredActuators*=ActuatorType['-'] ('x'multiply=INT)?)?
-        ('optActuators:' '-' optionalActuators*=ActuatorType['-'] ('x'multiply=INT)?)?
-        ('reqFunctionality:' '-' reqFunct*=[DeviceFunctionality:FQN]['-'])?
-        ('optFunctionality:' optFunct*=[DeviceFunctionality:FQN]['-'])?
+        ('reqSensors:' '-' requiredSensors*=SensorTypeDef['-'])?
+        ('optSensors:' '-' optionalSensors*=SensorTypeDef['-'])?
+        ('reqActuators:' '-' requiredActuators*=ActuatorTypeDef['-'])?
+        ('optActuators:' '-' optionalActuators*=ActuatorTypeDef['-'])?
+        ('reqFunctionality:' '-' reqFunc*=[DeviceFunctionality:FQN]['-'])?
+        ('optFunctionality:' '-' optFunc*=[DeviceFunctionality:FQN]['-'])?
         ('tags:' '-' tags*=FTag['-'])?
         ('attributes:' '-' attr*=Property['-'])?
         ('inDataModels:' '-' inDataModels*=DDataModelDef['-'])?
-        ('outDataModels:' '-' outDataModels*=DDataModelDef['-'])?
+        ('outDataModels:' '-' outDataModels*=[DataType]['-'])?
         )#
     'end'
 ;
 
+SensorTypeDef:
+    sensor=SensorType ('(' name=ID ')')?
+;
+
+ActuatorTypeDef:
+    actuator=ActuatorType ('(' name=ID ')')?
+;
+
 DDataModelDef:
-    dataModel=[DataType:FQN] ('from' from=[DeviceFunctionality:FQN])?
+    dataModel=[DataType:FQN] ('(' fromID=ID ')')? ('from' fromFunc=DFRef)?
+;
+
+DDDefFrom: SensorType | DFRef;
+
+DFRef:
+    ref=[DeviceFunctionality:FQN]
 ;
 
 SensorType:
-    'RangeFinder'         |
+    'RangeFinder'   |
     'LiDAR'         |
     'CameraRGB'     |
     'Thermal'       |

@@ -58,3 +58,7 @@ DataType Odometry
     pose: Pose
     twist: Twist
 end
+
+DataType Path
+    poses: Pose[]
+end

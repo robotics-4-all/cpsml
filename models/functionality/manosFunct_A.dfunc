@@ -15,7 +15,7 @@ DFunctionality AMCLLocalization
     optFunctionality:
         - Motion
     inDataModels:
-        - LiDARData from L1
+        - LiDARData
         - MapData
     outDataModels:
         - PoseData
