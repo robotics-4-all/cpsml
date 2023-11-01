@@ -15,10 +15,12 @@ DFunctionality AMCLLocalization
     optFunctionality:
         - Motion
     inDataModels:
-        - LiDARData(L1)
+        - LiDARData from id:L1
         - Map
     outDataModels:
         - Pose
+    tags:
+        - Localization
 end
 
 DFunctionality CRSMSlam
@@ -31,7 +33,7 @@ DFunctionality CRSMSlam
     inDataModels:
         - LiDARData
         - IMUData
-        - Odometry from Motion
+        - Odometry from func:Motion
 end
 
 DFunctionality PRMPathPlanning
@@ -49,7 +51,7 @@ DFunctionality TargetSelection
         - AMCLLocalization
     inDataModels:
         - Map
-        - Pose from AMCLLocalization
+        - Pose from func:AMCLLocalization
     outDataModels:
         - Pose
 end
@@ -58,7 +60,7 @@ DFunctionality LiDARFiltering
     reqSensors:
         - LiDAR(L1)
     inDataModels:
-        - LiDARData(L1)
+        - LiDARData from id:L1
     outDataModels:
         - LiDARData
     attributes:
@@ -71,10 +73,10 @@ DFunctionality MoveBaseNav
         - Motion
         - PRMPathPlanning
     inDataModels:
-        - Path from PRMPathPlanning
-        - LiDARData from LiDARFiltering
-        - Pose from AMCLLocalization
-        - Pose from TargetSelection
+        - Path from func:PRMPathPlanning
+        - LiDARData from func:LiDARFiltering
+        - Pose from tag:Localization
+        - Pose from func:TargetSelection
     outDataModels:
         - BaseCmdVel
 end

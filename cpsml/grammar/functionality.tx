@@ -32,8 +32,9 @@ ActuatorTypeDef:
 
 DDataModelDef:
     dataModel=[DataType:FQN]
-        ('(' fromID=ID ')')?
-        ('from' fromFunc=[DeviceFunctionality:FQN])?
+        ('from' 'id:'fromID=ID)?
+        ('from' 'tag:'fromTag=FTag)?
+        ('from' 'func:'fromFunc=[DeviceFunctionality:FQN])?
 ;
 
 SensorType:
@@ -72,7 +73,7 @@ PredefinedFTag:
     'ObjectDetection'
 ;
 
-CustomFTag: name=STRING;
+CustomFTag: name=ID;
 
 NID: /(.*?)\n/;
 
