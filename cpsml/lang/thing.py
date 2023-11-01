@@ -36,6 +36,9 @@ def get_thing_mm(debug=False):
             ),
             "*.communication": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'communication','*.comm')
+            ),
+            "*.functionality": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'functionality','*.dfunc')
             )
         }
     )

@@ -1,12 +1,12 @@
 DFunctionality Motion
     reqActuators:
-        - baseMotorController
+        - MotorController
     inDataModels:
-        - cmdVel
+        - BaseCmdVel
     outDataModels:
-        - odometry
+        - Odometry
     attributes:
-        - kinematicModel: 'SkidSteering'
+        - kinematicModel: int = 'SkidSteering'
 end
 
 DFunctionality AMCLLocalization
@@ -15,10 +15,10 @@ DFunctionality AMCLLocalization
     optFunctionality:
         - Motion
     inDataModels:
-        - LiDARData
-        - MapData
+        - LiDARData(L1)
+        - Map
     outDataModels:
-        - PoseData
+        - Pose
 end
 
 DFunctionality CRSMSlam
@@ -29,55 +29,52 @@ DFunctionality CRSMSlam
     optFunctionality:
         - Motion
     inDataModels:
-        - LiDARData from LiDAR
-        - IMUData from IMU
-        - OdomData from Motion
-    outDataModels:
-        - PoseData
-        - MapData
+        - LiDARData
+        - IMUData
+        - Odometry from Motion
 end
 
 DFunctionality PRMPathPlanning
     reqFunctionality:
-        - oneof(AMCLLocalization, CRSMSlam)
+        - CRSMSlam
     inDataModels:
-        - PoseData
-        - MapData
+        - Pose
+        - Map
     outDataModels:
-        - PathData
-end
-
-DFunctionality MoveBaseNav
-    reqFunctionality:
-        - Motion
-        - PRMPathPlanning
-    inDataModels:
-        - PathData from PRMPathPlanning
-        - LiDARData from LiDARFiltering
-        - PoseData from oneof(AMCLLocalization, CRSMSlam)
-        - PoseData from TargetSelection
-    outDataModels:
-        - CmdVelData
+        - Path
 end
 
 DFunctionality TargetSelection
     reqFunctionality:
-        - oneof(AMCLLocalization, CRSMSlam)
+        - AMCLLocalization
     inDataModels:
-        - MapData
-        - PoseData from oneof(AMCLLocalization, CRSMSlam)
+        - Map
+        - Pose from AMCLLocalization
     outDataModels:
-        - PoseData(Target)
+        - Pose
 end
 
 DFunctionality LiDARFiltering
     reqSensors:
         - LiDAR(L1)
     inDataModels:
-        - LiDARData from L1
+        - LiDARData(L1)
     outDataModels:
         - LiDARData
     attributes:
-        - filter: Median
+        - filter: str = 'Median'
 end
 
+
+DFunctionality MoveBaseNav
+    reqFunctionality:
+        - Motion
+        - PRMPathPlanning
+    inDataModels:
+        - Path from PRMPathPlanning
+        - LiDARData from LiDARFiltering
+        - Pose from AMCLLocalization
+        - Pose from TargetSelection
+    outDataModels:
+        - BaseCmdVel
+end

@@ -9,7 +9,8 @@ from cpsml.lang import (
     get_api_mm,
     get_synthesis_mm,
     get_eservice_mm,
-    get_env_mm
+    get_env_mm,
+    get_functionality_mm
 )
 
 
@@ -73,4 +74,11 @@ def eservice_language():
 def environment_language():
     "CPS-ML Environment language"
     mm = get_env_mm()
+    return mm
+
+
+@language('cpsml-func', '*.dfunc')
+def functionality_language():
+    "CPS-ML Functionality language"
+    mm = get_functionality_mm()
     return mm
