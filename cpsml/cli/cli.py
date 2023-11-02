@@ -12,6 +12,7 @@ from cpsml.transformations.thing2api import thing_to_api_m2m
 from cpsml.transformations.system2apis import system_to_apis_m2m
 from cpsml.transformations.thing2vcode import thing_to_vcode
 from cpsml.transformations.openapi_2_eservices import openapi_2_eservices_mm
+from cpsml.transformations.thing2entity import thing_to_entity_m2m
 
 
 @click.group("cpsml")
@@ -54,7 +55,7 @@ def t2r(ctx, model_file):
         print(f'[*] Validation passed!')
 
 
-@cli.command("r2api")
+@cli.command("r2a")
 @click.argument("model_file")
 @click.pass_context
 def r2api(ctx, model_file):
@@ -79,7 +80,7 @@ def r2api(ctx, model_file):
         print(f'[*] Validation passed!')
 
 
-@cli.command("t2api")
+@cli.command("t2a")
 @click.argument("model_file")
 @click.pass_context
 def t2api(ctx, model_file):
@@ -100,7 +101,28 @@ def t2api(ctx, model_file):
         print(f'[*] Validation passed!')
 
 
-@cli.command("s2apis")
+@cli.command("t2e")
+@click.argument("model_file")
+@click.pass_context
+def t2e(ctx, model_file):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a thing model.')
+        raise ValueError()
+    thing_mm = get_thing_mm()
+    tmodel = thing_mm.model_from_file(model_file)
+    thing = tmodel.thing
+    entity_model = thing_to_entity_m2m(thing)
+    filepath = f'{thing.name}.ent'
+    with open(filepath, 'w') as fp:
+        fp.write(entity_model)
+    print(f'[*] Validating Generated Entity Model...')
+    model = build_model(filepath)
+    if model:
+        print(f'[*] Validation passed!')
+
+
+@cli.command("s2a")
 @click.argument("model_file")
 @click.pass_context
 def s2apis(ctx, model_file):

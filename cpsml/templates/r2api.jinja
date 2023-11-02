@@ -41,7 +41,7 @@ API<Async> {{ name }}
             {{ p.name }}: {{ p.type.name }}
             {% endfor %}
         end
-        {% elif msg.__class__.__name__ == "ReqRespMessage" %}
+        {% elif msg.__class__.__name__ == "RPCMessage" %}
         ReqRespMsg {{ msg.name }}
             {% for p in msg.request.properties %}
             {{ p.name }}: {{ p.type.name }}

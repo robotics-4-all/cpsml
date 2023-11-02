@@ -22,7 +22,7 @@ class {{ msg.name }}(PubSubMessage):
     {% endfor %}
 {% endif %}
 
-{% if msg.__class__.__name__ == "ReqRespMessage" %}
+{% if msg.__class__.__name__ == "RPCMessage" %}
 class {{ msg.name }}(PubSubMessage):
     class Request:
         {% for p in msg.request.properties %}

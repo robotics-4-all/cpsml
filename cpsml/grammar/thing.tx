@@ -208,7 +208,7 @@ GenericActuator:
 Sensor:
     GenericSensor   |
     RangeFinder     |
-    LiDARSensor     |
+    LiDAR			|
     CameraRGB       |
     CameraThermal   |
     Button
@@ -251,7 +251,7 @@ RangeFinder:
     'end'
 ;
 
-LiDARSensor:
+LiDAR:
     'LiDAR' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
