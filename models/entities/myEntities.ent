@@ -1,0 +1,12 @@
+Entity TemperatureSensorA
+    type: sensor
+    topic: 'sensors.temperature.sA'
+    broker:
+        ref: HomeEMQX
+        auth:
+            username: 'guest'
+            password: 'guest'
+    freq: 10
+    attributes:
+        - temperature: float
+end

@@ -13,9 +13,9 @@ Entity:
         (
 			('type:' etype=EntityType)
 			('topic:' topic=STRING)
-			('freq:' freq=NUMBER)?
 			('broker:' brokerConn=BrokerConnection)
-			('attributes:' '-' attributes*=Property['-'])
+			('freq:' freq=NUMBER)?
+			('attributes:' '-' attributes*=Property['-'])?
 		)#
     'end'
 ;
