@@ -105,6 +105,7 @@ def t2api(ctx, model_file):
 @click.argument("model_file")
 @click.pass_context
 def t2e(ctx, model_file):
+    print(f'[*] Executing Thing-to-Entity M2M...')
     model_filename = basename(model_file)
     if not model_filename.endswith('.thing'):
         print(f'[X] Not a thing model.')
@@ -116,10 +117,11 @@ def t2e(ctx, model_file):
     filepath = f'{thing.name}.ent'
     with open(filepath, 'w') as fp:
         fp.write(entity_model)
+    print(f'[*] Generated output Entity model: {filepath}')
     print(f'[*] Validating Generated Entity Model...')
     model = build_model(filepath)
     if model:
-        print(f'[*] Validation passed!')
+        print(f'[*] Model validation succeded!')
 
 
 @cli.command("s2a")

@@ -67,10 +67,11 @@ def extract_entities(thing):
         uri = f'{thing.name.lower()}.sensors.{_cls}.{pactuator.name.lower()}'
         attrs = []
         dm = actuator.dataModel
+        name = pactuator.name or actuator.name
         for a in dm.properties:
             attrs.append((a.name, str(a.type)))
         _a = {
-            'name': pactuator.name,
+            'name': name,
             'type': 'actuator',
             'topic': uri,
             'broker': broker,
@@ -84,6 +85,4 @@ def thing_to_entity_m2m(thing):
     log_thing_info(thing)
     ent = extract_entities(thing)
     m = build_entity_model(ent)
-    emm = get_entity_mm()
-    emm.model_from_str(m)
     return m

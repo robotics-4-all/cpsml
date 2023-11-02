@@ -14,3 +14,19 @@ Entity {{ sensor['name'] }}
 end
 
 {% endfor %}
+{% for actuator in actuators %}
+Entity {{ actuator['name'] }}
+    type: {{ actuator['type'] }}
+    topic: "{{ actuator['topic'] }}"
+    broker:
+        ref: {{ actuator['broker'].name }}
+        auth:
+            username: "{{ actuator['broker'].auth.username }}"
+            password: "{{ actuator['broker'].auth.password }}"
+    attributes:
+    {% for attr in actuator['attributes'] %}
+        - {{ attr[0] }}: {{ attr[1] }}
+    {% endfor %}
+end
+
+{% endfor %}
