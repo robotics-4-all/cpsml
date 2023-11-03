@@ -14,7 +14,9 @@ from commlib.transports.redis import ConnectionParameters
 from commlib.transports.amqp import ConnectionParameters
 {% endif %}
 
+{% set dModels = [] %}
 {% for msg in api.msgs %}
+{% if msg.name not in dModels %}
 {% if msg.__class__.__name__ == "PubSubMessage" %}
 class {{ msg.name }}(PubSubMessage):
     {% for p in msg.properties %}
@@ -34,6 +36,8 @@ class {{ msg.name }}(PubSubMessage):
         {{ p.name }}: {{ p.type.name }}
         {% endfor %}
 {% endif %}
+{% set dModels = dModels.append(msg.name) %}
+{% endif %}
 
 {% endfor %}
 
@@ -42,14 +46,32 @@ class {{ thing.name }}Node(Node):
     def __init__(self, *args, **kwargs):
         self._tick_freq = 10
         conn_params = ConnectionParameters(
-            host: "{{ api.broker.host }}",
-            port: {{ api.broker.port }},
-            username: "{{ api.broker.username }}",
-            password: "{{ api.broker.password }}",
+            "host": "{{ api.broker.host }}",
+            "port": {{ api.broker.port }},
+            "username": "{{ api.broker.username }}",
+            "password": "{{ api.broker.password }}"
         )
 
-        super().__init__(node_name="{{ thing.name.lower() }}", conn_params,
-                         *args, **kwargs)
+		super().__init__(
+			node_name="{{ thing.name.lower() }}",
+			conneconn_params=conn_params,
+			*args, **kwargs
+		)
+	{% for e in api.endpoints %}
+	{% if e.__class__.__name__ == "Subscriber" %}
+		self.create_subscriber(
+			"{{ e.uri }}",
+			{{ e.msg.name }},
+			on_message=self._{{e.uri.split('.')[-1]}}
+		)
+	{% elif e.__class__.__name__ == "Publisher" %}
+		pub = self.create_publisher(
+			"{{ e.uri }}",
+			{{ e.msg.name }}
+		)
+		self.start_pub_worker(pub)
+	{% endif %}
+	{% endfor %}
 
     def start(self):
         self.run()

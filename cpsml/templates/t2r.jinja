@@ -48,7 +48,7 @@ end
 // Sense Resources ---------------------------------------------------------
 {% for sensor in thing.sensors %}
 Resource<Sense> {{ sensor.ref.name }}
-    uri: '{{ thing.name.lower() }}.sensors.{{ sensor.ref.name.lower() }}'
+    uri: '{{ thing.name.lower() }}.sensors.{{ sensor.ref.__class__.__name__.lower() }}.{{ sensor.name.lower() }}'
     interface: AsyncProducer<{{ sensor.ref.dataModel.name }}Msg>
 end
 {% endfor %}
@@ -57,7 +57,7 @@ end
 // Act Resources ---------------------------------------------------------
 {% for actuator in thing.actuators %}
 Resource<Act> {{ actuator.ref.name }}
-    uri: '{{ thing.name.lower() }}.actuators.{{ actuator.ref.name.lower() }}'
+    uri: '{{ thing.name.lower() }}.actuators.{{ actuator.ref.__class__.__name__.lower() }}.{{ actuator.name.lower() }}'
     interface: AsyncConsumer<{{ actuator.ref.dataModel.name }}Msg>
 end
 {% endfor %}

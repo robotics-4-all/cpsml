@@ -159,16 +159,10 @@ def t2vc(ctx, model_file):
     tmodel = thing_mm.model_from_file(model_file)
     thing = tmodel.thing
     a = thing_to_vcode(thing)
-    return
 
-    api_model = thing_to_api_m2m(thing)
-    filepath = f'{thing.name}.api'
+    filepath = f'{thing.name}.py'
     with open(filepath, 'w') as fp:
-        fp.write(api_model)
-    print(f'[*] Validating API model...')
-    model = build_model(filepath)
-    if model:
-        print(f'[*] Validation passed!')
+        fp.write(a)
 
 
 @cli.command("oas2esvc")
