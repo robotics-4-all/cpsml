@@ -1,0 +1,30 @@
+Robot MySimpleRobot
+    type: UGV
+    shape: Square(30)  // 30 cm side length
+    networking: CSAL
+    communication: HomeEMQX
+    boards:
+        - RaspberryPi4
+        - JetsonNano @ Transform(Translation(0, 5), Rotation(0, 0))
+    sensors:
+        - SonarHCSR04(SonarFront) @ Transform(Translation(10, 2), Rotation(0, 10))
+        - SonarHCSR04(SonarRear) @ Transform(Translation(10, 2), Rotation(0, 10))
+        - MyRGBCamera(Cam1) @ Transform(Translation(0, 0, 30), Rotation(0, 0))
+        - URG04LX(Laser1) @ Transform(Translation(10, 2), Rotation(0, 10))
+    actuators:
+        - BaseMotorCtrl(Base)
+        - GenericLedArray(Ledstrip) on Cam1
+    rmm:
+        broker: Redis
+        control:
+            volume: true
+            ssh: true
+        monitoring:
+            health: false
+            logs: false
+        applications:
+            types:
+                - ROS
+                - R4A
+                - NodeRED
+end

@@ -22,7 +22,7 @@ end
 DataType BaseCmdVel
   # N channel motor controller data using velocitty commands
   linear_vel: float
-  rotation_vel: float
+  angular_vel: float
 end
 
 DataType MoveBase
