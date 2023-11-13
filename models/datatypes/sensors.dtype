@@ -68,6 +68,7 @@ end
 DataType EnvData
   humidity: float
   temperature: float
+  pressure: float
   gas: float
   sensor_id: str
 end
