@@ -1,5 +1,6 @@
 from os.path import basename
 import jinja2
+from pydantic import BaseModel
 
 from cpsml.lang import build_model
 from cpsml.lang import get_entity_mm
@@ -17,11 +18,28 @@ jinja_env = jinja2.Environment(
 resources_tpl = jinja_env.get_template('smauto.jinja')
 
 
+class Metadata(BaseModel):
+    name: str = "CHANGE_ME"
+    version: str = "0.1.0"
+    author: str = "AUTHOR_NAME"
+    email: str = "AUTHOR_EMAIL"
+    description: str = "Add a description here"
+
+
 def build_smauto_model(entities, brokers):
-    print(entities)
-    print(brokers)
-    # modelf = resources_tpl.render(context)
-    # return modelf
+    sensors = entities['sensors']
+    actuators = entities['actuators']
+    # sensors = [ent for ent in entities if ent.etype == "sensor"]
+    # actuators = [ent for ent in entities if ent.etype == "actuator"]
+    # hybrids = [ent for ent in entities if ent.etype == "hybrid"]
+    context = {
+        'sensors': sensors,
+        'actuators': actuators,
+        'brokers': brokers,
+        'metadata': Metadata()
+    }
+    modelf = resources_tpl.render(context)
+    return modelf
 
 
 def log_thing_info(thing):
@@ -57,7 +75,7 @@ def extract_entities(thing):
             'name': psensor.name,
             'type': 'sensor',
             'topic': uri,
-            'broker': broker,
+            'broker': broker.ref.name,
             'freq': sensor.pubFreq,
             'attributes': attrs
         }
@@ -75,7 +93,7 @@ def extract_entities(thing):
             'name': name,
             'type': 'actuator',
             'topic': uri,
-            'broker': broker,
+            'broker': broker.ref.name,
             'attributes': attrs
         }
         actuators.append(_a)
@@ -86,12 +104,18 @@ def extract_entities(thing):
 
 
 def extract_broker(thing):
-    return thing.communication
+    broker_conn = thing.communication
+    broker = list([broker_conn.ref]).copy()[0]
+    if broker_conn.auth.username not in ("", None):
+        broker.username = broker_conn.auth.username
+    if broker_conn.auth.password not in ("", None):
+        broker.password = broker_conn.auth.password
+    return broker
 
 
 def transform(thing):
     log_thing_info(thing)
     entities = extract_entities(thing)
     broker = extract_broker(thing)
-    m = build_smauto_model(entities, [broker])
-    return m
+    model_str = build_smauto_model(entities, [broker])
+    return model_str

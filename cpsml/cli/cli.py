@@ -14,6 +14,8 @@ from cpsml.transformations.thing2vcode import thing_to_vcode
 from cpsml.transformations.openapi_2_eservices import openapi_2_eservices_mm
 from cpsml.transformations.thing2entity import thing_to_entity_m2m
 
+from cpsml.transformations.m2m import thing_to_smauto
+
 
 @click.group("cpsml")
 @click.pass_context
@@ -152,10 +154,10 @@ def s2apis(ctx, model_file):
 @click.option(
     "--smauto",
     is_flag=True,
-    help="Merge virtual entities into a single output file",
+    help="Transform to SmAuto model",
 )
 @click.pass_context
-def s2apis(ctx, model_file, smauto):
+def thing2smauto(ctx, model_file, smauto):
     model_filename = basename(model_file)
     if not model_filename.endswith('.thing'):
         print(f'[X] Not a Thing model.')
@@ -163,17 +165,12 @@ def s2apis(ctx, model_file, smauto):
     thing_mm = get_thing_mm()
     tmodel = thing_mm.model_from_file(model_file)
     thing = tmodel.thing
-    return
     if smauto:
         print('[*] Executing Thing-to-SmAuto M2M...')
-        filepath = f'{thing.name}.ent'
+        smauto_model_txt = thing_to_smauto(thing)
+        filepath = f'{thing.name}.smauto'
         with open(filepath, 'w') as fp:
             fp.write(smauto_model_txt)
-        print(f'[*] Generated output Entity model: {filepath}')
-        print(f'[*] Validating Generated Entity Model...')
-        model = build_model(filepath)
-    if model:
-        print(f'[*] Model validation succeded!')
 
 
 @cli.command("t2vc")

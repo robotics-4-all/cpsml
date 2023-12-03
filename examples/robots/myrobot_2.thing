@@ -5,8 +5,8 @@ Robot MySimpleRobot
     communication:
         ref: HomeEMQX
         auth:
-            username: "guest"
-            password: "guest"
+            username: "robotA"
+            password: "robotA"
     boards:
         - RaspberryPi4
         - JetsonNano
