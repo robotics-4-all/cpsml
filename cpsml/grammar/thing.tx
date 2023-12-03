@@ -59,7 +59,7 @@ Robot:
         ('composites:' '-' composites*=PosedCSThing['-'])?
         ('functionality' ':' '-' functionality*=DeviceFunctionalityDef['-'])?
         ('networking' ':' networking=[Network:FQN])?
-        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('communication' ':' communication=BrokerConnection)?
         ('shape' ':' shape=Shape)?
         ('rmm' ':' rmm=RMM)?
         ('hasBle' ':' ble=BOOL)?
@@ -77,7 +77,7 @@ Device:
         ('composites:' '-' composites*=PosedCSThing['-'])?
         ('functionality' ':' '-' functionality+=[DeviceFunctionalityDef:FQN]['-'])?
         ('networking' ':' networking=[Network:FQN])?
-        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('communication' ':' communication=BrokerConnection)?
         ('shape' ':' shape=Shape)?
         ('rmm' ':' rmm=RMM)?
         ('hasBle: ' ble=BOOL)?

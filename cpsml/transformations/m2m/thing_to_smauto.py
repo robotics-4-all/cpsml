@@ -14,12 +14,14 @@ jinja_env = jinja2.Environment(
     lstrip_blocks=True
 )
 
-resources_tpl = jinja_env.get_template('entity_model.jinja')
+resources_tpl = jinja_env.get_template('smauto.jinja')
 
 
-def build_entity_model(context):
-    modelf = resources_tpl.render(context)
-    return modelf
+def build_smauto_model(entities, brokers):
+    print(entities)
+    print(brokers)
+    # modelf = resources_tpl.render(context)
+    # return modelf
 
 
 def log_thing_info(thing):
@@ -77,11 +79,19 @@ def extract_entities(thing):
             'attributes': attrs
         }
         actuators.append(_a)
-    return {'sensors': sensors, 'actuators': actuators}
+    return {
+        'sensors': sensors,
+        'actuators': actuators
+    }
 
 
-def thing_to_entity_m2m(thing):
+def extract_broker(thing):
+    return thing.communication
+
+
+def transform(thing):
     log_thing_info(thing)
-    ent = extract_entities(thing)
-    m = build_entity_model(ent)
+    entities = extract_entities(thing)
+    broker = extract_broker(thing)
+    m = build_smauto_model(entities, [broker])
     return m

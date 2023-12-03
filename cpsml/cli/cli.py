@@ -130,7 +130,7 @@ def t2e(ctx, model_file):
 def s2apis(ctx, model_file):
     model_filename = basename(model_file)
     if not model_filename.endswith('.system'):
-        print(f'[X] Not a thing model.')
+        print(f'[X] Not a System model.')
         raise ValueError()
     thing_mm = get_thing_mm()
     synth_mm = get_synthesis_mm()
@@ -145,6 +145,35 @@ def s2apis(ctx, model_file):
         model = build_model(filepath)
         if model:
             print(f'[*] Validation passed!')
+
+
+@cli.command("transform")
+@click.argument("model_file")
+@click.option(
+    "--smauto",
+    is_flag=True,
+    help="Merge virtual entities into a single output file",
+)
+@click.pass_context
+def s2apis(ctx, model_file, smauto):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a Thing model.')
+        raise ValueError()
+    thing_mm = get_thing_mm()
+    tmodel = thing_mm.model_from_file(model_file)
+    thing = tmodel.thing
+    return
+    if smauto:
+        print('[*] Executing Thing-to-SmAuto M2M...')
+        filepath = f'{thing.name}.ent'
+        with open(filepath, 'w') as fp:
+            fp.write(smauto_model_txt)
+        print(f'[*] Generated output Entity model: {filepath}')
+        print(f'[*] Validating Generated Entity Model...')
+        model = build_model(filepath)
+    if model:
+        print(f'[*] Model validation succeded!')
 
 
 @cli.command("t2vc")

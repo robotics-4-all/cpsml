@@ -4,7 +4,11 @@ Robot MyRobot
     type: UGV
     shape: Square(30)  // 30 cm side length
     networking: CSAL
-    communication: HomeEMQX
+    communication:
+        ref: HomeEMQX
+        auth:
+            username: "guest"
+            password: "guest"
     boards:
         - RaspberryPi4
         - JetsonNano @ Transform(Translation(0, 5), Rotation(0, 0))
