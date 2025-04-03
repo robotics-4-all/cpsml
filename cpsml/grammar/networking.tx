@@ -10,13 +10,13 @@ Networking:
 NetworkTopology:
     'NetTopology' name=ID
         'networks:' '-' networks*=[Network:FQN]['-']
-        'connections:' '-' connections*=N2NConnection['-']
+        'bridges:' '-' connections*=NetworkBridge['-']
     'end'
 ;
 
 
-N2NConnection:
-    from=[Network:FQN] '->' to=[Network:FQN]
+NetworkBridge:
+    netA=[Network:FQN] '--' netB=[Network:FQN]
 ;
 
 

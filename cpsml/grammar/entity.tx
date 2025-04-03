@@ -1,0 +1,38 @@
+import datatype
+import communication
+
+EntityModel:
+    (
+    imports*=Import
+    entities*=Entity
+    )#
+;
+
+Entity:
+    'Entity' name=ID
+        (
+			('type:' etype=EntityType)
+			('topic:' topic=STRING)
+			('broker:' brokerConn=BrokerConnection)
+			('freq:' freq=NUMBER)?
+			('attributes:' '-' attributes*=Property['-'])?
+		)#
+    'end'
+;
+
+
+EntityType:
+    'sensor'    |
+    'actuator'  |
+    'hybrid'
+;
+
+NID: /(.*?)\n/;
+FQN: ID('.'ID)*;
+FQNI: ID+['.']('.*')?;
+
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+Comment: CommentLine | CommentBlock ;
+CommentLine: /\/\/.*?$/;
+CommentBlock: /\/\*(.|\n)*?\*\//;

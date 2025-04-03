@@ -13,7 +13,9 @@ from cpsml.lang import (
     get_api_mm,
     get_synthesis_mm,
     get_eservice_mm,
-    get_env_mm
+    get_env_mm,
+    get_functionality_mm,
+    get_entity_mm
 )
 
 
@@ -37,6 +39,10 @@ def build_model(model_fpath):
         mm = get_eservice_mm()
     elif model_filename.endswith('.env'):
         mm = get_env_mm()
+    elif model_filename.endswith('.dfunc'):
+        mm = get_functionality_mm()
+    elif model_filename.endswith('.ent'):
+        mm = get_entity_mm()
     else:
         raise ValueError('Not a valid model extension.')
     model = mm.model_from_file(model_fpath)

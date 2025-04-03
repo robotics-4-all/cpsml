@@ -1,0 +1,44 @@
+Metadata
+    name: {{ metadata.name }}
+    version: "{{ metadata.version }}"
+    author: "{{ metadata.author }}"
+    email: "{{ metadata.email }}"
+    description: "{{ metadata.description }}"
+end
+
+{% for broker in brokers %}
+{% if broker.__class__.__name__ == "MQTTBroker" %}
+Broker<MQTT> {{ broker.name }}
+    host: "{{ broker.host }}"
+    port: {{ broker.port }}
+    username: "{{ broker.username }}"
+    password: "{{ broker.password }}"
+end
+{% endif %}
+
+{% endfor %}
+
+{% for sensor in sensors %}
+Entity {{ sensor['name'] }}
+    type: {{ sensor['type'] }}
+    topic: "{{ sensor['topic'] }}"
+    broker: {{ sensor.broker }}
+    attributes:
+    {% for attr in sensor['attributes'] %}
+        - {{ attr[0] }}: {{ attr[1] }}
+    {% endfor %}
+end
+
+{% endfor %}
+{% for actuator in actuators %}
+Entity {{ actuator['name'] }}
+    type: {{ actuator['type'] }}
+    topic: "{{ actuator['topic'] }}"
+    broker: {{ actuator.broker }}
+    attributes:
+    {% for attr in actuator['attributes'] %}
+        - {{ attr[0] }}: {{ attr[1] }}
+    {% endfor %}
+end
+
+{% endfor %}

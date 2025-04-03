@@ -8,12 +8,15 @@ from textx import (
     get_children_of_type,
     metamodel_from_file,
 )
+from cpsml.mm_classes.datatype import type_builtins, PrimitiveDataType
 
 
 def get_thing_mm(debug=False):
     mm = metamodel_from_file(
         join(THIS_DIR, 'grammar','thing.tx'),
         global_repository=True,
+        classes=[PrimitiveDataType],
+        builtins=type_builtins,
         debug=debug
     )
     mm.register_scope_providers(
@@ -33,6 +36,9 @@ def get_thing_mm(debug=False):
             ),
             "*.communication": scoping_providers.FQNGlobalRepo(
                 join(MODEL_REPO_PATH, 'communication','*.comm')
+            ),
+            "*.functionality": scoping_providers.FQNGlobalRepo(
+                join(MODEL_REPO_PATH, 'functionality','*.dfunc')
             )
         }
     )

@@ -1,0 +1,5 @@
+MotorController BaseMotorCtrl
+    type: DualMotor
+    dataModel: BaseCmdVel
+    shape: Rectangle(5, 3)
+end

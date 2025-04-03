@@ -40,5 +40,4 @@ def thing_to_vcode(thing) -> str:
     api = api_model.api
 
     vthing_str = build_vthing(thing, api)
-    print(vthing_str)
-    return api_model_str
+    return vthing_str

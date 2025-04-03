@@ -1,0 +1,20 @@
+Robot MySimpleRobot
+    type: UGV
+    shape: Square(30)  // 30 cm side length
+    networking: CSAL
+    communication:
+        ref: HomeEMQX
+        auth:
+            username: "guest"
+            password: "guest"
+    boards:
+        - RaspberryPi4
+        - JetsonNano
+    sensors:
+        - SonarHCSR04(SonarFront)
+        - SonarHCSR04(SonarRear)
+        - MyRGBCamera(Cam1)
+        - URG04LX(Laser1)
+    actuators:
+        - BaseMotorCtrl(Base)
+end

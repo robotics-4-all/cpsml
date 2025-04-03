@@ -1,0 +1,58 @@
+// MyRobot.thing
+
+Robot MyRobot
+    type: UGV
+    shape: Square(30)  // 30 cm side length
+    networking: CSAL
+    communication:
+        ref: HomeEMQX
+        auth:
+            username: "guest"
+            password: "guest"
+    boards:
+        - RaspberryPi4
+        - JetsonNano @ Transform(Translation(0, 5), Rotation(0, 0))
+    sensors:
+        - SonarHCSR04(SonarFront) @ Transform(Translation(10, 2), Rotation(0, 10))
+            on Cam1
+        - SonarHCSR04(SonarRear) @ Transform(Translation(10, 2), Rotation(0, 10))
+            on Cam1
+        - VL53L0X(ToF1)
+        - MyRGBCamera(Cam1) @ Transform(Translation(0, 0, 30), Rotation(0, 0))
+            on PanTilt1
+        - URG04LX(Laser1) @ Transform(Translation(10, 2), Rotation(0, 10))
+        - URG04LX(Laser2) @ Transform(Translation(10, 2), Rotation(0, 10))
+        - URG04LX(Laser3) @ Transform(Translation(10, 2), Rotation(0, 10))
+    actuators:
+        - BaseMotorCtrl(Base)
+        - GenericLedArray(Ledstrip) on Cam1
+        - MyPanTilt(PanTilt1) @ Transform(Translation(0, 10), Rotation(0, 0))
+        - MyPanTilt(PanTilt2) @ Transform(Translation(0, -10), Rotation(0, 0))
+    composites:
+        - PanTiltCamera @ Transform(Translation(10, 0), Rotation(0, 0))
+    functionality:
+        - Motion
+        - AMCLLocalization:
+            mappings:
+                - L1: Laser1
+            attributes:
+                - filter: 'Median'
+        - CRSMSlam
+        - PRMPathPlanning
+        - MoveBaseNav
+        - TargetSelection
+        - LiDARFiltering
+    rmm:
+        broker: Redis
+        control:
+            volume: true
+            ssh: true
+        monitoring:
+            health: false
+            logs: false
+        applications:
+            types:
+                - ROS
+                - R4A
+                - NodeRED
+end

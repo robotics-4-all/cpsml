@@ -7,6 +7,8 @@ from .thing import get_thing_mm
 from .synthesis import get_synthesis_mm
 from .eservice import get_eservice_mm
 from .environment import get_env_mm
+from .functionality import get_functionality_mm
+from .entity import get_entity_mm
 from .utils import build_model
 
 from textx import (get_location, metamodel_from_str,

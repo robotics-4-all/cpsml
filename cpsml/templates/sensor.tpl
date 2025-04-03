@@ -45,5 +45,5 @@ class {{ sensor_name }}(Node):
 
 
 if __name__ == '__main__':
-    sonar_node = SonarNode()
+    sonar_node = {{ sensor_name }}()
     sonar_node.run_forever()

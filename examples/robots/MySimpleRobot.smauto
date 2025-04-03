@@ -1,0 +1,78 @@
+Metadata
+    name: CHANGE_ME
+    version: "0.1.0"
+    author: "AUTHOR_NAME"
+    email: "AUTHOR_EMAIL"
+    description: "Add a description here"
+end
+
+Broker<MQTT> HomeEMQX
+    host: "emqx.home.local"
+    port: 1883
+    username: "robotA"
+    password: "robotA"
+end
+
+
+Entity SonarFront
+    type: sensor
+    topic: "mysimplerobot.sensors.rangefinder.sonarfront"
+    broker: HomeEMQX
+    attributes:
+        - range: float
+        - hfov: float
+        - vfov: float
+        - range_min: float
+        - range_max: float
+        - sensor_id: str
+end
+
+Entity SonarRear
+    type: sensor
+    topic: "mysimplerobot.sensors.rangefinder.sonarrear"
+    broker: HomeEMQX
+    attributes:
+        - range: float
+        - hfov: float
+        - vfov: float
+        - range_min: float
+        - range_max: float
+        - sensor_id: str
+end
+
+Entity Cam1
+    type: sensor
+    topic: "mysimplerobot.sensors.camerargb.cam1"
+    broker: HomeEMQX
+    attributes:
+        - height: int
+        - width: int
+        - encoding: str
+        - step: int
+        - data: uint
+end
+
+Entity Laser1
+    type: sensor
+    topic: "mysimplerobot.sensors.lidar.laser1"
+    broker: HomeEMQX
+    attributes:
+        - ranges: float
+        - angle_min: float
+        - angle_max: float
+        - range_min: float
+        - range_max: float
+        - angle_increment: float
+        - time_between_scans: float
+        - sensor_id: str
+end
+
+Entity Base
+    type: actuator
+    topic: "mysimplerobot.actuators.motorcontroller.base"
+    broker: HomeEMQX
+    attributes:
+        - linear_vel: float
+        - angular_vel: float
+end
+

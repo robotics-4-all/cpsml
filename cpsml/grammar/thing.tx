@@ -6,11 +6,12 @@ import networking
 import communication
 import datatype
 import geometry
+import functionality
 
 Model:
     (
     imports*=Import
-    things*=Thing
+    thing=Thing
     )#
 ;
 
@@ -42,6 +43,7 @@ CompositeSimpleThing:
              '-' actuators+=PosedActuator['-'])?
         ('composites' ':'
              '-' composites+=PosedCSThing['-'])?
+        ('dataModel:' dataModel=[DataType:FQN])?
 	)#
     'end'
 ;
@@ -55,9 +57,9 @@ Robot:
         ('sensors:' '-' sensors*=PosedSensor['-'])?
         ('actuators:' '-' actuators*=PosedActuator['-'])?
         ('composites:' '-' composites*=PosedCSThing['-'])?
-        ('functionality' ':' '-' functionality+=[RobotFunctionality:FQN]['-'])?
+        ('functionality' ':' '-' functionality*=DeviceFunctionalityDef['-'])?
         ('networking' ':' networking=[Network:FQN])?
-        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('communication' ':' communication=BrokerConnection)?
         ('shape' ':' shape=Shape)?
         ('rmm' ':' rmm=RMM)?
         ('hasBle' ':' ble=BOOL)?
@@ -73,8 +75,9 @@ Device:
         ('sensors:' '-' sensors*=PosedSensor['-'])?
         ('actuators:' '-' actuators*=PosedActuator['-'])?
         ('composites:' '-' composites*=PosedCSThing['-'])?
+        ('functionality' ':' '-' functionality+=[DeviceFunctionalityDef:FQN]['-'])?
         ('networking' ':' networking=[Network:FQN])?
-        ('communication' ':' communication=[CommunicationMiddleware:FQN])?
+        ('communication' ':' communication=BrokerConnection)?
         ('shape' ':' shape=Shape)?
         ('rmm' ':' rmm=RMM)?
         ('hasBle: ' ble=BOOL)?
@@ -87,23 +90,23 @@ PosedThing: PosedSmartDevice | PosedSimpleThing | PosedBoard;
 PosedSimpleThing: PosedSensor | PosedActuator | PosedCSThing;
 
 PosedCSThing:
-    ref=[CompositeSimpleThing:FQN|+m:things] (transformation=DTransformation)?
+    ref=[CompositeSimpleThing:FQN|+m:thing] (transformation=DTransformation)?
 ;
 
 PosedSmartDevice:
-    ref=[SmartDevice:FQN|+m:things] (transformation=DTransformation)?
+    ref=[SmartDevice:FQN|+m:thing] (transformation=DTransformation)?
 ;
 
 PosedDevice:
-    ref=[Device:FQN|+m:things] (transformation=DTransformation)?
+    ref=[Device:FQN|+m:thing] (transformation=DTransformation)?
 ;
 
 PosedSensor:
-    ref=[Sensor:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
+    ref=[Sensor:FQN|+m:thing] ('('name=ID')')? (transformation=DTransformation)?
 ;
 
 PosedActuator:
-    ref=[Actuator:FQN|+m:things] ('('name=ID')')? (transformation=DTransformation)?
+    ref=[Actuator:FQN|+m:thing] ('('name=ID')')? (transformation=DTransformation)?
 ;
 
 PosedBoard:
@@ -205,7 +208,7 @@ GenericActuator:
 Sensor:
     GenericSensor   |
     RangeFinder     |
-    LiDARSensor     |
+    LiDAR			|
     CameraRGB       |
     CameraThermal   |
     Button
@@ -248,8 +251,8 @@ RangeFinder:
     'end'
 ;
 
-LiDARSensor:
-    'LiDARSensor' name=ID
+LiDAR:
+    'LiDAR' name=ID
         (
             ('dataModel:' dataModel=[DataType:FQN])
             ('shape' ':' shape=Shape)?
@@ -343,51 +346,19 @@ IMUType: '6DOF' | '9DOF';
 
 RobotType: 'Humanoid' | 'UGV' | 'UAV';
 
-
-/*
-RobotFunctionality:
-    'Mobility'                      |
-    'Manipulation'                  |
-    'NLU'                           |
-    'Navigation'                    |
-    'Mapping'                       |
-    'FaceDetection'                 |
-    'ObjectDetection'
-;
-*/
-
-RobotFunctionality:
-    'Functionality'
-        'name:' name=ID
-        // Operator
-        ('requiredSensors:' number=INT requiredSensors*=SensorType)?
-        ('optionalSensors:' optionalSensors*=SensorType)?
-        ('requiredActuators:'requiredActuators*=ActuatorType)?
-        ('optionalActuators:' optionalActuators*=ActuatorType)?
-        ('dependsOn:' functionalities*=[RobotFunctionality])?
-    'end'
+DeviceFunctionalityDef:
+    ref=[DeviceFunctionality:FQN] (':'
+    ('mappings:' '-' mappings*=IDMap['-'])?
+    ('attributes:' '-' mappings*=IDSetValue['-'])?
+    )?
 ;
 
-SensorType:
-    'Range'         |
-    'LiDAR'         |
-    'CameraRGB'     |
-    'Thermal'       |
-    'ThermalArray'  |
-    'CameraThermal' |
-    'IMU'           |
-    'Compass'       |
-    'Accelerometer' |
-    'Magnetometer'  |
-    'Other'
+IDMap:
+    to=ID ':' from=ID
 ;
 
-ActuatorType:
-    'MotorController'   |
-    'LED'               |
-    'RGBLed'            |
-    'NeopixelLED'       |
-    'ServoController'
+IDSetValue:
+    to=ID ':' value=BASETYPE
 ;
 
 RMM:

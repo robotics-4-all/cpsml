@@ -1,0 +1,89 @@
+DFunctionality Motion
+    reqActuators:
+        - baseMotorController
+    inDataModels:
+        - cmdVel
+    outDataModels:
+        - odometry
+    attributes:
+        - kinematicModel: 'SkidSteering'
+end
+
+DFunctionality AMCLLocalization
+    reqSensors:
+        - LiDAR(L1)
+        - LiDAR(L2)
+    optFunctionality:
+        - Motion
+    inDataModels:
+        - LiDARData from L1
+        - MapData
+    outDataModels:
+        - PoseData
+    tags:
+        - Localization
+end
+
+DFunctionality CRSMSlam
+    reqSensors:
+        - LiDAR
+    optSensors:
+        - IMU
+    optFunctionality:
+        - Motion
+    inDataModels:
+        - LiDARData from LiDAR
+        - IMUData from IMU
+        - OdomData from Motion
+    outDataModels:
+        - PoseData
+        - MapData
+    tags:
+        - Localization
+        - Mapping
+end
+
+DFunctionality PRMPathPlanning
+    reqFunctionality:
+        - tag:Localization
+    inDataModels:
+        - PoseData
+        - MapData
+    outDataModels:
+        - PathData
+end
+
+DFunctionality MoveBaseNav
+    reqFunctionality:
+        - Motion
+        - PRMPathPlanning
+    inDataModels:
+        - PathData from PRMPathPlanning
+        - LiDARData from LiDARFiltering
+        - PoseData from tag:Localization
+        - PoseData from TargetSelection
+    outDataModels:
+        - CmdVelData
+end
+
+DFunctionality TargetSelection
+    reqFunctionality:
+        - tag:Localization
+    inDataModels:
+        - MapData
+        - PoseData from tag:Localization
+    outDataModels:
+        - PoseData(Target)
+end
+
+DFunctionality LiDARFiltering
+    reqSensors:
+        - LiDAR(L1)
+    inDataModels:
+        - LiDARData from L1
+    outDataModels:
+        - LiDARData
+    attributes:
+        - filter: Median
+end
+

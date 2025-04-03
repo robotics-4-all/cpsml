@@ -19,6 +19,12 @@ DataType MoveBaseVel
   rotation_vel: float
 end
 
+DataType BaseCmdVel
+  # N channel motor controller data using velocitty commands
+  linear_vel: float
+  angular_vel: float
+end
+
 DataType MoveBase
   # N channel motor controller data using velocitty commands
   position: float[]
@@ -28,7 +34,8 @@ end
 DataType LedArrayData
   # N channel motor controller data using velocitty commands
   size: int
-  colors: float[]
+  colors: int[]  // 0-255
+  intensity: int[]  // 0-255
 end
 
 DataType PanTiltData

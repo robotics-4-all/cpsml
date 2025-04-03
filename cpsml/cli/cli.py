@@ -12,6 +12,9 @@ from cpsml.transformations.thing2api import thing_to_api_m2m
 from cpsml.transformations.system2apis import system_to_apis_m2m
 from cpsml.transformations.thing2vcode import thing_to_vcode
 from cpsml.transformations.openapi_2_eservices import openapi_2_eservices_mm
+from cpsml.transformations.thing2entity import thing_to_entity_m2m
+
+from cpsml.transformations.m2m import thing_to_smauto
 
 
 @click.group("cpsml")
@@ -54,7 +57,7 @@ def t2r(ctx, model_file):
         print(f'[*] Validation passed!')
 
 
-@cli.command("r2api")
+@cli.command("r2a")
 @click.argument("model_file")
 @click.pass_context
 def r2api(ctx, model_file):
@@ -79,7 +82,7 @@ def r2api(ctx, model_file):
         print(f'[*] Validation passed!')
 
 
-@cli.command("t2api")
+@cli.command("t2a")
 @click.argument("model_file")
 @click.pass_context
 def t2api(ctx, model_file):
@@ -100,13 +103,36 @@ def t2api(ctx, model_file):
         print(f'[*] Validation passed!')
 
 
-@cli.command("s2apis")
+@cli.command("t2e")
+@click.argument("model_file")
+@click.pass_context
+def t2e(ctx, model_file):
+    print(f'[*] Executing Thing-to-Entity M2M...')
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a thing model.')
+        raise ValueError()
+    thing_mm = get_thing_mm()
+    tmodel = thing_mm.model_from_file(model_file)
+    thing = tmodel.thing
+    entity_model = thing_to_entity_m2m(thing)
+    filepath = f'{thing.name}.ent'
+    with open(filepath, 'w') as fp:
+        fp.write(entity_model)
+    print(f'[*] Generated output Entity model: {filepath}')
+    print(f'[*] Validating Generated Entity Model...')
+    model = build_model(filepath)
+    if model:
+        print(f'[*] Model validation succeded!')
+
+
+@cli.command("s2a")
 @click.argument("model_file")
 @click.pass_context
 def s2apis(ctx, model_file):
     model_filename = basename(model_file)
     if not model_filename.endswith('.system'):
-        print(f'[X] Not a thing model.')
+        print(f'[X] Not a System model.')
         raise ValueError()
     thing_mm = get_thing_mm()
     synth_mm = get_synthesis_mm()
@@ -123,6 +149,30 @@ def s2apis(ctx, model_file):
             print(f'[*] Validation passed!')
 
 
+@cli.command("transform")
+@click.argument("model_file")
+@click.option(
+    "--smauto",
+    is_flag=True,
+    help="Transform to SmAuto model",
+)
+@click.pass_context
+def thing2smauto(ctx, model_file, smauto):
+    model_filename = basename(model_file)
+    if not model_filename.endswith('.thing'):
+        print(f'[X] Not a Thing model.')
+        raise ValueError()
+    thing_mm = get_thing_mm()
+    tmodel = thing_mm.model_from_file(model_file)
+    thing = tmodel.thing
+    if smauto:
+        print('[*] Executing Thing-to-SmAuto M2M...')
+        smauto_model_txt = thing_to_smauto(thing)
+        filepath = f'{thing.name}.smauto'
+        with open(filepath, 'w') as fp:
+            fp.write(smauto_model_txt)
+
+
 @cli.command("t2vc")
 @click.argument("model_file")
 @click.pass_context
@@ -135,16 +185,10 @@ def t2vc(ctx, model_file):
     tmodel = thing_mm.model_from_file(model_file)
     thing = tmodel.thing
     a = thing_to_vcode(thing)
-    return
 
-    api_model = thing_to_api_m2m(thing)
-    filepath = f'{thing.name}.api'
+    filepath = f'{thing.name}.py'
     with open(filepath, 'w') as fp:
-        fp.write(api_model)
-    print(f'[*] Validating API model...')
-    model = build_model(filepath)
-    if model:
-        print(f'[*] Validation passed!')
+        fp.write(a)
 
 
 @cli.command("oas2esvc")

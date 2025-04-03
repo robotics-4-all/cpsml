@@ -7,9 +7,9 @@ MessageModel:
     )#
 ;
 
-Message: TopicMessage | ReqRespMessage | ActionMessage;
+Message: PubSubMessage | RPCMessage | ActionMessage;
 
-TopicMessage:
+PubSubMessage:
 	'TopicMsg' name=ID
         (description=Description)?
 		properties*=Property
@@ -20,7 +20,7 @@ Request: properties*=Property;
 
 Response: properties*=Property;
 
-ReqRespMessage:
+RPCMessage:
     'ReqRespMsg' name=ID
         (description=Description)?
         request=Request
